@@ -114,4 +114,4 @@ dhcp:
 clients: []
 log_file: ""
 verbose: false
-schema_version: 6
+schema_version: 27
