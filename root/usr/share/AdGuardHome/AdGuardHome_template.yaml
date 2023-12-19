@@ -1,17 +1,15 @@
-#提交就可以直接用的配置模板文件。 user: root/password: admin
-#a template config can be use with a apply. user: root/password: admin
+#提交就可以直接用的配置模板文件。 user: root/password: password
+#a template config can be use with a apply. user: root/password: password
 
 http:
   pprof:
     port: 6060
     enabled: false
   address: 0.0.0.0:3000
-  #上方的address: 0.0.0.0可根据自己的情况修改，比如路由IP或者保留。
-  #You can modify this "address: 0.0.0.0" above by yourself,  set as the routing IP according to your requirements, or keep.
   session_ttl: 720h
 users:
   - name: root
-    password: $2y$10$ML7v5WXsM1xN12YpR15f4uSGGAzk.QXhwu99lczQ8NgrPcTYRY9Ei
+    password: $2a$10$MsY.D1AD7GCfB1H0A/bv9.wt7ppWR/BN9if3pd2JrTlKibxFVQYBu
 auth_attempts: 5
 block_auth_min: 15
 http_proxy: ""
@@ -28,12 +26,13 @@ dns:
   ratelimit_whitelist: []
   refuse_any: true
   upstream_dns:
-    - 1.1.1.1
-    - 114.114.114.114
+    - https://dns10.quad9.net/dns-query
   upstream_dns_file: ""
   bootstrap_dns:
-    - 1.1.1.1
-    - 114.114.114.114
+    - 9.9.9.10
+    - 149.112.112.10
+    - 2620:fe::10
+    - 2620:fe::fe:10
   fallback_dns: []
   all_servers: false
   fastest_addr: false
