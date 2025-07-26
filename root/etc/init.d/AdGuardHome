@@ -67,6 +67,7 @@ set_iptable()
 	uci set firewall.adguardhome_redirect.target="DNAT"
 	uci set firewall.adguardhome_redirect.name="AdGuard Home"
 	uci set firewall.adguardhome_redirect.src="lan"
+	uci set firewall.adguardhome_redirect.family="any"
 	uci set firewall.adguardhome_redirect.src_dport="53"
 	uci set firewall.adguardhome_redirect.dest_port="$AdGuardHome_PORT"
 	uci commit firewall
