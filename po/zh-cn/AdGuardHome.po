@@ -66,11 +66,8 @@ msgstr "没有配置文件"
 msgid "no core"
 msgstr "没有核心"
 
-msgid "Redirect"
-msgstr "重定向"
-
-msgid "Port"
-msgstr "端口"
+msgid "DNS Redirect"
+msgstr "DNS 重定向"
 
 #inlist
 msgid "none"
@@ -303,9 +300,6 @@ msgstr "用户名"
 
 msgid "Check Config"
 msgstr "检查配置"
-
-msgid "unknown"
-msgstr "未知"
 
 msgid "Keep database when system upgrade"
 msgstr "系统升级时保留数据"
