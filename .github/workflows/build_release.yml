@@ -63,20 +63,10 @@ jobs:
           rsync -avh "." "/tmp/SDK/package/luci-app-adguardhome"
           rsync -avh "." "/tmp/SNAPSDK/package/luci-app-adguardhome"
 
-      - name: Compile po2lmo
+      - name: Install po2lmo
         run: |
-          cd /tmp/SDK/package/
-          if [ -d "luci-app-adguardhome/tools/po2lmo" ]; then
-            pushd luci-app-adguardhome/tools/po2lmo
-            make && sudo make install
-            popd
-          fi
-          cd /tmp/SNAPSDK/package/
-          if [ -d "luci-app-adguardhome/tools/po2lmo" ]; then
-            pushd luci-app-adguardhome/tools/po2lmo
-            make && sudo make install
-            popd
-          fi
+          python -m pip install --upgrade pip
+          pip install po2lmo
 
       - name: Compile AdGuardHome IPK
         run: |
