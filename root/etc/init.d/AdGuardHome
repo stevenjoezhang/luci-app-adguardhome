@@ -415,6 +415,7 @@ start_service() {
 	ADDITIONAL_ARGS="$ADDITIONAL_ARGS -w $workdir"
 	config_get httpport $CONFIGURATION httpport 3000
 	ADDITIONAL_ARGS="$ADDITIONAL_ARGS -p $httpport"
+	ADDITIONAL_ARGS="$ADDITIONAL_ARGS --no-check-update"
 
 	# hack to save config file when upgrade system
 	config_get upprotect $CONFIGURATION upprotect ""
