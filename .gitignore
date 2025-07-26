@@ -1,6 +1,1 @@
-
-*.bak
-
-CONTROL/
-
-.github/workflows/test.yml
+.DS_Store
