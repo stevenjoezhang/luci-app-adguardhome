@@ -9,6 +9,12 @@ msgstr "插件设置"
 msgid "Basic Settings"
 msgstr "基础设置"
 
+msgid "Core Settings"
+msgstr "核心设置"
+
+msgid "GFWList Settings"
+msgstr "GFWList 设置"
+
 msgid "Log"
 msgstr "日志"
 
@@ -77,16 +83,16 @@ msgid "none"
 msgstr "无"
 
 msgid "Run as dnsmasq upstream server"
-msgstr "作为dnsmasq的上游服务器"
+msgstr "作为 dnsmasq 的上游服务器"
 
 msgid "Redirect 53 port to AdGuardHome"
-msgstr "重定向53端口到AdGuardHome"
+msgstr "重定向 53 端口到 AdGuardHome"
 
 msgid "Use port 53 replace dnsmasq"
-msgstr "使用53端口替换dnsmasq"
+msgstr "使用 53 端口替换 dnsmasq"
 
 msgid "AdGuardHome redirect mode"
-msgstr "AdGuardHome重定向模式"
+msgstr "AdGuardHome 重定向模式"
 
 msgid "Bin Path"
 msgstr "执行文件路径"
@@ -98,10 +104,10 @@ msgid "Choose Arch for download"
 msgstr "要下载的程序架构"
 
 msgid "Need to save to config first before downloading."
-msgstr "手动下载前如该选项有变更需先保存并应用后再点下载"
+msgstr "手动下载前如该选项有变更，需先保存并应用后再点下载"
 
 msgid "Use upx to compress bin after download"
-msgstr "下载后使用upx压缩执行文件"
+msgstr "下载后使用 upx 压缩执行文件"
 
 #inlist
 msgid "compress faster"
@@ -138,14 +144,14 @@ msgid "Runtime log file"
 msgstr "运行日志"
 
 msgid "AdGuardHome runtime Log file if 'syslog': write to system log;if empty no log"
-msgstr "AdGuardHome 运行日志 如果填syslog将写入系统日志；如果空则不记录日志"
+msgstr "AdGuardHome 运行日志 如果填 syslog 将写入系统日志；如果空则不记录日志"
 
 msgid "Verbose log"
 msgstr "详细日志"
 
 #hide div
 msgid "Add gfwlist"
-msgstr "加入gfw列表"
+msgstr "加入 gfw 列表"
 
 msgid "Add"
 msgstr "添加"
@@ -158,23 +164,23 @@ msgstr "未添加"
 
 #hide div
 msgid "Del gfwlist"
-msgstr "删除gfw列表"
+msgstr "删除 gfw 列表"
 
 msgid "Del"
 msgstr "删除"
 
 msgid "will set to name gfwlist"
-msgstr "将会配置给名为gfwlist的ipset集合"
+msgstr "将会配置给名为 gfwlist 的 ipset 集合"
 
 msgid "(ipset only)"
 msgstr "（仅ipset）"
 
 #hide div
 msgid "Gfwlist upstream dns server"
-msgstr "gfw列表上游服务器"
+msgstr "gfw 列表上游服务器"
 
 msgid "Gfwlist domain upstream dns service"
-msgstr "gfw列表域名上游服务器"
+msgstr "gfw 列表域名上游服务器"
 
 #hide div
 msgid "Change browser management password"
@@ -222,7 +228,7 @@ msgid "Backup workdir files when shutdown"
 msgstr "在关机时备份工作目录文件"
 
 msgid "Will be restore when workdir/data is empty"
-msgstr "在工作目录/data为空的时候恢复"
+msgstr "在工作目录/data 为空的时候恢复"
 
 msgid "Backup workdir path"
 msgstr "工作目录备份路径"
@@ -239,14 +245,14 @@ msgstr "自动截短查询日志"
 msgid "Auto tail runtime log"
 msgstr "自动截短运行日志"
 
-msgid "Auto update ipv6 hosts and restart adh"
-msgstr "自动更新ipv6主机并重启adh"
+msgid "Auto update ipv6 hosts and restart AdGuardHome"
+msgstr "自动更新 ipv6 主机并重启 AdGuardHome"
 
-msgid "Auto update gfwlist and restart adh"
-msgstr "自动更新gfw列表并重启adh"
+msgid "Auto update gfwlist and restart AdGuardHome"
+msgstr "自动更新 gfw 列表并重启 AdGuardHome"
 
-msgid "Auto update ipset list and restart adh"
-msgstr "自动更新gfw ipset列表并重启adh"
+msgid "Auto update ipset list and restart AdGuardHome"
+msgstr "自动更新 gfw ipset 列表并重启AdGuardHome"
 
 msgid "Please change time and args in crontab"
 msgstr "请在计划任务中修改时间和参数"

@@ -1,4 +1,4 @@
-# LuCI App Adguard Home
+# LuCI App AdGuard Home
 
 先进的 OpenWrt AdGuard Home LuCI 界面应用
 

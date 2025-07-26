@@ -144,9 +144,9 @@ o = s:taboption("basic", MultiValue, "crontab", translate("Crontab task"),transl
 o:value("autoupdate",translate("Auto update core"))
 o:value("cutquerylog",translate("Auto tail querylog"))
 o:value("cutruntimelog",translate("Auto tail runtime log"))
-o:value("autohost",translate("Auto update ipv6 hosts and restart adh"))
-o:value("autogfw",translate("Auto update gfwlist and restart adh"))
-o:value("autogfwipset",translate("Auto update ipset list and restart adh"))
+o:value("autohost",translate("Auto update ipv6 hosts and restart AdGuardHome"))
+o:value("autogfw",translate("Auto update gfwlist and restart AdGuardHome"))
+o:value("autogfwipset",translate("Auto update ipset list and restart AdGuardHome"))
 o.widget = "checkbox"
 o.default = nil
 o.optional = false
