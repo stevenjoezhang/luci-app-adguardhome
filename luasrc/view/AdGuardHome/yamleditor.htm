@@ -19,6 +19,12 @@ gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
 matchBrackets: true //括号匹配
 }
 );
+// 设置编辑器占满容器宽度
+editor.setSize("100%", "auto");
+// 窗口大小改变时自动调整
+window.addEventListener('resize', function() {
+    editor.refresh();
+});
 function reload_config(){
 	XHR.get('<%=url([[admin]], [[services]], [[AdGuardHome]], [[reloadconfig]])%>', null,
 	function(x, data) {
