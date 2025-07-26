@@ -1,6 +1,6 @@
-# luci-app-adguardhome
+# LuCI App Adguard Home
 
-高级 OpenWrt AdGuard Home LuCI 界面应用
+先进的 OpenWrt AdGuard Home LuCI 界面应用
 
 ## 功能特点
 
@@ -10,9 +10,9 @@
   - 或者直接使用主程序二进制文件
 - 使用 `upx` 压缩核心（依赖 `xz`，脚本会自动下载，如果 `opkg` 源无法连接，请在编译时包含此软件包）
 - DNS 重定向方式：
-  - 作为 `dnsmasq` 的上游（AdGuard Home 统计中 IP 会显示为 `127.0.0.1`，无法跟踪客户端并相应调整设置，`ssr-plus` 正常工作）
-  - 将 53 端口重定向到 AdGuard Home（IPv6 需要安装 IPv6 NAT 重定向，若客户端使用 IPv6，重定向可能无效；如不使用 `dnsmasq` 作为上游，`ssr-plus` 将失效）
-  - 用 53 端口替换 `dnsmasq`（需设置 AdGuard Home 参数 `dnsip` 为 `0.0.0.0`，`dnsmasq` 和 AdGuard Home 的端口将被交换，如不使用 `dnsmasq` 作为上游，`ssr-plus` 将失效）
+  - 作为 `dnsmasq` 的上游（AdGuard Home 统计中 IP 会显示为 `127.0.0.1`，无法跟踪客户端并相应调整设置）
+  - 将 53 端口重定向到 AdGuard Home（直接使用系统防火墙设置，对 nftables 兼容更好，且支持 IPv6 重定向）
+  - 用 53 端口替换 `dnsmasq`（需设置 AdGuard Home 参数 `dnsip` 为 `0.0.0.0`，`dnsmasq` 和 AdGuard Home 的端口将被交换）
 - 自定义选项：
   - 自定义可执行文件路径（支持 `/tmp`，重启后自动重新下载）
   - 自定义配置文件路径
@@ -59,7 +59,7 @@
 对于非压缩文件系统，性价比相当高。  
 压缩是用 RAM 换取 ROM 空间 - 如认为值得则启用。
 
-## SSR 组合方法
+## OpenClash 组合方法
 
 1. **GFW 代理**：DNS 重定向 - 作为 `dnsmasq` 的上游服务器
 2. **GFW 代理**：手动设置 AdGuard Home 上游 DNS 为 `127.0.0.1:[监听端口]`，然后使用 DNS 重定向 - 用 53 端口替换 `dnsmasq`（端口交换后，`dnsmasq` 成为上游）

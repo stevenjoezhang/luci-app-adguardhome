@@ -1,10 +1,10 @@
-# luci-app-adguardhome
+# LuCI App Adguard Home
 
 Advanced OpenWrt LuCI app for AdGuard Home
 
-[中文README](README.CN.md)
+[中文 README](README.CN.md)
 
-Download `.ipk` from [Releases](https://github.com/stevenjoezhang/luci-app-adguardhome/releases)
+Download `.ipk` and `.apk` from [Releases](https://github.com/stevenjoezhang/luci-app-adguardhome/releases)
 
 ## Features
 
@@ -14,9 +14,9 @@ Download `.ipk` from [Releases](https://github.com/stevenjoezhang/luci-app-adgua
   - Or directly use the main program binary
 - Compress core with `upx` (`xz` dependency, the script will auto download if needed. If `opkg` source can't connect, please include this package during compilation)
 - DNS redirection methods:
-  - As the upstream of `dnsmasq` (IP in AdGuard Home statistics will show as `127.0.0.1`, unable to track clients and adjust settings accordingly, `ssr-plus` works normally)
-  - Redirect port 53 to AdGuard Home (IPv6 needs additional IPv6 NAT redirect, or if client uses IPv6 the redirect may be invalid; `ssr-plus` will fail if not using `dnsmasq` as upstream)
-  - Replace `dnsmasq` with port 53 (needs AdGuard Home configuration with `dnsip=0.0.0.0`, ports of `dnsmasq` and AdGuard Home will be exchanged, `ssr-plus` will fail if not using `dnsmasq` as upstream)
+  - As the upstream of `dnsmasq` (IP in AdGuard Home statistics will show as `127.0.0.1`, unable to track clients and adjust settings accordingly)
+  - Redirect port 53 to AdGuard Home (Directly using the system firewall settings, offers better compatibility with `nftables` and also supports IPv6 redirection)
+  - Replace `dnsmasq` with port 53 (needs AdGuard Home configuration with `dnsip=0.0.0.0`, ports of `dnsmasq` and AdGuard Home will be exchanged)
 - Customization options:
   - Customize executable file path (supports `/tmp`, auto redownload after reboot)
   - Customize config file path
@@ -63,7 +63,7 @@ For compressed filesystems, compression benefits exist but aren't significant.
 For non-compressed filesystems, the performance-to-cost ratio is quite high.  
 Compression trades RAM for ROM space - enable it if you consider it worthwhile.
 
-## SSR Combination Methods
+## OpenClash Combination Methods
 
 1. **GFW Proxy**: DNS redirect - as `dnsmasq`'s upstream server
 2. **GFW Proxy**: Manually set AdGuard Home upstream DNS to `127.0.0.1:[your listening port]`, then use DNS redirect - use port 53 to replace `dnsmasq` (after port exchange, `dnsmasq` becomes the upstream)
