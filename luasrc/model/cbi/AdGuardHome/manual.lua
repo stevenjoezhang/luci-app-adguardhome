@@ -21,7 +21,7 @@ o.cfgvalue = function(self, section)
 	return fs.readfile("/tmp/AdGuardHometmpconfig.yaml") or fs.readfile(configpath) or fs.readfile("/usr/share/AdGuardHome/AdGuardHome_template.yaml") or ""
 end
 o.validate=function(self, value)
-    fs.writefile("/tmp/AdGuardHometmpconfig.yaml", value:gsub("\r\n", "\n"))
+	fs.writefile("/tmp/AdGuardHometmpconfig.yaml", value:gsub("\r\n", "\n"))
 	if fs.access(binpath) then
 		if (sys.call(binpath.." -c /tmp/AdGuardHometmpconfig.yaml --check-config 2> /tmp/AdGuardHometest.log")==0) then
 			return value
