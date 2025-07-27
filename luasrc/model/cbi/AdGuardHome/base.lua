@@ -72,11 +72,16 @@ o.description=string.format(translate("core version:").."<strong><font id=\"upda
 
 -- Redirect
 o = s:taboption("basic", ListValue, "redirect", translate("DNS Redirect"), translate("AdGuardHome redirect mode"))
-o:value("none", translate("none"))
+o:value("none", translate("None"))
 o:value("dnsmasq-upstream", translate("Run as dnsmasq upstream server"))
 o:value("redirect", translate("Redirect 53 port to AdGuardHome"))
 o:value("exchange", translate("Use port 53 replace dnsmasq"))
 o.default     = "none"
+o.optional = false
+
+-- wait net on boot
+o = s:taboption("basic", Flag, "waitonboot", translate("Restart when the network is ready after boot"))
+o.default = 1
 o.optional = false
 
 -- upgrade protect
@@ -90,11 +95,6 @@ o:value("$workdir/data/querylog.json","querylog.json")
 o:value("$workdir/data/sessions.db","sessions.db")
 o.widget = "checkbox"
 o.default = nil
-o.optional = false
-
--- wait net on boot
-o = s:taboption("basic", Flag, "waitonboot", translate("Restart when the network is ready after boot"))
-o.default = 1
 o.optional = false
 
 -- backup workdir on shutdown
@@ -200,7 +200,7 @@ o.rmempty=true
 
 --- upx
 o = s:taboption("core", ListValue, "upxflag", translate("Use upx to compress executable after download"))
-o:value("", translate("none"))
+o:value("", translate("None"))
 o:value("-1", translate("Compress faster"))
 o:value("-9", translate("Compress better"))
 o:value("--best", translate("Compress best (slow)"))

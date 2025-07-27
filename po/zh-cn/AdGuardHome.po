@@ -79,7 +79,7 @@ msgid "DNS Redirect"
 msgstr "DNS 重定向"
 
 #inlist
-msgid "none"
+msgid "None"
 msgstr "无"
 
 msgid "Run as dnsmasq upstream server"
@@ -123,7 +123,7 @@ msgid "Try all available compression methods & filters (slower)"
 msgstr "尝试所有可能的压缩方法和过滤器（很慢）"
 
 msgid "Try even more compression variants (very slow)"
-msgstr "尝试更多变体压缩手段（非常慢）"
+msgstr "尝试更多不同压缩手段（非常慢）"
 
 msgid "Reduce executable size, but may have compatibility issues after compression"
 msgstr "减小执行文件空间占用，但是可能压缩后有兼容性问题"
