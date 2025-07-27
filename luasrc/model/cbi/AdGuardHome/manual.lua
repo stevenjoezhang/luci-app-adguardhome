@@ -5,52 +5,7 @@ local sys=require"luci.sys"
 require("string")
 require("io")
 require("table")
-function gen_template_config()
-	local b
-	local d=""
-	local rcauto=uci:get("dhcp","@dnsmasq[0]","resolvfile")
-	if (rcauto == nil) then
-		for fle in fs.dir("/var/etc") do
-			if fle ~="." and fle ~=".."then
-				tf="/var/etc/"..fle
-				if string.match(tf,"/var/etc/dnsmasq.conf.") then
-					if tf and fs.access(tf) then
-						for le in io.lines(tf) do
-							sf=string.match (le,"^resolv%-file=(%S+)")
-								if (sf ~=nil) then
-								rcauto=sf
-							end
-						end
-					end
-				end
-			end
-		end
-	end
-	if rcauto and fs.access(rcauto) then
-		for cnt in io.lines(rcauto) do
-			b=string.match (cnt,"^[^#]*nameserver%s+([^%s]+)$")
-			if (b~=nil) then
-				d=d.."    - "..b.."\n"
-			end
-		end
-	end
-	local f=io.open("/usr/share/AdGuardHome/AdGuardHome_template.yaml", "r+")
-	local tbl = {}
-	local a=""
-	while (1) do
-    	a=f:read("*l")
-		if (a=="#bootstrap_dns") then
-			a=d
-		elseif (a=="#upstream_dns") then
-			a=d
-		elseif (a==nil) then
-			break
-		end
-		table.insert(tbl, a)
-	end
-	f:close()
-	return table.concat(tbl, "\n")
-end
+
 m = Map("AdGuardHome")
 local configpath = uci:get("AdGuardHome","AdGuardHome","configpath")
 local binpath = uci:get("AdGuardHome","AdGuardHome","binpath")
@@ -63,7 +18,7 @@ o.rows = 66
 o.wrap = "off"
 o.rmempty = true
 o.cfgvalue = function(self, section)
-	return  fs.readfile("/tmp/AdGuardHometmpconfig.yaml") or fs.readfile(configpath) or gen_template_config() or ""
+	return fs.readfile("/tmp/AdGuardHometmpconfig.yaml") or fs.readfile(configpath) or fs.readfile("/usr/share/AdGuardHome/AdGuardHome_template.yaml") or ""
 end
 o.validate=function(self, value)
     fs.writefile("/tmp/AdGuardHometmpconfig.yaml", value:gsub("\r\n", "\n"))
