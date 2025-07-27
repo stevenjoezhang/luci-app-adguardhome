@@ -94,11 +94,11 @@ msgstr "使用 53 端口替换 dnsmasq"
 msgid "AdGuardHome redirect mode"
 msgstr "AdGuardHome 重定向模式"
 
-msgid "Bin Path"
-msgstr "执行文件路径"
+msgid "AdGuardHome executable file path"
+msgstr "AdGuardHome 执行文件路径"
 
-msgid "AdGuardHome Bin path if no bin will auto download"
-msgstr "AdGuardHome 执行文件路径 如果没有执行文件将自动下载"
+msgid "If the executable file does not exist, it will be downloaded automatically"
+msgstr "如果执行文件不存在将自动下载"
 
 msgid "Choose Arch for download"
 msgstr "要下载的程序架构"
@@ -106,29 +106,29 @@ msgstr "要下载的程序架构"
 msgid "Need to save to config first before downloading."
 msgstr "手动下载前如该选项有变更，需先保存并应用后再点下载"
 
-msgid "Use upx to compress bin after download"
+msgid "Use upx to compress executable after download"
 msgstr "下载后使用 upx 压缩执行文件"
 
 #inlist
-msgid "compress faster"
+msgid "Compress faster"
 msgstr "快速压缩"
 
-msgid "compress better"
+msgid "Compress better"
 msgstr "更好的压缩"
 
-msgid "compress best(can be slow for big files)"
-msgstr "最好的压缩(大文件可能慢)"
+msgid "Compress best (slow)"
+msgstr "最好的压缩（慢）"
 
-msgid "try all available compression methods & filters [slow]"
-msgstr "尝试所有可能的压缩方法和过滤器[慢]"
+msgid "Try all available compression methods & filters (slower)"
+msgstr "尝试所有可能的压缩方法和过滤器（很慢）"
 
-msgid "try even more compression variants [very slow]"
-msgstr "尝试更多变体压缩手段[很慢]"
+msgid "Try even more compression variants (very slow)"
+msgstr "尝试更多变体压缩手段（非常慢）"
 
-msgid "bin use less space,but may have compatibility issues"
+msgid "Reduce executable size, but may have compatibility issues after compression"
 msgstr "减小执行文件空间占用，但是可能压缩后有兼容性问题"
 
-msgid "Config Path"
+msgid "Config path"
 msgstr "配置文件路径"
 
 msgid "AdGuardHome config path"
@@ -137,14 +137,14 @@ msgstr "AdGuardHome 配置文件路径"
 msgid "Work dir"
 msgstr "工作目录"
 
-msgid "AdGuardHome work dir include rules,audit log and database"
-msgstr "AdGuardHome 工作目录包含规则，审计日志和数据库"
+msgid "AdGuardHome work dir will store query logs, database and other files"
+msgstr "AdGuardHome 工作目录下将存储审计日志和数据库等文件"
 
-msgid "Runtime log file"
-msgstr "运行日志"
+msgid "Runtime log file path"
+msgstr "运行日志路径"
 
-msgid "AdGuardHome runtime Log file if 'syslog': write to system log;if empty no log"
-msgstr "AdGuardHome 运行日志 如果填 syslog 将写入系统日志；如果空则不记录日志"
+msgid "If set to syslog, logs will be written to the system log; if left empty, no logs will be recorded"
+msgstr "如果填 syslog 将写入系统日志；如果空则不记录日志"
 
 msgid "Verbose log"
 msgstr "详细日志"
@@ -189,13 +189,13 @@ msgstr "网页登录密码"
 msgid "Culculate"
 msgstr "计算"
 
-msgid "loading..."
-msgstr "载入中"
+msgid "Loading..."
+msgstr "载入中…"
 
 msgid "Please save/apply"
 msgstr "请提交"
 
-msgid "is empty"
+msgid "Is empty"
 msgstr "为空"
 
 msgid "Press culculate and then save/apply"
@@ -208,7 +208,7 @@ msgid "Keep files when system upgrade"
 msgstr "系统升级时保留文件"
 
 #checkbox
-msgid "core bin"
+msgid "core executable"
 msgstr "核心执行文件"
 
 msgid "config file"
@@ -217,7 +217,7 @@ msgstr "配置文件"
 msgid "log file"
 msgstr "日志文件"
 
-msgid "On boot when network ok restart"
+msgid "Restart when the network is ready after boot"
 msgstr "开机后网络准备好时重启"
 
 msgid "Backup workdir files when shutdown"
@@ -248,13 +248,13 @@ msgid "Auto update gfwlist and restart AdGuardHome"
 msgstr "自动更新 gfw 列表并重启 AdGuardHome"
 
 msgid "Auto update ipset list and restart AdGuardHome"
-msgstr "自动更新 gfw ipset 列表并重启AdGuardHome"
+msgstr "自动更新 gfw ipset 列表并重启 AdGuardHome"
 
 msgid "Please change time and args in crontab"
 msgstr "请在计划任务中修改时间和参数"
 
 #download option
-msgid "Choose Release Version for download"
+msgid "Choose release channel for download"
 msgstr "选择需要更新的版本"
 
 msgid "Release"
@@ -270,19 +270,19 @@ msgid "Download links for update"
 msgstr "升级用的下载链接"
 
 #/cgi-bin/luci/admin/services/AdGuardHome/log/
-msgid "reverse"
+msgid "Reverse"
 msgstr "逆序"
 
-msgid "localtime"
+msgid "Use localtime"
 msgstr "本地时间"
 
 msgid "Please add log path in config to enable log"
 msgstr "请在设置里填写日志路径以启用日志"
 
-msgid "dellog"
-msgstr "删除日志"
+msgid "Clear log"
+msgstr "清空日志"
 
-msgid "download log"
+msgid "Download log"
 msgstr "下载日志"
 
 #/cgi-bin/luci/admin/services/AdGuardHome/manual/
@@ -290,24 +290,11 @@ msgid "Use template"
 msgstr "使用模板"
 
 #hide button
-msgid "Reload Config"
+msgid "Reload config"
 msgstr "重新载入配置"
 
-msgid "WARNING!!! no bin found apply config will not be test"
+msgid "WARNING!!! No executable found, config will not be tested"
 msgstr "警告！！！未找到执行文件，提交配置将不会进行校验"
 
-#unused
 msgid "Browser management username"
 msgstr "网页登录用户名"
-
-msgid "Username"
-msgstr "用户名"
-
-msgid "Check Config"
-msgstr "检查配置"
-
-msgid "Keep database when system upgrade"
-msgstr "系统升级时保留数据"
-
-msgid "Boot delay until network ok"
-msgstr "开机时直到网络准备好再启动"

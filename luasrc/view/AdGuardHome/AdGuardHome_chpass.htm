@@ -14,7 +14,7 @@
 		ifattr(self.combobox_manual, "data-manual", self.combobox_manual) ..
 		ifattr(#self.keylist > 0, "data-choices", { self.keylist, self.vallist })
 	%> />
-	<input type="button" class="cbi-button cbi-button-apply" id="cbid.AdGuardHome.AdGuardHome.applychpass" value="<%:loading...%>"/>
+	<input type="button" class="cbi-button cbi-button-apply" id="cbid.AdGuardHome.AdGuardHome.applychpass" value="<%:Loading...%>"/>
 <script type="text/javascript" src="<%=resource%>/twin-bcrypt.min.js"></script>
 <script type="text/javascript">//<![CDATA[
 	var btn = document.getElementById('cbid.AdGuardHome.AdGuardHome.applychpass');
@@ -27,7 +27,7 @@
 			var hash = TwinBcrypt.hashSync(lv.value);
 			lv.value = hash;
 		} else {
-			btn.value = '<%:is empty%>';
+			btn.value = '<%:Is empty%>';
 		}
 	});
 	lv.addEventListener('change', function() {

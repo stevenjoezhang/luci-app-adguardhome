@@ -88,7 +88,7 @@ o = s:option(DummyValue, "")
 o.anonymous=true
 o.template = "AdGuardHome/yamleditor"
 if not fs.access(binpath) then
-	o.description=translate("WARNING!!! no bin found apply config will not be test")
+	o.description=translate("WARNING!!! No executable found, config will not be tested")
 end
 --- log 
 if (fs.access("/tmp/AdGuardHometmpconfig.yaml")) then

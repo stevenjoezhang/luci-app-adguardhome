@@ -81,7 +81,7 @@ o.optional = false
 
 -- upgrade protect
 o = s:taboption("basic", MultiValue, "upprotect", translate("Keep files when system upgrade"))
-o:value("$binpath",translate("core bin"))
+o:value("$binpath",translate("core executable"))
 o:value("$configpath",translate("config file"))
 o:value("$logfile",translate("log file"))
 o:value("$workdir/data/filters","filters")
@@ -93,7 +93,7 @@ o.default = nil
 o.optional = false
 
 -- wait net on boot
-o = s:taboption("basic", Flag, "waitonboot", translate("On boot when network ok restart"))
+o = s:taboption("basic", Flag, "waitonboot", translate("Restart when the network is ready after boot"))
 o.default = 1
 o.optional = false
 
@@ -160,7 +160,7 @@ o.optional = false
 s:tab("core", translate("Core Settings"))
 
 -- bin path
-o = s:taboption("core", Value, "binpath", translate("Bin Path"), translate("AdGuardHome Bin path if no bin will auto download"))
+o = s:taboption("core", Value, "binpath", translate("AdGuardHome executable file path"), translate("AdGuardHome Bin path if no bin will auto download"))
 o.default     = "/usr/bin/AdGuardHome/AdGuardHome"
 o.datatype    = "string"
 o.optional = false
@@ -199,19 +199,19 @@ o.default=""
 o.rmempty=true
 
 --- upx
-o = s:taboption("core", ListValue, "upxflag", translate("Use upx to compress bin after download"))
+o = s:taboption("core", ListValue, "upxflag", translate("Use upx to compress executable after download"))
 o:value("", translate("none"))
-o:value("-1", translate("compress faster"))
-o:value("-9", translate("compress better"))
-o:value("--best", translate("compress best(can be slow for big files)"))
-o:value("--brute", translate("try all available compression methods & filters [slow]"))
-o:value("--ultra-brute", translate("try even more compression variants [very slow]"))
+o:value("-1", translate("Compress faster"))
+o:value("-9", translate("Compress better"))
+o:value("--best", translate("Compress best (slow)"))
+o:value("--brute", translate("Try all available compression methods & filters (slower)"))
+o:value("--ultra-brute", translate("Try even more compression variants (very slow)"))
 o.default     = ""
-o.description=translate("bin use less space,but may have compatibility issues")
+o.description=translate("Reduce executable size, but may have compatibility issues after compression")
 o.rmempty = true
 
 -- config path
-o = s:taboption("core", Value, "configpath", translate("Config Path"), translate("AdGuardHome config path"))
+o = s:taboption("core", Value, "configpath", translate("Config path"), translate("AdGuardHome config path"))
 o.default     = "/etc/AdGuardHome.yaml"
 o.datatype    = "string"
 o.optional = false
@@ -233,7 +233,7 @@ return value
 end
 
 -- work dir
-o = s:taboption("core", Value, "workdir", translate("Work dir"), translate("AdGuardHome work dir include rules,audit log and database"))
+o = s:taboption("core", Value, "workdir", translate("Work dir"), translate("AdGuardHome work dir will store query logs, database and other files"))
 o.default     = "/usr/bin/AdGuardHome"
 o.datatype    = "string"
 o.optional = false
@@ -256,7 +256,7 @@ end
 end
 
 -- log file
-o = s:taboption("core", Value, "logfile", translate("Runtime log file"), translate("AdGuardHome runtime Log file if 'syslog': write to system log;if empty no log"))
+o = s:taboption("core", Value, "logfile", translate("Runtime log file path"), translate("If set to syslog, logs will be written to the system log; if left empty, no logs will be recorded"))
 o.datatype    = "string"
 o.rmempty = true
 o.validate=function(self, value)
@@ -280,7 +280,7 @@ o.default = 0
 o.optional = false
 
 -- download tagname
-o = s:taboption("core", ListValue, "tagname", translate("Choose Release Version for download"))
+o = s:taboption("core", ListValue, "tagname", translate("Choose release channel for download"))
 o:value("release",translate("Release"))
 o:value("beta",translate("Beta"))
 o.description=translate("If this option is modified, please confirm the download links")
