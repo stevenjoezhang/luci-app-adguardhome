@@ -3,7 +3,7 @@ name: Compile AdGuardHome LuCI App
 on:
   push:
     branches:
-      - master
+      - dev
     tags:
       - 'v*'
   workflow_dispatch:
