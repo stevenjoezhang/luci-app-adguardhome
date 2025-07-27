@@ -183,8 +183,8 @@ msgid "Gfwlist domain upstream dns service"
 msgstr "gfw 列表域名上游服务器"
 
 #hide div
-msgid "Change browser management password"
-msgstr "改变网页登录密码"
+msgid "Browser management password"
+msgstr "网页登录密码"
 
 msgid "Culculate"
 msgstr "计算"
@@ -204,6 +204,9 @@ msgstr "为空"
 
 msgid "Press load culculate model and culculate finally save/apply"
 msgstr "按载入计算模块 然后计算 最后保存/提交"
+
+msgid "If no change is needed, leave it empty"
+msgstr "如果不需要修改，请保持为空"
 
 msgid "Keep files when system upgrade"
 msgstr "系统升级时保留文件"
@@ -261,8 +264,8 @@ msgstr "请在计划任务中修改时间和参数"
 msgid "Choose Release Version for download"
 msgstr "选择需要更新的版本"
 
-msgid "Release(Default)"
-msgstr "正式版（默认）"
+msgid "Release"
+msgstr "正式版"
 
 msgid "Beta"
 msgstr "测试版"
@@ -301,8 +304,8 @@ msgid "WARNING!!! no bin found apply config will not be test"
 msgstr "警告！！！未找到执行文件，提交配置将不会进行校验"
 
 #unused
-msgid "Change browser management username"
-msgstr "改变网页登录用户名"
+msgid "Browser management username"
+msgstr "网页登录用户名"
 
 msgid "Username"
 msgstr "用户名"

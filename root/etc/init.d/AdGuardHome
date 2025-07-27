@@ -363,8 +363,13 @@ start_service() {
 	rm /var/run/AdGserverdis >/dev/null 2>&1
 	config_load "${CONFIGURATION}"
 	# update password
+	config_get username $CONFIGURATION username ""
 	config_get hashpass $CONFIGURATION hashpass ""
 	config_get configpath $CONFIGURATION configpath "/etc/AdGuardHome.yaml"
+	if [ -n "$username" ]; then
+		config_editor "users.name" "$username" "$configpath"
+		uci set $CONFIGURATION.$CONFIGURATION.username=""
+	fi
 	if [ -n "$hashpass" ]; then
 		config_editor "users.password" "$hashpass" "$configpath"
 		uci set $CONFIGURATION.$CONFIGURATION.hashpass=""

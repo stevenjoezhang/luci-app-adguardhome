@@ -24,15 +24,20 @@ o.default = 0
 o.optional = false
 
 -- httpport
-o = s:taboption("basic", Value,"httpport",translate("Browser management port"))
-o.placeholder=3000
+o = s:taboption("basic", Value, "httpport", translate("Browser management port"))
 o.default=3000
 o.datatype="port"
 o.optional = false
-o.description = translate("<input type=\"button\" style=\"width:210px;border-color:Teal; text-align:center;font-weight:bold;color:Green;\" value=\"AdGuardHome Web:"..httpport.."\" onclick=\"window.open('http://'+window.location.hostname+':"..httpport.."/')\"/>")
+o.description = translate("<input type=\"button\" style=\"width:210px;border-color:Teal; text-align:center;font-weight:bold;color:Green;\" value=\"AdGuardHome Web: "..httpport.."\" onclick=\"window.open('http://'+window.location.hostname+':"..httpport.."/')\"/>")
+
+-- username
+o = s:taboption("basic", Value, "username", translate("Browser management username"), translate("If no change is needed, leave it empty"))
+o.default     = ""
+o.datatype    = "string"
+o.optional = false
 
 -- chpass
-o = s:taboption("basic", Value, "hashpass", translate("Change browser management password"), translate("Press load culculate model and culculate finally save/apply"))
+o = s:taboption("basic", Value, "hashpass", translate("Browser management password"), translate("Press load culculate model and culculate finally save/apply").."<br/>"..translate("If no change is needed, leave it empty"))
 o.default     = ""
 o.datatype    = "string"
 o.template = "AdGuardHome/AdGuardHome_chpass"
@@ -276,7 +281,7 @@ o.optional = false
 
 -- download tagname
 o = s:taboption("core", ListValue, "tagname", translate("Choose Release Version for download"))
-o:value("release",translate("Release(Default)"))
+o:value("release",translate("Release"))
 o:value("beta",translate("Beta"))
 o.description=translate("If this option is modified, please confirm the download links")
 o.default="release"

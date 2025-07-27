@@ -1,8 +1,8 @@
-# 提交就可以直接用的配置模板文件。 user: root/password: admin
-#a template config can be use with a apply. user: root/password: admin
+# 提交就可以直接用的配置模板文件
+# A template config can be used directly after submission
 
-#上方的bind_host: 0.0.0.0可根据自己的情况修改，比如路由IP或者保留。
-#You can modify this "bind_host: 0.0.0.0" above by yourself,  set as the routing IP according to your requirements, or keep.
+# 用户名: root / 密码: password
+# User: root / Password: password
 
 http:
   address: 0.0.0.0:3000
@@ -12,7 +12,7 @@ http:
   session_ttl: 720h
 users:
   - name: root
-    password: $2y$10$ML7v5WXsM1xN12YpR15f4uSGGAzk.QXhwu99lczQ8NgrPcTYRY9Ei
+    password: $2y$10$PVhuB.icsC0Jl5Q.8twXwOOVPX0oxdmmilkkkjCXkIBki0rvBatMa
 language: ""
 dns:
   allowed_clients: []
@@ -141,4 +141,5 @@ os:
   group: ""
   rlimit_nofile: 0
   user: ""
+ipset_file: ""
 schema_version: 29
