@@ -37,7 +37,7 @@ o.datatype    = "string"
 o.optional = false
 
 -- chpass
-o = s:taboption("basic", Value, "hashpass", translate("Browser management password"), translate("Press load culculate model and culculate finally save/apply").."<br/>"..translate("If no change is needed, leave it empty"))
+o = s:taboption("basic", Value, "hashpass", translate("Browser management password"), translate("Press culculate and then save/apply").."<br/>"..translate("If no change is needed, leave it empty"))
 o.default     = ""
 o.datatype    = "string"
 o.template = "AdGuardHome/AdGuardHome_chpass"
@@ -84,10 +84,10 @@ o = s:taboption("basic", MultiValue, "upprotect", translate("Keep files when sys
 o:value("$binpath",translate("core bin"))
 o:value("$configpath",translate("config file"))
 o:value("$logfile",translate("log file"))
-o:value("$workdir/data/sessions.db",translate("sessions.db"))
-o:value("$workdir/data/stats.db",translate("stats.db"))
-o:value("$workdir/data/querylog.json",translate("querylog.json"))
-o:value("$workdir/data/filters",translate("filters"))
+o:value("$workdir/data/filters","filters")
+o:value("$workdir/data/stats.db","stats.db")
+o:value("$workdir/data/querylog.json","querylog.json")
+o:value("$workdir/data/sessions.db","sessions.db")
 o.widget = "checkbox"
 o.default = nil
 o.optional = false

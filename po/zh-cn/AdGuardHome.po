@@ -189,10 +189,6 @@ msgstr "网页登录密码"
 msgid "Culculate"
 msgstr "计算"
 
-##button change
-msgid "Load culculate model"
-msgstr "载入计算模块"
-
 msgid "loading..."
 msgstr "载入中"
 
@@ -202,8 +198,8 @@ msgstr "请提交"
 msgid "is empty"
 msgstr "为空"
 
-msgid "Press load culculate model and culculate finally save/apply"
-msgstr "按载入计算模块 然后计算 最后保存/提交"
+msgid "Press culculate and then save/apply"
+msgstr "点击计算 然后保存并应用"
 
 msgid "If no change is needed, leave it empty"
 msgstr "如果不需要修改，请保持为空"
@@ -220,9 +216,6 @@ msgstr "配置文件"
 
 msgid "log file"
 msgstr "日志文件"
-
-msgid "querylog.json"
-msgstr "审计日志.json"
 
 msgid "On boot when network ok restart"
 msgstr "开机后网络准备好时重启"

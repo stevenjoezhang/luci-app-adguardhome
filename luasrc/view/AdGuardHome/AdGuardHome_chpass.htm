@@ -2,8 +2,8 @@
 	<input data-update="change"<%=
 		attr("id", cbid) ..
 		attr("name", cbid) ..
-		attr("type", self.password and "password" or "text") ..
-		attr("class", self.password and "cbi-input-password" or "cbi-input-text") ..
+		attr("type", "text") ..
+		attr("class", "cbi-input-text") ..
 		attr("value", self:cfgvalue(section) or self.default) ..
 		ifattr(self.size, "size") ..
 		ifattr(self.placeholder, "placeholder") ..
@@ -14,27 +14,14 @@
 		ifattr(self.combobox_manual, "data-manual", self.combobox_manual) ..
 		ifattr(#self.keylist > 0, "data-choices", { self.keylist, self.vallist })
 	%> />
-	<% if self.password then %><img src="<%=resource%>/cbi/reload.gif" style="vertical-align:middle" title="<%:Reveal/hide password%>" onclick="var e = document.getElementById('<%=cbid%>'); e.type = (e.type=='password') ? 'text' : 'password';" /><% end %>
-	<input type="button" class="cbi-button cbi-button-apply" id="cbid.AdGuardHome.AdGuardHome.applychpass" value="<%:Load culculate model%>"/>
+	<input type="button" class="cbi-button cbi-button-apply" id="cbid.AdGuardHome.AdGuardHome.applychpass" value="<%:loading...%>"/>
+<script type="text/javascript" src="<%=resource%>/twin-bcrypt.min.js"></script>
 <script type="text/javascript">//<![CDATA[
 	var btn = document.getElementById('cbid.AdGuardHome.AdGuardHome.applychpass');
 	var lv = document.getElementById('cbid.AdGuardHome.AdGuardHome.hashpass');
+	btn.value = '<%:Culculate%>';
 	btn.addEventListener('click', function() {
 		btn.disabled = true;
-		if (typeof TwinBcrypt == 'undefined') {
-			btn.value = '<%:loading...%>';
-			//创建脚本的dom对象实例
-			var bcryptScript = document.createElement('script');
-			bcryptScript.src = '<%=resource%>/twin-bcrypt.min.js';            //指定脚本路径
-			bcryptScript.type = 'text/javascript';    //指定脚本类型
-			bcryptScript.defer = true;                //程序下载完后再解析和执行
-			document.head.appendChild(bcryptScript);
-			bcryptScript.onload = function() {
-				btn.value = '<%:Culculate%>';
-				btn.disabled = false;
-			};
-			return;
-		}
 		if (lv.value != "") {
 			btn.value = '<%:Please save/apply%>';
 			var hash = TwinBcrypt.hashSync(lv.value);
