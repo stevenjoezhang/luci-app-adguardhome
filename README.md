@@ -50,18 +50,9 @@ Download `.ipk` and `.apk` from [Releases](https://github.com/stevenjoezhang/luc
 
 ## About Compression
 
-Memory and space usage when using `upx` compression on the `jffs2` compressed filesystem (unit: KB, using best compression):
-
-**File size**:
-- Source file: `14112` → After `upx` compression: `5309`
-- Actual usage: `6260` → After `upx` compression: `5324` (Difference: `936`)
-
-**VmRSS memory usage**:
-- Without compression: `14380` → After `upx` compression: `18496` (Difference: `-4116`)
-
-For compressed filesystems, compression benefits exist but aren't significant.  
-For non-compressed filesystems, the performance-to-cost ratio is quite high.  
-Compression trades RAM for ROM space - enable it if you consider it worthwhile.
+The plugin supports compressing the AdGuard Home executable with `upx`, which is useful for devices with limited storage. Testing shows that using the `-1` parameter (Compress faster) takes 2 seconds and achieves a 42% compression rate, while using `--ultra-brute` (Try even more compression variants) takes 660 seconds and achieves a 23% compression rate.  
+Note that if the filesystem already supports compression (like `jffs2`), using `upx` may not save much space.  
+Also, compression trades RAM for ROM space, which consumes more memory during runtime.
 
 ## OpenClash Combination Methods
 
