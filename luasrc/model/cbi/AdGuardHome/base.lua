@@ -66,7 +66,7 @@ else
 end
 o = s:taboption("basic", Button,"restart",translate("Update"))
 o.inputtitle=translate("Update core version")
-o.template = "AdGuardHome/AdGuardHome_check"
+o.template = "AdGuardHome/AdGuardHome_update"
 o.showfastconfig=(not fs.access(configpath))
 o.description=string.format(translate("core version:").."<strong><font id=\"updateversion\" color=\"green\">%s </font></strong>",e)
 
