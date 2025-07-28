@@ -267,21 +267,13 @@ o = s:taboption("core", Flag, "verbose", translate("Verbose log"))
 o.default = 0
 o.optional = false
 
--- download tagname
-o = s:taboption("core", ListValue, "tagname", translate("Choose release channel for download"))
-o:value("release",translate("Release"))
-o:value("beta",translate("Beta"))
-o.description=translate("If this option is modified, please confirm the download links")
-o.default="release"
-o.rmempty=true
-
 -- downloadpath
 o = s:taboption("core", TextValue, "downloadlinks",translate("Download links for update"))
 o.optional = false
 o.rows = 4
 o.wrap = "soft"
-o.default = "https://static.adguard.com/adguardhome/release/AdGuardHome_linux_${Arch}.tar.gz\n\
-#https://static.adguard.com/adguardhome/beta/AdGuardHome_linux_${Arch}.tar.gz\n\
+o.default = "https://static.adguard.com/adguardhome/release/AdGuardHome_linux_${Arch}.tar.gz\
+#https://static.adguard.com/adguardhome/beta/AdGuardHome_linux_${Arch}.tar.gz\
 https://github.com/AdguardTeam/AdGuardHome/releases/download/${latest_ver}/AdGuardHome_linux_${Arch}.tar.gz"
 
 ---- GFWList Settings ----

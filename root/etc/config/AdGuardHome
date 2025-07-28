@@ -9,3 +9,6 @@ config AdGuardHome 'AdGuardHome'
 	option binpath '/usr/bin/AdGuardHome/AdGuardHome'
 	option upxflag ''
 	option upprotect '$binpath $configpath'
+	option downloadlinks 'https://static.adguard.com/adguardhome/release/AdGuardHome_linux_${Arch}.tar.gz\
+#https://static.adguard.com/adguardhome/beta/AdGuardHome_linux_${Arch}.tar.gz\
+https://github.com/AdguardTeam/AdGuardHome/releases/download/${latest_ver}/AdGuardHome_linux_${Arch}.tar.gz'

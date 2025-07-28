@@ -245,18 +245,6 @@ msgid "Please change time and args in crontab"
 msgstr "请在计划任务中修改时间和参数"
 
 #download option
-msgid "Choose release channel for download"
-msgstr "选择需要更新的版本"
-
-msgid "Release"
-msgstr "正式版"
-
-msgid "Beta"
-msgstr "测试版"
-
-msgid "If this option is modified, please confirm the download links"
-msgstr "如果修改了版本选项，请自行确认下方升级用的下载链接"
-
 msgid "Download links for update"
 msgstr "升级用的下载链接"
 
