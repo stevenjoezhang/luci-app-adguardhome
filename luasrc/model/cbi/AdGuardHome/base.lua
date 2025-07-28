@@ -357,9 +357,9 @@ o.default     = "tcp://208.67.220.220:5353"
 o.datatype    = "string"
 o.optional = false
 
-fs.writefile("/var/run/lucilogpos","0")
+fs.writefile("/var/run/AdG_log_pos","0")
 function m.on_commit(map)
-	if (fs.access("/var/run/AdGserverdis")) then
+	if (fs.access("/var/run/AdG_disabled")) then
 		io.popen("/etc/init.d/AdGuardHome reload &")
 		return
 	end
@@ -369,11 +369,11 @@ function m.on_commit(map)
 	elseif ucitracktest=="0" then
 		io.popen("/etc/init.d/AdGuardHome reload &")
 	else
-		if (fs.access("/var/run/AdGlucitest")) then
+		if (fs.access("/var/run/AdG_luci_test")) then
 			uci:set("AdGuardHome","AdGuardHome","ucitracktest","0")
 			io.popen("/etc/init.d/AdGuardHome reload &")
 		else
-			fs.writefile("/var/run/AdGlucitest","")
+			fs.writefile("/var/run/AdG_luci_test","")
 			if (ucitracktest=="2") then
 				uci:set("AdGuardHome","AdGuardHome","ucitracktest","1")
 			else

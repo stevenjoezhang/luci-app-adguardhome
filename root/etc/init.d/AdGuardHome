@@ -185,9 +185,9 @@ _do_redirect()
 	tcp_server=0
 	enabled=$1
 	if [ "$enabled" == "1" ]; then
-		echo -n "1">/var/run/AdGredir
+		echo -n "1">/var/run/AdG_redir
 	else
-		echo -n "0">/var/run/AdGredir
+		echo -n "0">/var/run/AdG_redir
 	fi
 	config_get configpath $CONFIGURATION configpath "/etc/AdGuardHome.yaml"
 	AdGuardHome_PORT=$(config_editor "dns.port" "" "$configpath" "1")
@@ -303,7 +303,7 @@ config_editor()
 }
 
 boot_service() {
-	rm /var/run/AdGserverdis >/dev/null 2>&1
+	rm /var/run/AdG_disabled >/dev/null 2>&1
 	config_load "${CONFIGURATION}"
 	config_get waitonboot $CONFIGURATION waitonboot "0"
 	config_get_bool enabled $CONFIGURATION enabled 0
@@ -360,7 +360,7 @@ backup() {
 }
 start_service() {
 	# Reading config
-	rm /var/run/AdGserverdis >/dev/null 2>&1
+	rm /var/run/AdG_disabled >/dev/null 2>&1
 	config_load "${CONFIGURATION}"
 	# update password
 	config_get username $CONFIGURATION username ""
@@ -472,7 +472,7 @@ start_service() {
 }
 reload_service()
 {
-	rm /var/run/AdGlucitest >/dev/null 2>&1
+	rm /var/run/AdG_luci_test >/dev/null 2>&1
 	echo "AdGuardHome reloading"
 	start
 }
@@ -506,7 +506,7 @@ stop_service()
 		fi
 	fi
 	echo "AdGuardHome service disabled"
-	touch /var/run/AdGserverdis
+	touch /var/run/AdG_disabled
 }
 boot() {
 	rc_procd boot_service "$@"

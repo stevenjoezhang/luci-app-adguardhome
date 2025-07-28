@@ -224,8 +224,8 @@ doupdate_core(){
 	EXIT 0
 }
 EXIT(){
-	rm /var/run/update_core 2>/dev/null
-	[ "$1" != "0" ] && touch /var/run/update_core_error
+	rm /var/run/AdG_update_core 2>/dev/null
+	[ "$1" != "0" ] && touch /var/run/AdG_update_core_error
 	exit $1
 }
 main(){
@@ -234,6 +234,6 @@ main(){
 	check_latest_version $1
 }
 	trap "EXIT 1" SIGTERM SIGINT
-	touch /var/run/update_core
-	rm /var/run/update_core_error 2>/dev/null
+	touch /var/run/AdG_update_core
+	rm /var/run/AdG_update_core_error 2>/dev/null
 	main $1
