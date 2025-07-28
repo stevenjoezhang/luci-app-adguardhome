@@ -232,9 +232,6 @@ msgstr "工作目录备份路径"
 msgid "Crontab task"
 msgstr "计划任务"
 
-msgid "Auto update core"
-msgstr "自动升级核心"
-
 msgid "Auto tail querylog"
 msgstr "自动截短查询日志"
 

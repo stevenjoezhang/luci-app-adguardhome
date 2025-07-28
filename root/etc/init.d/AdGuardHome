@@ -524,11 +524,7 @@ do_crontab(){
 	local findstr default cronenable replace commit
 	local cronreload=0
 	local commit=0
-	findstr="/usr/share/AdGuardHome/update_core.sh"
-	default="30 3 * * * /usr/share/AdGuardHome/update_core.sh 2>&1"
-	[ "$enabled" == "0" ] || [ "${crontab//autoupdate/}" == "$crontab" ] && cronenable=0 || cronenable=1
-	crontab_editor
-	
+
 	config_get workdir $CONFIGURATION workdir "/usr/bin/AdGuardHome"
 	config_get lastworkdir $CONFIGURATION lastworkdir "/usr/bin/AdGuardHome"
 	findstr="/usr/share/AdGuardHome/tailto.sh [0-9]* \$(uci get AdGuardHome.AdGuardHome.workdir)/data/querylog.json"
