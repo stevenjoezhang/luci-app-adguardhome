@@ -21,7 +21,7 @@ msgstr "日志"
 msgid "Manual Config"
 msgstr "手动设置"
 
-msgid "Free and open source, powerful network-wide ads & trackers blocking DNS server."
+msgid "Free and open source, powerful network-wide ads & trackers blocking DNS server"
 msgstr "免费开源，功能强大的全网络广告和跟踪程序拦截DNS服务器"
 
 msgid "RUNNING"
@@ -37,7 +37,7 @@ msgid "Not redirect"
 msgstr "未重定向"
 
 msgid "Collecting data..."
-msgstr "获取数据中..."
+msgstr "获取数据中…"
 
 msgid "Enable"
 msgstr "启用"
@@ -53,7 +53,7 @@ msgid "Update core version"
 msgstr "更新核心版本"
 
 msgid "Check..."
-msgstr "检查中..."
+msgstr "检查中…"
 
 msgid "Updated"
 msgstr "已更新"
@@ -103,8 +103,8 @@ msgstr "执行文件程序架构"
 msgid "Auto"
 msgstr "自动"
 
-msgid "Need to save to config first before downloading."
-msgstr "手动下载前如该选项有变更，需先保存并应用后再点下载"
+msgid "If you've modified any related core settings, please save/apply the changes before clicking Update"
+msgstr "如果修改了相关核心设置，需先保存并应用后再点更新"
 
 msgid "Use upx to compress executable"
 msgstr "使用 upx 压缩执行文件"

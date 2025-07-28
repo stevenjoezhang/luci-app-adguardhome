@@ -8,7 +8,7 @@ local configpath=uci:get("AdGuardHome","AdGuardHome","configpath") or "/etc/AdGu
 local binpath=uci:get("AdGuardHome","AdGuardHome","binpath") or "/usr/bin/AdGuardHome/AdGuardHome"
 httpport=uci:get("AdGuardHome","AdGuardHome","httpport") or "3000"
 m = Map("AdGuardHome", "AdGuard Home")
-m.description = translate("Free and open source, powerful network-wide ads & trackers blocking DNS server.")
+m.description = translate("Free and open source, powerful network-wide ads & trackers blocking DNS server")
 m:section(SimpleSection).template  = "AdGuardHome/AdGuardHome_status"
 
 s = m:section(TypedSection, "AdGuardHome")
@@ -60,7 +60,7 @@ o = s:taboption("basic", Button,"restart",translate("Update"))
 o.inputtitle=translate("Update core version")
 o.template = "AdGuardHome/AdGuardHome_update"
 o.showfastconfig=(not fs.access(configpath))
-o.description=string.format(translate("Core version:").." <strong><font id=\"updateversion\" color=\"green\">%s </font></strong>",e)
+o.description=string.format(translate("Core version:").." <strong><font id=\"updateversion\" color=\"green\">%s </font></strong><br/>"..translate("If you've modified any related core settings, please save/apply the changes before clicking Update"),e)
 
 -- Redirect
 o = s:taboption("basic", ListValue, "redirect", translate("DNS redirect mode"))
@@ -183,7 +183,6 @@ o:value("mips64_softfloat",translate("mips64"))
 o:value("mipsle_softfloat",translate("mipsel"))
 o:value("mips64le_softfloat",translate("mips64el"))
 o:value("ppc64le",translate("powerpc64"))
-o.description=translate("Need to save to config first before downloading.")
 o.default=""
 o.rmempty=true
 
