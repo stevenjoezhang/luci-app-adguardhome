@@ -525,15 +525,6 @@ do_crontab(){
 	local cronreload=0
 	local commit=0
 
-	config_get logfile $CONFIGURATION logfile ""
-	config_get lastlogfile $CONFIGURATION lastlogfile ""
-	findstr="/usr/share/AdGuardHome/tailto.sh [0-9]* \$(uci get AdGuardHome.AdGuardHome.logfile)"
-	default="30 3 * * * /usr/share/AdGuardHome/tailto.sh 2000 \$(uci get AdGuardHome.AdGuardHome.logfile)"
-	#[ -n "$lastlogfile" ] && findstr="/usr/share/AdGuardHome/tailto.sh [0-9]* $lastlogfile" && [ -n "$logfile" ] && [ "$lastlogfile" != "$logfile" ] && replace="${lastlogfile//\//\\/}/${logfile//\//\\/}"
-	[ "$logfile" == "syslog" ] || [ "$logfile" == "" ] || [ "$enabled" == "0" ] || [ "${crontab//cutruntimelog/}" == "$crontab" ] && cronenable=0 || cronenable=1
-	crontab_editor
-	#[ -n "$logfile" ] && [ "$lastlogfile" != "$logfile" ] && uci set AdGuardHome.AdGuardHome.lastlogfile="$logfile" && commit=1
-	
 	findstr="/usr/share/AdGuardHome/addhost.sh"
 	default="0 * * * * /usr/share/AdGuardHome/addhost.sh"
 	[ "$enabled" == "0" ] || [ "${crontab//autohost/}" == "$crontab" ] && cronenable=0 || cronenable=1

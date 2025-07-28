@@ -32,7 +32,6 @@ Download `.ipk` and `.apk` from [Releases](https://github.com/stevenjoezhang/luc
 - Waits for network access at boot (3min timeout, mainly to prevent filter update failure)
 - Workdir backup on shutdown (Note: backup also triggers during IPK updates)
 - Scheduled tasks (default values, time and parameters adjustable in scheduler):
-  - Auto truncate runtime log (`3:30/day`, limit to 2000 lines)
   - Auto update IPv6 hosts and restart AdGuard Home (hourly, no restart if no updates)
   - Auto update GFW list and restart AdGuard Home (`3:30/day`, no restart if no updates)
 
