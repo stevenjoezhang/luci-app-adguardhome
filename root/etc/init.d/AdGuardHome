@@ -161,11 +161,6 @@ _do_redirect()
 	ipv6_server=1
 	tcp_server=0
 	enabled=$1
-	if [ "$enabled" == "1" ]; then
-		echo -n "1">/var/run/AdG_redir
-	else
-		echo -n "0">/var/run/AdG_redir
-	fi
 	config_get configpath $CONFIGURATION configpath "/etc/AdGuardHome.yaml"
 	AdGuardHome_PORT=$(config_editor "dns.port" "" "$configpath" "1")
 	if [ -z "$AdGuardHome_PORT" ]; then
@@ -202,17 +197,26 @@ _do_redirect()
 	uci add_list AdGuardHome.@AdGuardHome[0].old_port="$AdGuardHome_PORT" 2>/dev/null
 	uci add_list AdGuardHome.@AdGuardHome[0].old_enabled="$enabled" 2>/dev/null
 	uci commit AdGuardHome
-	[ "$enabled" == "0" ] && return 1
+
+	if [ "$enabled" == "0" ]; then
+		echo -n "0">/var/run/AdG_redir
+		return 1
+	fi
 	if [ "$AdGuardHome_PORT" == "0" ]; then
 		return 1
 	fi
+	redirected=1
 	if [ "$redirect" = "redirect" ]; then
 		set_iptable
 	elif [ "$redirect" = "dnsmasq-upstream" ]; then
 		start_forward_dnsmasq "$AdGuardHome_PORT"
 	elif [ "$redirect" == "exchange" -a "$(uci get dhcp.@dnsmasq[0].port 2>/dev/null)" == "53" ]; then
 		use_port53
+	else
+		redirected=0
 	fi
+
+	echo -n "$redirected">/var/run/AdG_redir
 }
 get_filesystem()
 {
@@ -354,6 +358,7 @@ start_service() {
 	config_get_bool enabled $CONFIGURATION enabled 0
 	# update crontab
 	do_crontab
+	echo "luci enable switch=$enabled"
 	if [ "$enabled" == "0" ]; then
 		_do_redirect 0
 		return
@@ -442,7 +447,6 @@ start_service() {
 		fi
 	fi
 	echo "AdGuardHome service enabled"
-	echo "luci enable switch=$enabled"
 	(sleep 10 && [ -z "$(pgrep $binpath)" ] && logger "AdGuardHome" "no process in 10s cancel redirect" && _do_redirect 0 )&
 }
 reload_service()
