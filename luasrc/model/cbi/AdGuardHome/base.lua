@@ -63,7 +63,7 @@ o.showfastconfig=(not fs.access(configpath))
 o.description=string.format(translate("Core version:").." <strong><font id=\"updateversion\" color=\"green\">%s </font></strong>",e)
 
 -- Redirect
-o = s:taboption("basic", ListValue, "redirect", translate("DNS Redirect"), translate("AdGuardHome redirect mode"))
+o = s:taboption("basic", ListValue, "redirect", translate("DNS redirect mode"))
 o:value("none", translate("None"))
 o:value("dnsmasq-upstream", translate("Run as dnsmasq upstream server"))
 o:value("redirect", translate("Redirect 53 port to AdGuardHome"))
@@ -149,7 +149,7 @@ o.optional = false
 s:tab("core", translate("Core Settings"))
 
 -- bin path
-o = s:taboption("core", Value, "binpath", translate("AdGuardHome executable file path"), translate("AdGuardHome Bin path if no bin will auto download"))
+o = s:taboption("core", Value, "binpath", translate("AdGuardHome executable file path"), translate("If the executable file does not exist, it will be downloaded automatically"))
 o.default     = "/usr/bin/AdGuardHome/AdGuardHome"
 o.datatype    = "string"
 o.optional = false
@@ -170,7 +170,7 @@ end
 return value
 end
 --- arch
-o = s:taboption("core", ListValue, "arch", translate("Choose Arch for download"))
+o = s:taboption("core", ListValue, "arch", translate("Executable file architecture"))
 o:value("",translate("Auto"))
 o:value("386",translate("i386"))
 o:value("amd64",translate("x86_64"))
@@ -188,7 +188,7 @@ o.default=""
 o.rmempty=true
 
 --- upx
-o = s:taboption("core", ListValue, "upxflag", translate("Use upx to compress executable after download"))
+o = s:taboption("core", ListValue, "upxflag", translate("Use upx to compress executable"))
 o:value("", translate("None"))
 o:value("-1", translate("Compress faster"))
 o:value("-9", translate("Compress better"))

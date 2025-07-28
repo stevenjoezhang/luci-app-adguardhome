@@ -75,8 +75,8 @@ msgstr "没有配置文件"
 msgid "no core"
 msgstr "没有核心"
 
-msgid "DNS Redirect"
-msgstr "DNS 重定向"
+msgid "DNS redirect mode"
+msgstr "DNS 重定向模式"
 
 #inlist
 msgid "None"
@@ -91,23 +91,23 @@ msgstr "重定向 53 端口到 AdGuardHome"
 msgid "Use port 53 replace dnsmasq"
 msgstr "使用 53 端口替换 dnsmasq"
 
-msgid "AdGuardHome redirect mode"
-msgstr "AdGuardHome 重定向模式"
-
 msgid "AdGuardHome executable file path"
 msgstr "AdGuardHome 执行文件路径"
 
 msgid "If the executable file does not exist, it will be downloaded automatically"
 msgstr "如果执行文件不存在将自动下载"
 
-msgid "Choose Arch for download"
-msgstr "要下载的程序架构"
+msgid "Executable file architecture"
+msgstr "执行文件程序架构"
+
+msgid "Auto"
+msgstr "自动"
 
 msgid "Need to save to config first before downloading."
 msgstr "手动下载前如该选项有变更，需先保存并应用后再点下载"
 
-msgid "Use upx to compress executable after download"
-msgstr "下载后使用 upx 压缩执行文件"
+msgid "Use upx to compress executable"
+msgstr "使用 upx 压缩执行文件"
 
 #inlist
 msgid "Compress faster"
