@@ -52,8 +52,8 @@ msgstr "更新"
 msgid "Update core version"
 msgstr "更新核心版本"
 
-msgid "Check..."
-msgstr "检查中…"
+msgid "Updating..."
+msgstr "更新中…"
 
 msgid "Updated"
 msgstr "已更新"
@@ -232,9 +232,6 @@ msgstr "工作目录备份路径"
 msgid "Crontab task"
 msgstr "计划任务"
 
-msgid "Auto tail runtime log"
-msgstr "自动截短运行日志"
-
 msgid "Auto update ipv6 hosts and restart AdGuardHome"
 msgstr "自动更新 ipv6 主机并重启 AdGuardHome"
 
@@ -277,6 +274,9 @@ msgstr "重新载入配置"
 
 msgid "WARNING!!! No executable found, config will not be tested"
 msgstr "警告！！！未找到执行文件，提交配置将不会进行校验"
+
+msgin "Configuration validation failed"
+msgstr "配置校验失败"
 
 msgid "Browser management username"
 msgstr "网页登录用户名"

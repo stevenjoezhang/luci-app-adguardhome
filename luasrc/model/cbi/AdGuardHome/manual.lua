@@ -29,7 +29,7 @@ o.validate=function(self, value)
 	else
 		return value
 	end
-	luci.http.redirect(luci.dispatcher.build_url("admin","services","AdGuardHome","manual"))
+	m.message = translate("Configuration validation failed")..fs.readfile("/tmp/AdGuardHometest.log")
 	return nil
 end
 o.write = function(self, section, value)
@@ -45,19 +45,12 @@ o.template = "AdGuardHome/yamleditor"
 if not fs.access(binpath) then
 	o.description=translate("WARNING!!! No executable found, config will not be tested")
 end
---- log 
+--- log
 if (fs.access("/tmp/AdGuardHometmpconfig.yaml")) then
-local c=fs.readfile("/tmp/AdGuardHometest.log")
-if (c~="") then
-o = s:option(TextValue, "")
-o.readonly=true
-o.rows = 5
-o.rmempty = true
-o.name=""
-o.cfgvalue = function(self, section)
-	return fs.readfile("/tmp/AdGuardHometest.log")
-end
-end
+	local c=fs.readfile("/tmp/AdGuardHometest.log")
+	if (c~="") then
+		m.message = translate("Configuration validation failed")..fs.readfile("/tmp/AdGuardHometest.log")
+	end
 end
 
 return m

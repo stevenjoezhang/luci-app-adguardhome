@@ -34,7 +34,7 @@ function apply_update(){
 	XHR.get('<%=url([[admin]], [[services]], [[AdGuardHome]], [[doupdate]])%>',null,function(x, data){}
 		);
 	updatebtn.disabled = true;
-	updatebtn.value    = '<%:Check...%>';
+	updatebtn.value    = '<%:Updating...%>';
 	forceupdatebtn.style.display="inline"
 	poll_check();
 	return
@@ -67,7 +67,7 @@ XHR.poll(3, '<%=url([[admin]], [[services]], [[AdGuardHome]], [[check]])%>', nul
 );}
 <% if fs.access("/var/run/AdG_update_core") then %>
 	updatebtn.disabled = true;
-	updatebtn.value    = '<%:Check...%>';
+	updatebtn.value    = '<%:Updating...%>';
 	forceupdatebtn.style.display="inline"
 	poll_check();
 <%elseif fs.access("/var/run/AdG_update_core_error") then %>

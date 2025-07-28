@@ -66,20 +66,14 @@ function get_log()
 		if not fs.access("/var/run/AdG_syslog") then
 			luci.sys.exec("(/usr/share/AdGuardHome/getsyslog.sh &); sleep 1;")
 		end
-		logfile="/tmp/AdGuardHometmp.log"
+		logfile="/tmp/AdGuardHome.log"
 		fs.writefile("/var/run/AdG_syslog","1")
 	elseif not fs.access(logfile) then
 		http.write("")
 		return
 	end
 	http.prepare_content("text/plain; charset=utf-8")
-	local fdp
-	if fs.access("/var/run/AdG_log_reload") then
-		fdp=0
-		fs.remove("/var/run/AdG_log_reload")
-	else
-		fdp=tonumber(fs.readfile("/var/run/AdG_log_pos")) or 0
-	end
+	local fdp=tonumber(fs.readfile("/var/run/AdG_log_pos")) or 0
 	local f=io.open(logfile, "r+")
 	f:seek("set",fdp)
 	local a=f:read(2048000) or ""
