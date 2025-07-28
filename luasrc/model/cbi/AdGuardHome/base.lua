@@ -77,7 +77,7 @@ o.default = 1
 o.optional = false
 
 -- upgrade protect
-o = s:taboption("basic", MultiValue, "upprotect", translate("Keep files when system upgrade"))
+o = s:taboption("basic", DynamicList, "upprotect", translate("Keep files when system upgrade"))
 o:value("$binpath",translate("core executable"))
 o:value("$configpath",translate("config file"))
 o:value("$logfile",translate("log file"))
@@ -85,7 +85,6 @@ o:value("$workdir/data/filters","filters")
 o:value("$workdir/data/stats.db","stats.db")
 o:value("$workdir/data/querylog.json","querylog.json")
 o:value("$workdir/data/sessions.db","sessions.db")
-o.widget = "checkbox"
 o.default = nil
 o.optional = false
 

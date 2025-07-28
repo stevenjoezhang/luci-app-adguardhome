@@ -331,6 +331,15 @@ backup() {
 		done
 	done
 }
+
+_add_upprotect_file()
+{
+	local file="$1"
+	# Expand variables in the file path
+	local expanded_file=$(eval echo "$file")
+	echo "$expanded_file" >> /lib/upgrade/keep.d/luci-app-adguardhome
+}
+
 start_service() {
 	# Reading config
 	config_load "${CONFIGURATION}"
@@ -397,8 +406,18 @@ start_service() {
 
 	# hack to save config file when upgrade system
 	config_get upprotect $CONFIGURATION upprotect ""
-	eval upprotect=${upprotect// /\\\\n}
-	echo -e "$upprotect">/lib/upgrade/keep.d/luci-app-adguardhome
+	if [ -n "$upprotect" ]; then
+		# Handle both old MultiValue format (space-separated) and new DynamicList format
+		if echo "$upprotect" | grep -q " "; then
+			# Old format: space-separated values
+			eval upprotect=${upprotect// /\\\\n}
+			echo -e "$upprotect">/lib/upgrade/keep.d/luci-app-adguardhome
+		else
+			echo -n > /lib/upgrade/keep.d/luci-app-adguardhome
+			# New format: UCI list, get all values
+			config_list_foreach $CONFIGURATION upprotect _add_upprotect_file
+		fi
+	fi
 
 	config_get logfile $CONFIGURATION logfile ""
 	if [ -n "$logfile" ]; then
