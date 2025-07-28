@@ -69,11 +69,14 @@ msgid "Core version:"
 msgstr "核心版本："
 
 #description change
-msgid "no config"
+msgid "No config"
 msgstr "没有配置文件"
 
-msgid "no core"
+msgid "No core"
 msgstr "没有核心"
+
+msgid "Core error"
+msgstr "核心错误"
 
 msgid "DNS redirect mode"
 msgstr "DNS 重定向模式"

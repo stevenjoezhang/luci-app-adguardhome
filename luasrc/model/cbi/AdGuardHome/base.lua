@@ -44,29 +44,32 @@ o.template = "AdGuardHome/AdGuardHome_chpass"
 o.optional = false
 
 -- update warning not safe
-local e=""
-if not fs.access(configpath) then
-	e=e.." "..translate("no config")
-end
+local e = ""
 if not fs.access(binpath) then
-	e=e.." "..translate("no core")
+	e = "<font color=red>"..translate("No core").."</font>"
 else
-	local tmp=luci.sys.exec(binpath.." --version 2>/dev/null | grep -m 1 -E '[0-9]+[.][Bbeta0-9\.\-]+' -o")
-	local version=string.sub(tmp, 1, -2)
-	if version=="" then version="core error" end
-	e=version..e
+	local tmp = luci.sys.exec(binpath.." --version 2>/dev/null | grep -m 1 -E '[0-9]+[.][Bbeta0-9\.\-]+' -o")
+	local version = string.sub(tmp, 1, -2)
+	if version == "" then
+		e = "<font color=red>"..translate("Core error").."</font>"
+	else
+		e = "<font color=green>"..version.."</font>"
+	end
+end
+if not fs.access(configpath) then
+	e = e.." ".."<font color=red>"..translate("No config").."</font>"
 end
 o = s:taboption("basic", Button,"restart",translate("Update"))
 o.inputtitle=translate("Update core version")
 o.template = "AdGuardHome/AdGuardHome_update"
-o.showfastconfig=(not fs.access(configpath))
-o.description=string.format(translate("Core version:").." <strong><font id=\"updateversion\" color=\"green\">%s </font></strong><br/>"..translate("If you've modified any related core settings, please save/apply the changes before clicking Update"),e)
+o.showfastconfig = (not fs.access(configpath))
+o.description = string.format(translate("Core version:").." <strong><font color=green>%s</font></strong><br/>"..translate("If you've modified any related core settings, please save/apply the changes before clicking Update"), e)
 
 -- Redirect
 o = s:taboption("basic", ListValue, "redirect", translate("DNS redirect mode"))
 o:value("none", translate("None"))
-o:value("dnsmasq-upstream", translate("Run as dnsmasq upstream server"))
 o:value("redirect", translate("Redirect 53 port to AdGuardHome"))
+o:value("dnsmasq-upstream", translate("Run as dnsmasq upstream server"))
 o:value("exchange", translate("Use port 53 replace dnsmasq"))
 o.default     = "none"
 o.optional = false
@@ -127,22 +130,13 @@ if fs.stat(value,"type")=="reg" then
 	m.message ="error!backup dir is a file"
 	end
 	return nil
-end 
+end
 if string.sub(value,-1)=="/" then
 	return string.sub(value, 1, -2)
 else
 	return value
 end
 end
-
--- Crontab
-o = s:taboption("basic", MultiValue, "crontab", translate("Crontab task"),translate("Please change time and args in crontab"))
-o:value("autohost",translate("Auto update ipv6 hosts and restart AdGuardHome"))
-o:value("autogfw",translate("Auto update gfwlist and restart AdGuardHome"))
-o:value("autogfwipset",translate("Auto update ipset list and restart AdGuardHome"))
-o.widget = "checkbox"
-o.default = nil
-o.optional = false
 
 ---- Core Settings ----
 s:tab("core", translate("Core Settings"))
@@ -274,6 +268,17 @@ o.wrap = "soft"
 o.default = "https://static.adguard.com/adguardhome/release/AdGuardHome_linux_${Arch}.tar.gz\
 #https://static.adguard.com/adguardhome/beta/AdGuardHome_linux_${Arch}.tar.gz\
 https://github.com/AdguardTeam/AdGuardHome/releases/download/${latest_ver}/AdGuardHome_linux_${Arch}.tar.gz"
+
+---- Crontab Settings ----
+s:tab("crontab", translate("Crontab Settings"))
+
+o = s:taboption("crontab", MultiValue, "crontab", translate("Crontab task"),translate("Please change time and args in crontab"))
+o:value("autohost",translate("Auto update ipv6 hosts and restart AdGuardHome"))
+o:value("autogfw",translate("Auto update gfwlist and restart AdGuardHome"))
+o:value("autogfwipset",translate("Auto update ipset list and restart AdGuardHome"))
+o.widget = "checkbox"
+o.default = nil
+o.optional = false
 
 ---- GFWList Settings ----
 s:tab("gfwlist", translate("GFWList Settings"))
