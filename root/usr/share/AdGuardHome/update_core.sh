@@ -174,7 +174,12 @@ doupdate_core(){
 		esac
 	fi
 	echo -e "start download" 
-	grep -v "^#" /usr/share/AdGuardHome/links.txt >/tmp/AdHlinks.txt
+	downloadlinks=$(uci get AdGuardHome.AdGuardHome.downloadlinks 2>/dev/null)
+	if [ -z "$downloadlinks" ]; then
+		echo "No download links configured in UCI"
+		EXIT 1
+	fi
+	echo "$downloadlinks" | grep -v "^#" >/tmp/AdG_links.txt
 	while read link
 	do
 		[ -n "$link" ] || continue
@@ -186,9 +191,9 @@ doupdate_core(){
 		else
 			local success="1"
 			break
-		fi 
-	done < "/tmp/AdHlinks.txt"
-	rm /tmp/AdHlinks.txt
+		fi
+	done < "/tmp/AdG_links.txt"
+	rm /tmp/AdG_links.txt
 	[ -z "$success" ] && echo "no download success" && EXIT 1
 	if [ "${link##*.}" == "gz" ]; then
 		tar -zxf "/tmp/AdGuardHomeupdate/${link##*/}" -C "/tmp/AdGuardHomeupdate/"

@@ -15,7 +15,6 @@ LUCI_PKGARCH:=all
 LUCI_DESCRIPTION:=LuCI support for adguardhome
 
 define Package/$(PKG_NAME)/conffiles
-/usr/share/AdGuardHome/links.txt
 /etc/config/AdGuardHome
 endef
 

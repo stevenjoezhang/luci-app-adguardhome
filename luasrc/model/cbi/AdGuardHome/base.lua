@@ -280,12 +280,9 @@ o = s:taboption("core", TextValue, "downloadlinks",translate("Download links for
 o.optional = false
 o.rows = 4
 o.wrap = "soft"
-o.cfgvalue = function(self, section)
-	return fs.readfile("/usr/share/AdGuardHome/links.txt")
-end
-o.write = function(self, section, value)
-	fs.writefile("/usr/share/AdGuardHome/links.txt", value:gsub("\r\n", "\n"))
-end
+o.default = "https://static.adguard.com/adguardhome/release/AdGuardHome_linux_${Arch}.tar.gz\n\
+#https://static.adguard.com/adguardhome/beta/AdGuardHome_linux_${Arch}.tar.gz\n\
+https://github.com/AdguardTeam/AdGuardHome/releases/download/${latest_ver}/AdGuardHome_linux_${Arch}.tar.gz"
 
 ---- GFWList Settings ----
 s:tab("gfwlist", translate("GFWList Settings"))

@@ -8,7 +8,6 @@
                 "/usr/share/AdGuardHome/getsyslog.sh": [ "exec" ],
                 "/usr/share/AdGuardHome/gfw2adg.sh": [ "exec" ],
                 "/usr/share/AdGuardHome/gfwipset2adg.sh": [ "exec" ],
-                "/usr/share/AdGuardHome/links.txt": [ "read" ],
                 "/usr/share/AdGuardHome/update_core.sh": [ "exec" ],
                 "/usr/share/AdGuardHome/waitnet.sh": [ "exec" ],
                 "/usr/share/AdGuardHome/watchconfig.sh": [ "exec" ],
@@ -20,8 +19,7 @@
 		},
 		"write": {
             "file": {
-                "/usr/share/AdGuardHome/AdGuardHome_template.yaml": [ "write" ],
-                "/usr/share/AdGuardHome/links.txt": [ "write" ]
+                "/usr/share/AdGuardHome/AdGuardHome_template.yaml": [ "write" ]
             },
 			"uci": [ "AdGuardHome", "adguardhome" ]
 		}
