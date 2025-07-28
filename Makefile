@@ -26,7 +26,6 @@ define Package/$(PKG_NAME)/preinst
 		add ucitrack AdGuardHome
 		set ucitrack.@AdGuardHome[-1].init=AdGuardHome
 		commit ucitrack
-		delete AdGuardHome.AdGuardHome.ucitracktest
 	EOF
 	rm -f /tmp/luci-indexcache
 exit 0

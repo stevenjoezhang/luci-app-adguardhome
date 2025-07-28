@@ -355,29 +355,5 @@ o.datatype    = "string"
 o.optional = false
 
 fs.writefile("/var/run/AdG_log_pos","0")
-function m.on_commit(map)
-	if (fs.access("/var/run/AdG_disabled")) then
-		io.popen("/etc/init.d/AdGuardHome reload &")
-		return
-	end
-	local ucitracktest=uci:get("AdGuardHome","AdGuardHome","ucitracktest")
-	if ucitracktest=="1" then
-		return
-	elseif ucitracktest=="0" then
-		io.popen("/etc/init.d/AdGuardHome reload &")
-	else
-		if (fs.access("/var/run/AdG_luci_test")) then
-			uci:set("AdGuardHome","AdGuardHome","ucitracktest","0")
-			io.popen("/etc/init.d/AdGuardHome reload &")
-		else
-			fs.writefile("/var/run/AdG_luci_test","")
-			if (ucitracktest=="2") then
-				uci:set("AdGuardHome","AdGuardHome","ucitracktest","1")
-			else
-				uci:set("AdGuardHome","AdGuardHome","ucitracktest","2")
-			end
-		end
-		uci:commit("AdGuardHome")
-	end
-end
+
 return m

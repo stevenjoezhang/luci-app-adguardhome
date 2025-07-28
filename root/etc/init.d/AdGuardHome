@@ -303,7 +303,6 @@ config_editor()
 }
 
 boot_service() {
-	rm /var/run/AdG_disabled >/dev/null 2>&1
 	config_load "${CONFIGURATION}"
 	config_get waitonboot $CONFIGURATION waitonboot "0"
 	config_get_bool enabled $CONFIGURATION enabled 0
@@ -360,7 +359,6 @@ backup() {
 }
 start_service() {
 	# Reading config
-	rm /var/run/AdG_disabled >/dev/null 2>&1
 	config_load "${CONFIGURATION}"
 	# update password
 	config_get username $CONFIGURATION username ""
@@ -472,7 +470,6 @@ start_service() {
 }
 reload_service()
 {
-	rm /var/run/AdG_luci_test >/dev/null 2>&1
 	echo "AdGuardHome reloading"
 	start
 }
@@ -506,7 +503,6 @@ stop_service()
 		fi
 	fi
 	echo "AdGuardHome service disabled"
-	touch /var/run/AdG_disabled
 }
 boot() {
 	rc_procd boot_service "$@"
