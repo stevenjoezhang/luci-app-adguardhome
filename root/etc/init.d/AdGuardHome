@@ -16,8 +16,7 @@ EXTRA_HELP="        do_redirect 0 or 1\
 		isrunning"
 start_forward_dnsmasq()
 {
-	local PORT="$1"
-	addr="127.0.0.1#$PORT"
+	addr="127.0.0.1#$AdGuardHome_PORT"
 	OLD_SERVER="`uci get dhcp.@dnsmasq[0].server 2>/dev/null`"
 	echo $OLD_SERVER | grep "^$addr" >/dev/null 2>&1
 	if [ $? -eq 0 ]; then
@@ -157,9 +156,6 @@ do_redirect()
 _do_redirect()
 {
 	local section="$CONFIGURATION"
-	args=""
-	ipv6_server=1
-	tcp_server=0
 	enabled=$1
 	config_get configpath $CONFIGURATION configpath "/etc/AdGuardHome.yaml"
 	AdGuardHome_PORT=$(config_editor "dns.port" "" "$configpath" "1")
@@ -198,18 +194,15 @@ _do_redirect()
 	uci add_list AdGuardHome.@AdGuardHome[0].old_enabled="$enabled" 2>/dev/null
 	uci commit AdGuardHome
 
-	if [ "$enabled" == "0" ]; then
+	if [ "$enabled" == "0" ] || [ "$AdGuardHome_PORT" == "0" ]; then
 		echo -n "0">/var/run/AdG_redir
-		return 1
-	fi
-	if [ "$AdGuardHome_PORT" == "0" ]; then
 		return 1
 	fi
 	redirected=1
 	if [ "$redirect" = "redirect" ]; then
 		set_iptable
 	elif [ "$redirect" = "dnsmasq-upstream" ]; then
-		start_forward_dnsmasq "$AdGuardHome_PORT"
+		start_forward_dnsmasq
 	elif [ "$redirect" == "exchange" -a "$(uci get dhcp.@dnsmasq[0].port 2>/dev/null)" == "53" ]; then
 		use_port53
 	else

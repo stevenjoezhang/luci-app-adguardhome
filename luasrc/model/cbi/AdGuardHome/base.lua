@@ -44,7 +44,6 @@ o.template = "AdGuardHome/AdGuardHome_chpass"
 o.optional = false
 
 -- update warning not safe
-local binmtime=uci:get("AdGuardHome","AdGuardHome","binmtime") or "0"
 local e=""
 if not fs.access(configpath) then
 	e=e.." "..translate("no config")
@@ -52,23 +51,16 @@ end
 if not fs.access(binpath) then
 	e=e.." "..translate("no core")
 else
-	local version=uci:get("AdGuardHome","AdGuardHome","version")
-	local testtime=fs.stat(binpath,"mtime")
-	if testtime~=tonumber(binmtime) or version==nil then
-		local tmp=luci.sys.exec(binpath.." --version 2>/dev/null | grep -m 1 -E '[0-9]+[.][Bbeta0-9\.\-]+' -o")
-		version=string.sub(tmp, 1, -2)
-		if version=="" then version="core error" end
-		uci:set("AdGuardHome","AdGuardHome","version",version)
-		uci:set("AdGuardHome","AdGuardHome","binmtime",testtime)
-		uci:commit("AdGuardHome")
-	end
+	local tmp=luci.sys.exec(binpath.." --version 2>/dev/null | grep -m 1 -E '[0-9]+[.][Bbeta0-9\.\-]+' -o")
+	local version=string.sub(tmp, 1, -2)
+	if version=="" then version="core error" end
 	e=version..e
 end
 o = s:taboption("basic", Button,"restart",translate("Update"))
 o.inputtitle=translate("Update core version")
 o.template = "AdGuardHome/AdGuardHome_update"
 o.showfastconfig=(not fs.access(configpath))
-o.description=string.format(translate("core version:").."<strong><font id=\"updateversion\" color=\"green\">%s </font></strong>",e)
+o.description=string.format(translate("Core version:").." <strong><font id=\"updateversion\" color=\"green\">%s </font></strong>",e)
 
 -- Redirect
 o = s:taboption("basic", ListValue, "redirect", translate("DNS Redirect"), translate("AdGuardHome redirect mode"))
@@ -208,7 +200,7 @@ o.description=translate("Reduce executable size, but may have compatibility issu
 o.rmempty = true
 
 -- config path
-o = s:taboption("core", Value, "configpath", translate("Config path"), translate("AdGuardHome config path"))
+o = s:taboption("core", Value, "configpath", translate("Config path"))
 o.default     = "/etc/AdGuardHome.yaml"
 o.datatype    = "string"
 o.optional = false

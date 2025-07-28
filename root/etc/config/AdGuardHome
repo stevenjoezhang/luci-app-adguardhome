@@ -8,4 +8,4 @@ config AdGuardHome 'AdGuardHome'
 	option verbose '0'
 	option binpath '/usr/bin/AdGuardHome/AdGuardHome'
 	option upxflag ''
-
+	option upprotect '$binpath $configpath'

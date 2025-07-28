@@ -65,8 +65,8 @@ msgstr "强制更新"
 msgid "Fast config"
 msgstr "快速配置"
 
-msgid "core version:"
-msgstr "核心版本:"
+msgid "Core version:"
+msgstr "核心版本："
 
 #description change
 msgid "no config"
@@ -130,9 +130,6 @@ msgstr "减小执行文件空间占用，但是可能压缩后有兼容性问题
 
 msgid "Config path"
 msgstr "配置文件路径"
-
-msgid "AdGuardHome config path"
-msgstr "AdGuardHome 配置文件路径"
 
 msgid "Work dir"
 msgstr "工作目录"
