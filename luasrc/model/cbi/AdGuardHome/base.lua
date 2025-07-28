@@ -28,7 +28,7 @@ o = s:taboption("basic", Value, "httpport", translate("Browser management port")
 o.default=3000
 o.datatype="port"
 o.optional = false
-o.description = translate("<input type=\"button\" style=\"width:210px;border-color:Teal; text-align:center;font-weight:bold;color:Green;\" value=\"AdGuardHome Web: "..httpport.."\" onclick=\"window.open('http://'+window.location.hostname+':"..httpport.."/')\"/>")
+o.description = translate("<input type=\"button\" class=\"cbi-button cbi-button-apply\" value=\"AdGuardHome Web: "..httpport.."\" onclick=\"window.open('http://'+window.location.hostname+':"..httpport.."/')\"/>")
 
 -- username
 o = s:taboption("basic", Value, "username", translate("Browser management username"), translate("If no change is needed, leave it empty"))
@@ -265,9 +265,9 @@ o = s:taboption("core", TextValue, "downloadlinks",translate("Download links for
 o.optional = false
 o.rows = 4
 o.wrap = "soft"
-o.default = "https://static.adguard.com/adguardhome/release/AdGuardHome_linux_${Arch}.tar.gz\
-#https://static.adguard.com/adguardhome/beta/AdGuardHome_linux_${Arch}.tar.gz\
-https://github.com/AdguardTeam/AdGuardHome/releases/download/${latest_ver}/AdGuardHome_linux_${Arch}.tar.gz"
+o.default = [[https://static.adguard.com/adguardhome/release/AdGuardHome_linux_${Arch}.tar.gz
+#https://static.adguard.com/adguardhome/beta/AdGuardHome_linux_${Arch}.tar.gz
+https://github.com/AdguardTeam/AdGuardHome/releases/download/${latest_ver}/AdGuardHome_linux_${Arch}.tar.gz]]
 
 ---- Crontab Settings ----
 s:tab("crontab", translate("Crontab Settings"))
