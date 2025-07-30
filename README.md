@@ -8,22 +8,19 @@ Download `.ipk` and `.apk` from [Releases](https://github.com/stevenjoezhang/luc
 
 ## Features
 
-- AdGuard Home service port management
-- Download/update core in LuCI interface (supports custom URL download)
-  - For `.tar.gz` files, the file structure must match the official one
-  - Or directly use the main program binary
-- Compress core with `upx` (`xz` dependency, the script will auto download if needed. If `opkg` source can't connect, please include this package during compilation)
+- AdGuard Home service port, username and password management
+- Download/update core in LuCI interface (supports custom download URL)
+- Compress core with `upx`, reducing storage space usage
 - DNS redirection methods:
-  - As the upstream of `dnsmasq` (IP in AdGuard Home statistics will show as `127.0.0.1`, unable to track clients and adjust settings accordingly)
   - Redirect port 53 to AdGuard Home (Directly using the system firewall settings, offers better compatibility with `nftables` and also supports IPv6 redirection)
-  - Replace `dnsmasq` with port 53 (needs AdGuard Home configuration with `dnsip=0.0.0.0`, ports of `dnsmasq` and AdGuard Home will be exchanged)
+  - As the upstream of `dnsmasq` (IP in AdGuard Home statistics will show as `127.0.0.1`, unable to track clients and adjust settings accordingly)
+  - Replace `dnsmasq` with port 53 (Ports of `dnsmasq` and AdGuard Home will be exchanged, AdGuard Home will use port 53)
 - Customization options:
   - Customize executable file path (supports `/tmp`, auto redownload after reboot)
   - Customize config file path
   - Customize work directory
   - Customize runtime log path
 - GFWList query to specific DNS server. Also check out [luci-app-autoipsetadder](https://github.com/rufengsuixing/luci-app-autoipsetadder)
-- Modify AdGuard Home login password
 - View/delete/backup runtime log in positive/reverse order with 3-second updates + local browser timezone conversion
 - Manual configuration:
   - YAML editor support
@@ -34,6 +31,13 @@ Download `.ipk` and `.apk` from [Releases](https://github.com/stevenjoezhang/luc
 - Scheduled tasks (default values, time and parameters adjustable in scheduler):
   - Auto update IPv6 hosts and restart AdGuard Home (hourly, no restart if no updates)
   - Auto update GFW list and restart AdGuard Home (`3:30/day`, no restart if no updates)
+
+## Dependencies
+
+- `wget` or `curl` (for downloading core)
+- `upx` and `xz` (optional, for core compression)
+
+Note: the plugin will install dependencies with `opkg` automatically if not present. However, if the `opkg` source is not available in your distribution, you need to include these packages during OpenWrt compilation.
 
 ## Known Issues
 
@@ -53,10 +57,11 @@ Also, compression trades RAM for ROM space, which consumes more memory during ru
 
 ## OpenClash Combination Methods
 
-1. **GFW Proxy**: DNS redirect - as `dnsmasq`'s upstream server
-2. **GFW Proxy**: Manually set AdGuard Home upstream DNS to `127.0.0.1:[your listening port]`, then use DNS redirect - use port 53 to replace `dnsmasq` (after port exchange, `dnsmasq` becomes the upstream)
-3. **Foreign IP Proxy**: Any redirect method - add GFW list to AdGuard Home, enable scheduled task to update GFW regularly
-4. **GFW Proxy**: DNS redirect - redirect port 53 to AdGuard Home, set AdGuard Home upstream DNS to `127.0.0.1:53`
+OpenClash and other proxy plugins often include DNS redirection features. When used with AdGuard Home, careful configuration is needed to avoid conflicts or DNS query issues. Here are recommended combination methods:
+1. Disable DNS redirection in the proxy plugin to avoid modifying `dnsmasq` settings or setting firewall rules that may conflict.
+2. Record the DNS server address and port provided by the proxy plugin, e.g., OpenClash's default port is 7874.
+3. Set AdGuard Home's upstream DNS to the proxy plugin's DNS server address and port, e.g., `1127.0.0.1:7874`.
+4. Enable DNS redirection in AdGuard Home plugin settings to redirect port 53 to AdGuard Home.
 
 ## Screenshots
 
