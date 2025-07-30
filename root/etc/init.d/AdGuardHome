@@ -60,7 +60,7 @@ stop_forward_dnsmasq()
 	/etc/init.d/dnsmasq restart
 }
 
-set_iptable()
+set_firewall()
 {
 	uci set firewall.adguardhome_redirect="redirect"
 	uci set firewall.adguardhome_redirect.target="DNAT"
@@ -74,7 +74,7 @@ set_iptable()
 	echo "firewall rules updated."
 }
 
-clear_iptable()
+clear_firewall()
 {
 	redirects=$(uci show firewall | grep "firewall.adguardhome_redirect")
 	if [ -z "$redirects" ]; then
@@ -114,7 +114,7 @@ rm_port53()
 	local AdGuardHome_PORT=$(config_editor "dns.port" "" "$configpath" "1")
 	dnsmasq_port=$(uci get dhcp.@dnsmasq[0].port 2>/dev/null)
 	if [ -z "$dnsmasq_port" ]; then
-	dnsmasq_port="53"
+		dnsmasq_port="53"
 	fi
 	if [ "$dnsmasq_port" == "$AdGuardHome_PORT" ]; then
 		if [ "$dnsmasq_port" == "53" ]; then
@@ -174,7 +174,7 @@ _do_redirect()
 	if [ "$old_redirect" != "$redirect" ] || [ "$old_port" != "$AdGuardHome_PORT" ] || [ "$old_enabled" = "1" -a "$enabled" = "0" ]; then
 		if [ "$old_redirect" != "none" ]; then
 			if [  "$old_redirect" == "redirect" -a "$old_port" != "0" ]; then
-				clear_iptable
+				clear_firewall
 			elif [ "$old_redirect" == "dnsmasq-upstream" ]; then
 				stop_forward_dnsmasq "$old_port"
 			elif [ "$old_redirect" == "exchange" ]; then
@@ -183,7 +183,7 @@ _do_redirect()
 		fi
 	elif [ "$old_enabled" = "1" -a "$enabled" = "1" ]; then
 		if [  "$old_redirect" == "redirect" -a "$old_port" != "0" ]; then
-			clear_iptable
+			clear_firewall
 		fi
 	fi
 	uci delete AdGuardHome.@AdGuardHome[0].old_redirect 2>/dev/null
@@ -200,7 +200,7 @@ _do_redirect()
 	fi
 	redirected=1
 	if [ "$redirect" = "redirect" ]; then
-		set_iptable
+		set_firewall
 	elif [ "$redirect" = "dnsmasq-upstream" ]; then
 		start_forward_dnsmasq
 	elif [ "$redirect" == "exchange" -a "$(uci get dhcp.@dnsmasq[0].port 2>/dev/null)" == "53" ]; then
@@ -355,7 +355,6 @@ start_service() {
 		config_editor "users.password" "$hashpass" "$configpath"
 		uci set $CONFIGURATION.$CONFIGURATION.hashpass=""
 	fi
-	local enabled
 	local ipst=0
 	config_get_bool enabled $CONFIGURATION enabled 0
 	# update crontab
@@ -394,15 +393,6 @@ start_service() {
 		ln -s /tmp/sessions.db $workdir/data/sessions.db 2>/dev/null
 		fi
 	fi
-	local ADDITIONAL_ARGS=""
-	config_get binpath $CONFIGURATION binpath "/usr/bin/AdGuardHome/AdGuardHome"
-
-	mkdir -p ${binpath%/*}
-	ADDITIONAL_ARGS="$ADDITIONAL_ARGS -c $configpath"
-	ADDITIONAL_ARGS="$ADDITIONAL_ARGS -w $workdir"
-	config_get httpport $CONFIGURATION httpport 3000
-	ADDITIONAL_ARGS="$ADDITIONAL_ARGS -p $httpport"
-	ADDITIONAL_ARGS="$ADDITIONAL_ARGS --no-check-update"
 
 	# hack to save config file when upgrade system
 	config_get upprotect $CONFIGURATION upprotect ""
@@ -419,15 +409,20 @@ start_service() {
 		fi
 	fi
 
-	config_get logfile $CONFIGURATION logfile ""
-	if [ -n "$logfile" ]; then
-		ADDITIONAL_ARGS="$ADDITIONAL_ARGS -l $logfile"
-	fi
-
+	config_get binpath $CONFIGURATION binpath "/usr/bin/AdGuardHome/AdGuardHome"
+	mkdir -p ${binpath%/*}
 	if [ ! -f "$binpath" ]; then
 		_do_redirect 0
 		/usr/share/AdGuardHome/update_core.sh 2>&1 >/tmp/AdGuardHome_update.log &
 		exit 0
+	fi
+
+	config_get httpport $CONFIGURATION httpport 3000
+	local ADDITIONAL_ARGS=" -c $configpath -w $workdir -p $httpport --no-check-update"
+
+	config_get logfile $CONFIGURATION logfile ""
+	if [ -n "$logfile" ]; then
+		ADDITIONAL_ARGS="$ADDITIONAL_ARGS -l $logfile"
 	fi
 
 	config_get_bool verbose $CONFIGURATION verbose 0
@@ -468,21 +463,21 @@ reload_service()
 }
 
 del_querylog(){
-local btarget=$(ls $backupwdpath/data | grep -F "querylog.json" | sort -r | head -n 1)
-local wtarget=$(ls $workdir/data | grep -F "querylog.json" | sort -r | head -n 1)
-if [ "$btarget"x == "$wtarget"x ]; then
-	[ -z "$btarget" ] && return 1
-	rm -f $workdir/data/$wtarget
-	rm -f $backupwdpath/data/$btarget
-	return 0
-fi
-if [ "$btarget" \> "$wtarget" ]; then
-	rm -f $backupwdpath/data/$btarget
-	return 0
-else
-	rm -f $workdir/data/$wtarget
-	return 0
-fi
+	local btarget=$(ls $backupwdpath/data | grep -F "querylog.json" | sort -r | head -n 1)
+	local wtarget=$(ls $workdir/data | grep -F "querylog.json" | sort -r | head -n 1)
+	if [ "$btarget"x == "$wtarget"x ]; then
+		[ -z "$btarget" ] && return 1
+		rm -f $workdir/data/$wtarget
+		rm -f $backupwdpath/data/$btarget
+		return 0
+	fi
+	if [ "$btarget" \> "$wtarget" ]; then
+		rm -f $backupwdpath/data/$btarget
+		return 0
+	else
+		rm -f $workdir/data/$wtarget
+		return 0
+	fi
 }
 stop_service()
 {
@@ -504,15 +499,14 @@ boot() {
 	fi
 }
 test_crontab(){
-config_load "${CONFIGURATION}"
-do_crontab
+	config_load "${CONFIGURATION}"
+	do_crontab
 }
 do_crontab(){
 	config_get_bool enabled $CONFIGURATION enabled 0
 	config_get crontab $CONFIGURATION crontab ""
-	local findstr default cronenable replace commit
+	local findstr default cronenable replace
 	local cronreload=0
-	local commit=0
 
 	findstr="/usr/share/AdGuardHome/addhost.sh"
 	default="0 * * * * /usr/share/AdGuardHome/addhost.sh"
@@ -530,7 +524,6 @@ do_crontab(){
 	[ "$enabled" == "0" ] || [ "${crontab//autogfwipset/}" == "$crontab" ] && cronenable=0 || cronenable=1
 	crontab_editor
 	[ "$cronreload" -gt 0 ] && /etc/init.d/cron restart
-	#[ "$commit" -gt 0 ] && uci commit AdGuardHome
 }
 crontab_editor(){
 	[ ! -f "$CRON_FILE" ] && mkdir -p ${CRON_FILE%/*} && touch "$CRON_FILE" && chmod 600 "$CRON_FILE"
@@ -542,7 +535,7 @@ crontab_editor(){
 	#output:cronreload:if >1 please /etc/init.d/cron restart manual
 	local testline reload
 	local line="$(grep "$findstr" $CRON_FILE)"
-	[ -n "$replace" ] && [ -n "$line" ] && eval testline="\${line//$replace}" && [ "$testline" != "$line" ] && line="$testline" && reload="1" && replace="" 
+	[ -n "$replace" ] && [ -n "$line" ] && eval testline="\${line//$replace}" && [ "$testline" != "$line" ] && line="$testline" && reload="1" && replace=""
 	if [ "${line:0:1}" != "#" ]; then
 		if [ $cronenable -eq 1 ]; then
 			[ -z "$line" ] && line="$default" && reload="1"
