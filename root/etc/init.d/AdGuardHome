@@ -431,7 +431,7 @@ start_service() {
 	fi
 
 	procd_open_instance
-	SET_TZ="`uci get system.@system[0].timezone2 2>/dev/null`"
+	SET_TZ="`uci get system.@system[0].timezone 2>/dev/null`"
 	if [ -n "$SET_TZ" ]; then
 		procd_set_param env TZ="$SET_TZ"
 	fi
