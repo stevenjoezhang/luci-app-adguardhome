@@ -9,7 +9,7 @@ local binpath=uci:get("AdGuardHome","AdGuardHome","binpath") or "/usr/bin/AdGuar
 httpport=uci:get("AdGuardHome","AdGuardHome","httpport") or "3000"
 m = Map("AdGuardHome", "AdGuard Home")
 m.description = translate("Free and open source, powerful network-wide ads & trackers blocking DNS server")
-m:section(SimpleSection).template  = "AdGuardHome/AdGuardHome_status"
+m:section(SimpleSection).template  = "AdGuardHome/status"
 
 s = m:section(TypedSection, "AdGuardHome")
 s.anonymous=true
@@ -40,7 +40,7 @@ o.optional = false
 o = s:taboption("basic", Value, "hashpass", translate("Browser management password"), translate("Press culculate and then save/apply").."<br/>"..translate("If no change is needed, leave it empty"))
 o.default     = ""
 o.datatype    = "string"
-o.template = "AdGuardHome/AdGuardHome_chpass"
+o.template = "AdGuardHome/chpass"
 o.optional = false
 
 -- update warning not safe
@@ -61,7 +61,7 @@ if not fs.access(configpath) then
 end
 o = s:taboption("basic", Button,"restart",translate("Update"))
 o.inputtitle=translate("Update core version")
-o.template = "AdGuardHome/AdGuardHome_update"
+o.template = "AdGuardHome/update"
 o.showfastconfig = (not fs.access(configpath))
 o.description = string.format(translate("Core version:").." <strong><font color=green>%s</font></strong><br/>"..translate("If you've modified any related core settings, please save/apply the changes before clicking Update"), e)
 
