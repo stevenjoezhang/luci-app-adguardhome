@@ -8,7 +8,7 @@ local configpath=uci:get("AdGuardHome","AdGuardHome","configpath") or "/etc/AdGu
 local binpath=uci:get("AdGuardHome","AdGuardHome","binpath") or "/usr/bin/AdGuardHome/AdGuardHome"
 httpport=uci:get("AdGuardHome","AdGuardHome","httpport") or "3000"
 m = Map("AdGuardHome", "AdGuard Home")
-m.description = translate("Free and open source, powerful network-wide ads & trackers blocking DNS server")
+m.description = translate("Free and open source, powerful network-wide ads & trackers blocking DNS server").."<br/>"..translate("<a href=\"https://github.com/stevenjoezhang/luci-app-adguardhome\" target=\"_blank\">⭐ Star on GitHub</a>")
 m:section(SimpleSection).template  = "AdGuardHome/status"
 
 s = m:section(TypedSection, "AdGuardHome")
@@ -319,14 +319,14 @@ a="Added"
 else
 a="Not added"
 end
-o=s:taboption("gfwlist", Button,"gfwipsetdel",translate("Del gfwlist")..translate("(ipset only)"),translate(a))
+o=s:taboption("gfwlist", Button,"gfwipsetdel",translate("Del gfwlist").." "..translate("(ipset only)"),translate(a))
 o.optional = false
 o.inputtitle=translate("Del")
 o.write=function()
 	luci.sys.exec("sh /usr/share/AdGuardHome/gfwipset2adg.sh del 2>&1")
 	luci.http.redirect(luci.dispatcher.build_url("admin","services","AdGuardHome"))
 end
-o=s:taboption("gfwlist", Button,"gfwipsetadd",translate("Add gfwlist")..translate("(ipset only)"),translate(a).." "..translate("will set to name gfwlist"))
+o=s:taboption("gfwlist", Button,"gfwipsetadd",translate("Add gfwlist").." "..translate("(ipset only)"),translate(a).." "..translate("will set to name gfwlist"))
 o.optional = false
 o.inputtitle=translate("Add")
 o.write=function()
