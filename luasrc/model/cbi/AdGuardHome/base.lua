@@ -79,65 +79,6 @@ o = s:taboption("basic", Flag, "waitonboot", translate("Restart when the network
 o.default = 1
 o.optional = false
 
--- upgrade protect
-o = s:taboption("basic", DynamicList, "upprotect", translate("Keep files when system upgrade"))
-o:value("$binpath",translate("core executable"))
-o:value("$configpath",translate("config file"))
-o:value("$logfile",translate("log file"))
-o:value("$workdir/data/filters","filters")
-o:value("$workdir/data/stats.db","stats.db")
-o:value("$workdir/data/querylog.json","querylog.json")
-o:value("$workdir/data/sessions.db","sessions.db")
-o.default = nil
-o.optional = false
-
--- backup workdir on shutdown
-local workdir=uci:get("AdGuardHome","AdGuardHome","workdir") or "/usr/bin/AdGuardHome"
-o = s:taboption("basic", MultiValue, "backupfile", translate("Backup workdir files when shutdown"))
-o1 = s:taboption("basic", Value, "backupwdpath", translate("Backup workdir path"))
-local name
-o:value("filters","filters")
-o:value("stats.db","stats.db")
-o:value("querylog.json","querylog.json")
-o:value("sessions.db","sessions.db")
-o1:depends ("backupfile", "filters")
-o1:depends ("backupfile", "stats.db")
-o1:depends ("backupfile", "querylog.json")
-o1:depends ("backupfile", "sessions.db")
-for name in fs.glob(workdir.."/data/*")
-do
-	name=fs.basename (name)
-	if name~="filters" and name~="stats.db" and name~="querylog.json" and name~="sessions.db" then
-		o:value(name,name)
-		o1:depends ("backupfile", name)
-	end
-end
-o.widget = "checkbox"
-o.default = nil
-o.optional=false
-o.description=translate("Will be restore when workdir/data is empty")
-
--- backup workdir path
-
-o1.default     = "/usr/bin/AdGuardHome"
-o1.datatype    = "string"
-o1.optional = false
-o1.validate=function(self, value)
-if fs.stat(value,"type")=="reg" then
-	if m.message then
-	m.message =m.message.."\nerror!backup dir is a file"
-	else
-	m.message ="error!backup dir is a file"
-	end
-	return nil
-end
-if string.sub(value,-1)=="/" then
-	return string.sub(value, 1, -2)
-else
-	return value
-end
-end
-
 ---- Core Settings ----
 s:tab("core", translate("Core Settings"))
 
@@ -268,6 +209,68 @@ o.wrap = "soft"
 o.default = [[https://static.adguard.com/adguardhome/release/AdGuardHome_linux_${Arch}.tar.gz
 #https://static.adguard.com/adguardhome/beta/AdGuardHome_linux_${Arch}.tar.gz
 https://github.com/AdguardTeam/AdGuardHome/releases/download/${latest_ver}/AdGuardHome_linux_${Arch}.tar.gz]]
+
+---- Backup Settings ----
+s:tab("backup", translate("Backup Settings"))
+
+-- upgrade protect
+o = s:taboption("backup", DynamicList, "upprotect", translate("Keep files when system upgrade"))
+o:value("$binpath",translate("core executable"))
+o:value("$configpath",translate("config file"))
+o:value("$logfile",translate("log file"))
+o:value("$workdir/data/filters","filters")
+o:value("$workdir/data/stats.db","stats.db")
+o:value("$workdir/data/querylog.json","querylog.json")
+o:value("$workdir/data/sessions.db","sessions.db")
+o.default = nil
+o.optional = false
+
+-- backup workdir on shutdown
+local workdir=uci:get("AdGuardHome","AdGuardHome","workdir") or "/usr/bin/AdGuardHome"
+o = s:taboption("backup", MultiValue, "backupfile", translate("Backup workdir files when shutdown"))
+o1 = s:taboption("backup", Value, "backupwdpath", translate("Backup workdir path"))
+local name
+o:value("filters","filters")
+o:value("stats.db","stats.db")
+o:value("querylog.json","querylog.json")
+o:value("sessions.db","sessions.db")
+o1:depends ("backupfile", "filters")
+o1:depends ("backupfile", "stats.db")
+o1:depends ("backupfile", "querylog.json")
+o1:depends ("backupfile", "sessions.db")
+for name in fs.glob(workdir.."/data/*")
+do
+	name=fs.basename (name)
+	if name~="filters" and name~="stats.db" and name~="querylog.json" and name~="sessions.db" then
+		o:value(name,name)
+		o1:depends ("backupfile", name)
+	end
+end
+o.widget = "checkbox"
+o.default = nil
+o.optional=false
+o.description=translate("Will be restore when workdir/data is empty")
+
+-- backup workdir path
+
+o1.default     = "/usr/bin/AdGuardHome"
+o1.datatype    = "string"
+o1.optional = false
+o1.validate=function(self, value)
+if fs.stat(value,"type")=="reg" then
+	if m.message then
+	m.message =m.message.."\nerror!backup dir is a file"
+	else
+	m.message ="error!backup dir is a file"
+	end
+	return nil
+end
+if string.sub(value,-1)=="/" then
+	return string.sub(value, 1, -2)
+else
+	return value
+end
+end
 
 ---- Crontab Settings ----
 s:tab("crontab", translate("Crontab Settings"))
