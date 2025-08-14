@@ -15,6 +15,9 @@ msgstr "基础设置"
 msgid "Core Settings"
 msgstr "核心设置"
 
+msgid "Crontab Settings"
+msgstr "计划任务设置"
+
 msgid "GFWList Settings"
 msgstr "GFWList 设置"
 
