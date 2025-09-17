@@ -1,6 +1,6 @@
 # LuCI App AdGuard Home
 
-Advanced OpenWrt LuCI app for AdGuard Home
+A powerful LuCI interface for managing AdGuard Home - a DNS-based ad and tracker blocker that protects all devices on your network
 
 [中文 README](README.CN.md)
 

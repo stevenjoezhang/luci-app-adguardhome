@@ -1,6 +1,6 @@
 # LuCI App AdGuard Home
 
-先进的 OpenWrt AdGuard Home LuCI 界面应用
+AdGuard Home 的强大 LuCI 界面 - 基于 DNS 的广告和跟踪阻止程序，保护您网络上的所有设备
 
 ## 功能特点
 
