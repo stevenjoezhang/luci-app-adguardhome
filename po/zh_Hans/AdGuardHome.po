@@ -208,7 +208,7 @@ msgid "Is empty"
 msgstr "为空"
 
 msgid "Press culculate and then save/apply"
-msgstr "点击计算 然后保存并应用"
+msgstr "点击计算，然后保存并应用"
 
 msgid "If no change is needed, leave it empty"
 msgstr "如果不需要修改，请保持为空"
