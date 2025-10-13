@@ -358,7 +358,7 @@ start_service() {
 	local ipst=0
 	config_get_bool enabled $CONFIGURATION enabled 0
 	# update crontab
-	do_crontab
+	update_crontab
 	echo "luci enable switch=$enabled"
 	if [ "$enabled" == "0" ]; then
 		_do_redirect 0
@@ -483,7 +483,7 @@ stop_service()
 {
 	config_load "${CONFIGURATION}"
 	_do_redirect 0
-	do_crontab
+	update_crontab
 	if [ "$1" != "nobackup" ]; then
 		config_get backupfile $CONFIGURATION backupfile "0"
 		if [ -n "$backupfile" ]; then
@@ -500,9 +500,9 @@ boot() {
 }
 test_crontab(){
 	config_load "${CONFIGURATION}"
-	do_crontab
+	update_crontab
 }
-do_crontab(){
+update_crontab(){
 	config_get_bool enabled $CONFIGURATION enabled 0
 	config_get crontab $CONFIGURATION crontab ""
 	local findstr default cronenable replace
