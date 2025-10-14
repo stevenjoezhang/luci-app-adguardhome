@@ -14,10 +14,10 @@ jobs:
     steps:
       - name: Build LuCI Package
         id: build
-        uses: stevenjoezhang/build-luci-app@v0
+        uses: stevenjoezhang/build-luci-app@v1
         with:
           package: luci-app-adguardhome
-          sdk-url: https://archive.openwrt.org/chaos_calmer/15.05.1/ar71xx/generic/OpenWrt-SDK-15.05.1-ar71xx-generic_gcc-4.8-linaro_uClibc-0.9.33.2.Linux-x86_64.tar.bz2
+          sdk-url: https://archive.openwrt.org/releases/21.02.0/targets/x86/64/openwrt-sdk-21.02.0-x86-64_gcc-8.4.0_musl.Linux-x86_64.tar.xz
           snapsdk-url: https://downloads.openwrt.org/snapshots/targets/x86/64/openwrt-sdk-x86-64_gcc-14.3.0_musl.Linux-x86_64.tar.zst
 
       - name: Create Release
