@@ -37,7 +37,7 @@ o.datatype    = "string"
 o.optional = false
 
 -- chpass
-o = s:taboption("basic", Value, "hashpass", translate("Browser management password"), translate("Press culculate and then save/apply").."<br/>"..translate("If no change is needed, leave it empty"))
+o = s:taboption("basic", Value, "hashpass", translate("Browser management password"), translate("Press calculate and then save/apply").."<br/>"..translate("If no change is needed, leave it empty"))
 o.default     = ""
 o.datatype    = "string"
 o.template = "AdGuardHome/chpass"
@@ -70,7 +70,7 @@ o = s:taboption("basic", ListValue, "redirect", translate("DNS redirect mode"))
 o:value("none", translate("None"))
 o:value("redirect", translate("Redirect 53 port to AdGuardHome"))
 o:value("dnsmasq-upstream", translate("Run as dnsmasq upstream server"))
-o:value("exchange", translate("Use port 53 replace dnsmasq"))
+o:value("exchange", translate("Use port 53 to replace dnsmasq"))
 o.default     = "none"
 o.optional = false
 

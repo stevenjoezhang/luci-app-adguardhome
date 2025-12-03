@@ -42,7 +42,7 @@ msgstr "未运行"
 msgid "Redirected"
 msgstr "已重定向"
 
-msgid "Not redirect"
+msgid "Not redirected"
 msgstr "未重定向"
 
 msgid "Collecting data..."
@@ -100,7 +100,7 @@ msgstr "作为 dnsmasq 的上游服务器"
 msgid "Redirect 53 port to AdGuardHome"
 msgstr "重定向 53 端口到 AdGuardHome"
 
-msgid "Use port 53 replace dnsmasq"
+msgid "Use port 53 to replace dnsmasq"
 msgstr "使用 53 端口替换 dnsmasq"
 
 msgid "AdGuardHome executable file path"
@@ -195,11 +195,14 @@ msgstr "gfw 列表域名上游服务器"
 msgid "Browser management password"
 msgstr "网页登录密码"
 
-msgid "Culculate"
+msgid "Calculate"
 msgstr "计算"
 
 msgid "Loading..."
 msgstr "载入中…"
+
+msgid "The password is too long"
+msgstr "密码过长"
 
 msgid "Please save/apply"
 msgstr "请提交"
@@ -207,7 +210,7 @@ msgstr "请提交"
 msgid "Is empty"
 msgstr "为空"
 
-msgid "Press culculate and then save/apply"
+msgid "Press calculate and then save/apply"
 msgstr "点击计算，然后保存并应用"
 
 msgid "If no change is needed, leave it empty"
@@ -284,7 +287,7 @@ msgstr "重新载入配置"
 msgid "WARNING!!! No executable found, config will not be tested"
 msgstr "警告！！！未找到执行文件，提交配置将不会进行校验"
 
-msgin "Configuration validation failed"
+msgid "Configuration validation failed"
 msgstr "配置校验失败"
 
 msgid "Browser management username"

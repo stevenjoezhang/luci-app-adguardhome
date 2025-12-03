@@ -19,19 +19,23 @@
 <script type="text/javascript">//<![CDATA[
 	var btn = document.getElementById('cbid.AdGuardHome.AdGuardHome.applychpass');
 	var lv = document.getElementById('cbid.AdGuardHome.AdGuardHome.hashpass');
-	btn.value = '<%:Culculate%>';
+	btn.value = '<%:Calculate%>';
 	btn.addEventListener('click', function() {
 		btn.disabled = true;
 		if (lv.value != "") {
-			btn.value = '<%:Please save/apply%>';
+			if (bcrypt.truncates(lv.value)) {
+				alert('<%:The password is too long%>');
+				return;
+			}
 			var hash = bcrypt.hashSync(lv.value, 10);
+			btn.value = '<%:Please save/apply%>';
 			lv.value = hash;
 		} else {
 			btn.value = '<%:Is empty%>';
 		}
 	});
 	lv.addEventListener('input', function() {
-		btn.value = '<%:Culculate%>';
+		btn.value = '<%:Calculate%>';
 		btn.disabled = false;
 	});
 //]]>

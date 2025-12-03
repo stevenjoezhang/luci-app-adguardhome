@@ -14,7 +14,7 @@ XHR.poll(3, '<%=url([[admin]], [[services]], [[AdGuardHome]], [[status]])%>', nu
 			{
 				status += '<font color=green>(<%:Redirected%>)</font>'
 			} else {
-				status += '<font color=red>(<%:Not redirect%>)</font>'
+				status += '<font color=red>(<%:Not redirected%>)</font>'
 			}
 			tb.innerHTML = `<em><b>${status}</b></em>`;
 		}
