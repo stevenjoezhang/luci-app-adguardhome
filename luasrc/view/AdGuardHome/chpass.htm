@@ -15,7 +15,7 @@
 		ifattr(#self.keylist > 0, "data-choices", { self.keylist, self.vallist })
 	%> />
 	<input type="button" class="cbi-button cbi-button-apply" id="cbid.AdGuardHome.AdGuardHome.applychpass" value="<%:Loading...%>"/>
-<script type="text/javascript" src="<%=resource%>/twin-bcrypt.min.js"></script>
+<script type="text/javascript" src="<%=resource%>/bcrypt.min.js"></script>
 <script type="text/javascript">//<![CDATA[
 	var btn = document.getElementById('cbid.AdGuardHome.AdGuardHome.applychpass');
 	var lv = document.getElementById('cbid.AdGuardHome.AdGuardHome.hashpass');
@@ -24,7 +24,7 @@
 		btn.disabled = true;
 		if (lv.value != "") {
 			btn.value = '<%:Please save/apply%>';
-			var hash = TwinBcrypt.hashSync(lv.value);
+			var hash = bcrypt.hashSync(lv.value, 10);
 			lv.value = hash;
 		} else {
 			btn.value = '<%:Is empty%>';
