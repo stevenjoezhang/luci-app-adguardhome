@@ -59,18 +59,16 @@ doupx(){
 
 	um="$(uname -m)"
 	case "$um" in
-		i386)          Arch="i386" ;;
-		i686)          Arch="i386"; echo "i686 use $Arch may have bug" ;;
-		x86_64)        Arch="amd64" ;;
-		aarch64)       Arch="arm64" ;;
-		armeb)         Arch="armeb" ;;
-		arm)           Arch="arm" ;;
-		mips64el)      Arch="mipsel"; echo "mips64el use $Arch may have bug" ;;
-		mips64)        Arch="mips"; echo "mips64 use $Arch may have bug" ;;
-		mipsel)        Arch="mipsel" ;;
-		mips)          Arch="mips" ;;
-		ppc)           Arch="powerpc" ;;
-		ppc64|ppc64le) Arch="powerpc64le" ;;
+		i386)     Arch="i386" ;;
+		i686)     Arch="i386"; echo "i686 use $Arch may have bug" ;;
+		x86_64)   Arch="amd64" ;;
+		aarch64)  Arch="arm64" ;;
+		arm*)     Arch="arm" ;;
+		mips64el) Arch="mipsel"; echo "mips64el use $Arch may have bug" ;;
+		mips64)   Arch="mips"; echo "mips64 use $Arch may have bug" ;;
+		mipsel)   Arch="mipsel" ;;
+		mips)     Arch="mips" ;;
+		ppc64le)  Arch="powerpc64le" ;;
 		*) echo "Error: $um is not supported"; exit 1 ;;
 	esac
 	upx_latest_ver="$($downloader - https://api.github.com/repos/upx/upx/releases/latest 2>/dev/null|grep -E 'tag_name' |grep -E '[0-9.]+' -o 2>/dev/null)"
@@ -103,7 +101,7 @@ doupdate_core(){
 		mips64)        Arch="mips64_softfloat" ;;
 		mipsel)        Arch="mipsle_softfloat" ;;
 		mips)          Arch="mips_softfloat" ;;
-		ppc64|ppc64le) Arch="ppc64le" ;;
+		ppc64le)       Arch="ppc64le" ;;
 		riscv|riscv64) Arch="riscv64" ;;
 		*) echo "Error: $um is not supported"; exit 1 ;;
 	esac
