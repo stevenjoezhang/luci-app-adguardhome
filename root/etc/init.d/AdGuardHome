@@ -321,7 +321,7 @@ backup() {
 			echo "$cpret"
 			echo "$cpret" | grep "no space left on device"
 			if [ "$?" == "0" ]; then
-				echo "磁盘已满,删除log重试中"
+				echo "disk full, deleting log and retrying"
 				del_querylog && continue
 				rm -f -r $backupwdpath/data/filters
 				rm -f -r $workdir/data/filters && continue

@@ -9,19 +9,19 @@
 <script src="/luci-static/resources/codemirror/addon/fold/indent-fold.js"></script>
 <script type="text/javascript">//<![CDATA[
 var editor = CodeMirror.fromTextArea(document.getElementById("cbid.AdGuardHome.AdGuardHome.escconf"), {
-mode: "text/yaml",    //实现groovy代码高亮
+mode: "text/yaml",  // Code highlighting mode
 styleActiveLine: true,
-lineNumbers: true,	//显示行号
-theme: "dracula",	//设置主题
-lineWrapping: true,	//代码折叠
+lineNumbers: true,	// Show line numbers
+theme: "dracula",	// Set theme to Dracula
+lineWrapping: true,	// Enable line wrapping
 foldGutter: true,
 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-matchBrackets: true //括号匹配
+matchBrackets: true // Enable bracket matching
 }
 );
-// 设置编辑器占满容器宽度
+// Set editor size
 editor.setSize("100%", "70vh");
-// 窗口大小改变时自动调整
+// Refresh editor on window resize
 window.addEventListener('resize', function() {
     editor.refresh();
 });
