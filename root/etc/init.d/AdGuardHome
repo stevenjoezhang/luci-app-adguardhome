@@ -332,12 +332,32 @@ backup() {
 	done
 }
 
+_expand_upprotect_path() {
+    local in="$1"
+    local out="$in"
+
+    [ -n "$binpath" ]     && out="${out//\$binpath/$binpath}"
+    [ -n "$configpath" ]  && out="${out//\$configpath/$configpath}"
+    [ -n "$logfile" ]     && out="${out//\$logfile/$logfile}"
+    [ -n "$workdir" ]     && out="${out//\$workdir/$workdir}"
+
+    case "$out" in
+        *'$'*)
+            logger "AdGuardHome" "upprotect reject unsafe path: $in"
+            return 1
+        ;;
+    esac
+
+    echo "$out"
+}
+
 _add_upprotect_file()
 {
-	local file="$1"
+	local raw="$1"
+	local expanded
 	# Expand variables in the file path
-	local expanded_file=$(eval echo "$file")
-	echo "$expanded_file" >> /lib/upgrade/keep.d/luci-app-adguardhome
+	expanded="$(_expand_upprotect_path "$raw")" || return 0
+	echo "$expanded" >> /lib/upgrade/keep.d/luci-app-adguardhome
 }
 
 start_service() {
@@ -398,12 +418,13 @@ start_service() {
 	config_get upprotect $CONFIGURATION upprotect ""
 	if [ -n "$upprotect" ]; then
 		# Handle both old MultiValue format (space-separated) and new DynamicList format
+		echo -n > /lib/upgrade/keep.d/luci-app-adguardhome
 		if echo "$upprotect" | grep -q " "; then
 			# Old format: space-separated values
-			eval upprotect=${upprotect// /\\\\n}
-			echo -e "$upprotect">/lib/upgrade/keep.d/luci-app-adguardhome
+			for one in $upprotect; do
+				_add_upprotect_file "$one"
+			done
 		else
-			echo -n > /lib/upgrade/keep.d/luci-app-adguardhome
 			# New format: UCI list, get all values
 			config_list_foreach $CONFIGURATION upprotect _add_upprotect_file
 		fi
@@ -494,7 +515,7 @@ stop_service()
 }
 boot() {
 	rc_procd boot_service "$@"
-	if eval "type service_started" 2>/dev/null >/dev/null; then
+	if type service_started >/dev/null 2>&1; then
 		service_started
 	fi
 }
