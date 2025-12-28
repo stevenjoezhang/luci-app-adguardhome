@@ -212,7 +212,9 @@ doupdate_core(){
 	while read link
 	do
 		[ -n "$link" ] || continue
-		eval link="$link"
+		link="${link//\$\{latest_ver\}/$latest_ver}"
+		link="${link//\$\{Arch\}/$Arch}"
+
 		echo "Trying to download from: $link"
 		$downloader /tmp/AdGuardHomeupdate/${link##*/} "$link" 2>&1
 		if [ "$?" != "0" ]; then
