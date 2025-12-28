@@ -58,63 +58,20 @@ doupx(){
 	echo "Start running upx. It may take a long time..."
 
 	um="$(uname -m)"
-
 	case "$um" in
-    "i386")
-        Arch="i386"
-        ;;
-
-    "i686")
-        Arch="i386"
-        echo "i686 use $Arch may have bug"
-        ;;
-
-    "x86_64")
-        Arch="amd64"
-        ;;
-
-    "mipsel")
-        Arch="mipsel"
-        ;;
-
-    "mips64el")
-        Arch="mipsel"
-        echo "mips64el use $Arch may have bug"
-        ;;
-
-    "mips")
-        Arch="mips"
-        ;;
-
-    "mips64")
-        Arch="mips"
-        echo "mips64 use $Arch may have bug"
-        ;;
-
-    "arm")
-        Arch="arm"
-        ;;
-
-    "armeb")
-        Arch="armeb"
-        ;;
-
-    "aarch64")
-        Arch="arm64"
-        ;;
-
-    "powerpc")
-        Arch="powerpc"
-        ;;
-
-    "powerpc64")
-        Arch="powerpc64"
-        ;;
-
-    *)
-        echo "Error: $um is not supported"
-        exit 1
-        ;;
+		i386)          Arch="i386" ;;
+		i686)          Arch="i386"; echo "i686 use $Arch may have bug" ;;
+		x86_64)        Arch="amd64" ;;
+		aarch64)       Arch="arm64" ;;
+		armeb)         Arch="armeb" ;;
+		arm)           Arch="arm" ;;
+		mips64el)      Arch="mipsel"; echo "mips64el use $Arch may have bug" ;;
+		mips64)        Arch="mips"; echo "mips64 use $Arch may have bug" ;;
+		mipsel)        Arch="mipsel" ;;
+		mips)          Arch="mips" ;;
+		ppc)           Arch="powerpc" ;;
+		ppc64|ppc64le) Arch="powerpc64le" ;;
+		*) echo "Error: $um is not supported"; exit 1 ;;
 	esac
 	upx_latest_ver="$($downloader - https://api.github.com/repos/upx/upx/releases/latest 2>/dev/null|grep -E 'tag_name' |grep -E '[0-9.]+' -o 2>/dev/null)"
 	$downloader /tmp/upx-${upx_latest_ver}-${Arch}_linux.tar.xz "https://github.com/upx/upx/releases/download/v${upx_latest_ver}/upx-${upx_latest_ver}-${Arch}_linux.tar.xz" 2>&1
@@ -134,73 +91,22 @@ doupdate_core(){
 	rm -rf /tmp/AdGuardHomeupdate/* >/dev/null 2>&1
 	Arch=$(uci -q get AdGuardHome.AdGuardHome.arch)
 	if [ -z "$Arch" ]; then
-    um="$(uname -m)"
-    case "$um" in
-        # ------------ x86 32/64 ------------
-        i386|i486|i586|i686|i786)
-            Arch="386"
-            ;;
-
-        x86_64)
-            Arch="amd64"
-            ;;
-
-        # ------------ MIPS 32/64 -----------
-        mipsel)
-            Arch="mipsle_softfloat"
-            ;;
-
-        mips64el)
-            Arch="mips64le_softfloat"
-            ;;
-
-        mips)
-            Arch="mips_softfloat"
-            ;;
-
-        mips64)
-            Arch="mips64_softfloat"
-            ;;
-
-        # ------------ ARM 32 --------------
-        armv5*)
-            Arch="armv5"
-            ;;
-
-        armv6*)
-            Arch="armv6"
-            ;;
-
-        armv7*)
-            Arch="armv7"
-            ;;
-
-        armv8l)
-            Arch="armv7"
-            ;;
-
-        # ------------ ARM 64 --------------
-        aarch64)
-            Arch="arm64"
-            ;;
-
-        # ------------ PowerPC -------------
-        ppc)
-            Arch="ppc"
-            echo "error not support $um"
-            exit 1
-            ;;
-
-        ppc64|ppc64le)
-            Arch="ppc64le"
-            ;;
-
-        # ------------ Others ----------
-        *)
-            echo "Error: $um is not supported"
-            exit 1
-            ;;
-    esac
+	um="$(uname -m)"
+	case "$um" in
+		i386|i686)     Arch="386" ;;
+		x86_64)        Arch="amd64" ;;
+		aarch64)       Arch="arm64" ;;
+		armv5*)        Arch="armv5" ;;
+		armv6*)        Arch="armv6" ;;
+		armv7*|armv8l) Arch="armv7" ;;
+		mips64el)      Arch="mips64le_softfloat" ;;
+		mips64)        Arch="mips64_softfloat" ;;
+		mipsel)        Arch="mipsle_softfloat" ;;
+		mips)          Arch="mips_softfloat" ;;
+		ppc64|ppc64le) Arch="ppc64le" ;;
+		riscv|riscv64) Arch="riscv64" ;;
+		*) echo "Error: $um is not supported"; exit 1 ;;
+	esac
 	fi
 	echo "Start download..."
 	downloadlinks=$(uci get AdGuardHome.AdGuardHome.downloadlinks 2>/dev/null)
