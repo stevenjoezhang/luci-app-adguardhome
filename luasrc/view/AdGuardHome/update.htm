@@ -55,11 +55,15 @@ function poll_check(){
 				var lv = document.getElementById('cbid.logview.1.conf');
 				if (x.responseText && lv) {
 					var response = x.responseText;
-					var finishMarker = "[Update Finished]";
-					var isFinished = response.indexOf(finishMarker) !== -1;
+					var successMarker = "[Update Succeeded]";
+					var failMarker = "[Update Failed]";
+					var isSuccess = response.indexOf(successMarker) !== -1;
+					var isFailed = response.indexOf(failMarker) !== -1;
 
-					if (isFinished) {
-						response = response.replace(finishMarker, "");
+					if (isSuccess) {
+						response = response.replace(successMarker, "");
+					} else if (isFailed) {
+						response = response.replace(failMarker, "");
 					}
 
 					if (response.length > 0) {
@@ -70,10 +74,15 @@ function poll_check(){
 						}
 					}
 
-					if (isFinished) {
+					if (isSuccess) {
+						isPolling = false;
+						updatebtn.disabled = true;
+						updatebtn.value    = '<%:Updated%>';
+						return;
+					} else if (isFailed) {
 						isPolling = false;
 						updatebtn.disabled = false;
-						updatebtn.value    = '<%:Updated%>';
+						updatebtn.value    = '<%:Update core version%>';
 						return;
 					}
 				}

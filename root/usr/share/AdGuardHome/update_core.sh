@@ -165,7 +165,7 @@ doupdate_core(){
 	EXIT 0
 }
 EXIT(){
-	rm /var/run/AdG_update_core_error 2>/dev/null
+	[ "$1" != "0" ] && touch /var/run/AdG_update_core_error
 	exit $1
 }
 main(){

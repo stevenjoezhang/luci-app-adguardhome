@@ -100,6 +100,12 @@ function check_update()
 if luci.sys.call("pgrep -f /usr/share/AdGuardHome/update_core.sh >/dev/null") == 0 then
 	http.write(a)
 else
-	http.write(a.."[Update Finished]")
+	-- Check for AdG_update_core_error
+	if fs.access("/var/run/AdG_update_core_error") then
+		a=a.."[Update Failed]"
+	else
+		a=a.."[Update Succeeded]"
+	end
+	http.write(a)
 end
 end
