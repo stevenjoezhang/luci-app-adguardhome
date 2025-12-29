@@ -1,5 +1,6 @@
 <%+cbi/valueheader%>
 <%local fs=require"nixio.fs"%>
+<%local sys=require"luci.sys"%>
 <input type="button" class="cbi-button cbi-button-apply" id="apply_update_button" value="<%:Update core version%>" onclick=" return apply_update() "/>
 <input type="button" class="cbi-button cbi-button-apply" id="apply_forceupdate_button" value="<%:Force update%>" onclick=" return apply_forceupdate()" style="display:none"/>
 <% if self.showfastconfig then %>
@@ -65,7 +66,7 @@ XHR.poll(3, '<%=url([[admin]], [[services]], [[AdGuardHome]], [[check]])%>', nul
 		}
 	}
 );}
-<% if fs.access("/var/run/AdG_update_core") then %>
+<% if sys.call("pgrep -f /usr/share/AdGuardHome/update_core.sh >/dev/null") == 0 then %>
 	updatebtn.disabled = true;
 	updatebtn.value    = '<%:Updating...%>';
 	forceupdatebtn.style.display="inline"

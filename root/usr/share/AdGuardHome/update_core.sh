@@ -9,8 +9,10 @@ mkdir -p ${binpath%/*}
 upxflag=$(uci get AdGuardHome.AdGuardHome.upxflag 2>/dev/null)
 
 check_if_already_running(){
-	running_tasks="$(ps |grep "AdGuardHome" |grep "update_core" |grep -v "grep" |awk '{print $1}' |wc -l)"
-	[ "${running_tasks}" -gt "2" ] && echo -e "\nA task is already running." && EXIT 2
+	if pgrep -f "/usr/share/AdGuardHome/update_core.sh" | grep -v "^$$$" > /dev/null; then
+		echo "A task is already running."
+		exit 2
+	fi
 }
 
 check_wgetcurl(){
@@ -159,20 +161,20 @@ doupdate_core(){
 	fi
 	/etc/init.d/AdGuardHome start
 	rm -rf "/tmp/AdGuardHomeupdate" >/dev/null 2>&1
-	echo -e "Core updated successfully. New version: ${latest_ver}.\n"
+	echo "Core updated successfully. New version: ${latest_ver}."
 	EXIT 0
 }
 EXIT(){
-	rm /var/run/AdG_update_core 2>/dev/null
-	[ "$1" != "0" ] && touch /var/run/AdG_update_core_error
+	rm /var/run/AdG_update_core_error 2>/dev/null
 	exit $1
 }
 main(){
-
 	check_if_already_running
+
+	trap "EXIT 1" SIGTERM SIGINT
+	rm /var/run/AdG_update_core_error 2>/dev/null
+
 	check_latest_version $1
 }
-	trap "EXIT 1" SIGTERM SIGINT
-	touch /var/run/AdG_update_core
-	rm /var/run/AdG_update_core_error 2>/dev/null
-	main $1
+
+main $1

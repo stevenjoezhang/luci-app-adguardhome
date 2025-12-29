@@ -49,9 +49,9 @@ function do_update()
 	else
 		arg=""
 	end
-	if fs.access("/var/run/AdG_update_core") then
+	if luci.sys.call("pgrep -f /usr/share/AdGuardHome/update_core.sh >/dev/null") == 0 then
 		if arg=="force" then
-			luci.sys.exec("kill $(pgrep /usr/share/AdGuardHome/update_core.sh) ; sh /usr/share/AdGuardHome/update_core.sh "..arg.." >/tmp/AdGuardHome_update.log 2>&1 &")
+			luci.sys.exec("kill $(pgrep -f /usr/share/AdGuardHome/update_core.sh) ; sh /usr/share/AdGuardHome/update_core.sh "..arg.." >/tmp/AdGuardHome_update.log 2>&1 &")
 		end
 	else
 		luci.sys.exec("sh /usr/share/AdGuardHome/update_core.sh "..arg.." >/tmp/AdGuardHome_update.log 2>&1 &")
@@ -97,7 +97,7 @@ function check_update()
 	fdp=f:seek()
 	fs.writefile("/var/run/AdG_log_pos",tostring(fdp))
 	f:close()
-if fs.access("/var/run/AdG_update_core") then
+if luci.sys.call("pgrep -f /usr/share/AdGuardHome/update_core.sh >/dev/null") == 0 then
 	http.write(a)
 else
 	http.write(a.."\0")
