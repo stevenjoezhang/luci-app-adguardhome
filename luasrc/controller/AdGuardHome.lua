@@ -100,6 +100,6 @@ function check_update()
 if luci.sys.call("pgrep -f /usr/share/AdGuardHome/update_core.sh >/dev/null") == 0 then
 	http.write(a)
 else
-	http.write(a.."\0")
+	http.write(a.."[Update Finished]")
 end
 end
