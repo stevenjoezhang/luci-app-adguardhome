@@ -16,30 +16,23 @@ var forceupdatebtn = document.getElementById('apply_forceupdate_button');
 var islogreverse = false;
 var isPolling = false;
 function apply_forceupdate(){
-	XHR.get('<%=url([[admin]], [[services]], [[AdGuardHome]], [[doupdate]])%>',{ force: 1 },function(x, data){}
-		);
 	updatebtn.disabled = true;
-	poll_check();
-	return
+	XHR.get('<%=url([[admin]], [[services]], [[AdGuardHome]], [[doupdate]])%>',{ force: 1 },function(x, data){
+		poll_check();
+	});
 }
 function reverselog(){
 	var lv = document.getElementById('cbid.logview.1.conf');
-	lv.innerHTML=lv.innerHTML.split('\n').reverse().join('\n')
-	if (islogreverse){
-	islogreverse=false;
-	}else{
-	islogreverse=true;
-	}
-	return
+	lv.innerHTML=lv.innerHTML.split('\n').reverse().join('\n');
+	islogreverse = !islogreverse;
 }
 function apply_update(){
-	XHR.get('<%=url([[admin]], [[services]], [[AdGuardHome]], [[doupdate]])%>',null,function(x, data){}
-		);
 	updatebtn.disabled = true;
 	updatebtn.value    = '<%:Updating...%>';
-	forceupdatebtn.style.display="inline"
-	poll_check();
-	return
+	forceupdatebtn.style.display="inline";
+	XHR.get('<%=url([[admin]], [[services]], [[AdGuardHome]], [[doupdate]])%>',null,function(x, data){
+		poll_check();
+	});
 }
 function poll_check(){
 	if (isPolling) return;

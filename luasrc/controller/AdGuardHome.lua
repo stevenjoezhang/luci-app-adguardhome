@@ -29,7 +29,7 @@ end
 function reload_config()
 	fs.remove("/tmp/AdGuardHometmpconfig.yaml")
 	http.prepare_content("application/json")
-	http.write('')
+	http.write("{}")
 end
 function act_status()
 	local e={}
@@ -41,8 +41,6 @@ function act_status()
 end
 function do_update()
 	fs.writefile("/var/run/AdG_log_pos","0")
-	http.prepare_content("application/json")
-	http.write('')
 	local arg
 	if luci.http.formvalue("force") == "1" then
 		arg="force"
@@ -56,6 +54,8 @@ function do_update()
 	else
 		luci.sys.exec("sh /usr/share/AdGuardHome/update_core.sh "..arg.." >/tmp/AdGuardHome_update.log 2>&1 &")
 	end
+	http.prepare_content("application/json")
+	http.write("{}")
 end
 function get_log()
 	local logfile=uci:get("AdGuardHome","AdGuardHome","logfile")
@@ -86,7 +86,7 @@ function do_dellog()
 	local logfile=uci:get("AdGuardHome","AdGuardHome","logfile")
 	fs.writefile(logfile,"")
 	http.prepare_content("application/json")
-	http.write('')
+	http.write("{}")
 end
 function check_update()
 	http.prepare_content("text/plain; charset=utf-8")
