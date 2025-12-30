@@ -60,17 +60,23 @@ doupx(){
 	echo "Start running upx. It may take a long time..."
 
 	um="$(uname -m)"
+	OPENWRT_ARCH="$(awk -F'=' '/^OPENWRT_ARCH=/{gsub(/"/,"",$2); split($2,a,"_"); print a[1]}' /etc/os-release)"
 	case "$um" in
-		i386)     Arch="i386" ;;
-		i686)     Arch="i386"; echo "i686 use $Arch may have bug" ;;
-		x86_64)   Arch="amd64" ;;
-		aarch64)  Arch="arm64" ;;
-		arm*)     Arch="arm" ;;
-		mips64el) Arch="mipsel"; echo "mips64el use $Arch may have bug" ;;
-		mips64)   Arch="mips"; echo "mips64 use $Arch may have bug" ;;
-		mipsel)   Arch="mipsel" ;;
-		mips)     Arch="mips" ;;
-		ppc64le)  Arch="powerpc64le" ;;
+		i386)    Arch="i386" ;;
+		i686)    Arch="i386"; echo "i686 use $Arch may have bug" ;;
+		x86_64)  Arch="amd64" ;;
+		aarch64) Arch="arm64" ;;
+		arm*)    Arch="arm" ;;
+		mips*)
+			case "$OPENWRT_ARCH" in
+				mips64el) Arch="mipsel"; echo "mips64el use $Arch may have bug" ;;   # 64‑bit little‑endian
+				mips64)   Arch="mips"; echo "mips64 use $Arch may have bug"   ;;   # 64‑bit big‑endian
+				mipsel)   Arch="mipsel"   ;;   # 32‑bit little‑endian
+				mips)     Arch="mips"     ;;   # 32‑bit big‑endian
+				*) echo "Error: unknown OpenWrt MIPS flavour '$OPENWRT_ARCH'"; exit 1 ;;
+			esac
+			;;
+		ppc64le) Arch="powerpc64le" ;;
 		*) echo "Error: $um is not supported"; exit 1 ;;
 	esac
 	upx_latest_ver="$($downloader - https://api.github.com/repos/upx/upx/releases/latest 2>/dev/null|grep -E 'tag_name' |grep -E '[0-9.]+' -o 2>/dev/null)"
@@ -92,6 +98,7 @@ doupdate_core(){
 	Arch=$(uci -q get AdGuardHome.AdGuardHome.arch)
 	if [ -z "$Arch" ]; then
 	um="$(uname -m)"
+	OPENWRT_ARCH="$(awk -F'=' '/^OPENWRT_ARCH=/{gsub(/"/,"",$2); split($2,a,"_"); print a[1]}' /etc/os-release)"
 	case "$um" in
 		i386|i686)     Arch="386" ;;
 		x86_64)        Arch="amd64" ;;
@@ -99,10 +106,15 @@ doupdate_core(){
 		armv5*)        Arch="armv5" ;;
 		armv6*)        Arch="armv6" ;;
 		armv7*|armv8l) Arch="armv7" ;;
-		mips64el)      Arch="mips64le_softfloat" ;;
-		mips64)        Arch="mips64_softfloat" ;;
-		mipsel)        Arch="mipsle_softfloat" ;;
-		mips)          Arch="mips_softfloat" ;;
+		mips*)
+			case "$OPENWRT_ARCH" in
+				mips64el) Arch="mips64le_softfloat" ;;   # 64‑bit little‑endian
+				mips64)   Arch="mips64_softfloat"   ;;   # 64‑bit big‑endian
+				mipsel)   Arch="mipsle_softfloat"   ;;   # 32‑bit little‑endian
+				mips)     Arch="mips_softfloat"     ;;   # 32‑bit big‑endian
+				*) echo "Error: unknown OpenWrt MIPS flavour '$OPENWRT_ARCH'"; exit 1 ;;
+			esac
+			;;
 		ppc64le)       Arch="ppc64le" ;;
 		riscv|riscv64) Arch="riscv64" ;;
 		*) echo "Error: $um is not supported"; exit 1 ;;
