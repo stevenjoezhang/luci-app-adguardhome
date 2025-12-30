@@ -76,7 +76,7 @@ doupx(){
 				*) echo "Error: unknown OpenWrt MIPS flavour '$OPENWRT_ARCH'"; exit 1 ;;
 			esac
 			;;
-		ppc64le) Arch="powerpc64le" ;;
+		ppc*) Arch="powerpc64le" ;;
 		*) echo "Error: $um is not supported"; exit 1 ;;
 	esac
 	upx_latest_ver="$($downloader - https://api.github.com/repos/upx/upx/releases/latest 2>/dev/null|grep -E 'tag_name' |grep -E '[0-9.]+' -o 2>/dev/null)"
@@ -115,7 +115,7 @@ doupdate_core(){
 				*) echo "Error: unknown OpenWrt MIPS flavour '$OPENWRT_ARCH'"; exit 1 ;;
 			esac
 			;;
-		ppc64le)       Arch="ppc64le" ;;
+		ppc*)          Arch="ppc64le" ;;
 		riscv|riscv64) Arch="riscv64" ;;
 		*) echo "Error: $um is not supported"; exit 1 ;;
 	esac
