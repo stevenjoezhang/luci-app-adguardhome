@@ -9,6 +9,7 @@
 <script type="text/javascript">//<![CDATA[
 var islogreverse = true;
 var isutc2local = <%=tostring(self.timereplace)%>;
+var logPos = 0;
 function createAndDownloadFile(fileName, content) {
     var aTag = document.createElement('a');
     var blob = new Blob([content]);
@@ -26,10 +27,11 @@ function download_log(){
 }
 function apply_del_log(){
 	XHR.get('<%=url([[admin]], [[services]], [[AdGuardHome]], [[dodellog]])%>',null,function(x, data){
-	var lv = document.getElementById('cbid.logview.1.conf');
+		var lv = document.getElementById('cbid.logview.1.conf');
 		lv.innerHTML="";
+		logPos = 0;
 	}
-		);
+	);
 	return
 }
 function chlogtime(){
@@ -77,28 +79,38 @@ if (dt != "Invalid Date"){
 return strt
 }
 function poll_check(){
-XHR.poll(3, '<%=url([[admin]], [[services]], [[AdGuardHome]], [[getlog]])%>', null,
-	function(x, data) {
-		var lv = document.getElementById('cbid.logview.1.conf');
-		if (x.responseText && lv) {
-			if (isutc2local)
-			{
-				var lines=line_tolocal(x.responseText);
-				if (islogreverse){
-					lv.innerHTML = lines.reverse().join('\n')+lv.innerHTML;
-				}else{
-					lv.innerHTML += lines.join('\n');
+	(function do_poll(){
+		XHR.get('<%=url([[admin]], [[services]], [[AdGuardHome]], [[getlog]])%>' + '?pos=' + encodeURIComponent(logPos), null,
+			function(x, data){
+				var lv = document.getElementById('cbid.logview.1.conf');
+
+				if (!data) return;
+				var response = data.content || "";
+				if (response.length > 0) {
+					if (isutc2local) {
+						var lines = line_tolocal(response);
+						if (islogreverse) {
+							lv.innerHTML = lines.reverse().join('\n') + lv.innerHTML;
+						} else {
+							lv.innerHTML += lines.join('\n');
+						}
+					} else {
+						if (islogreverse) {
+							lv.innerHTML = response.split('\n').reverse().join('\n') + lv.innerHTML;
+						} else {
+							lv.innerHTML += response;
+						}
+					}
 				}
-			}else{
-				if (islogreverse){
-					lv.innerHTML = x.responseText.split('\n').reverse().join('\n')+lv.innerHTML;
-				}else{
-					lv.innerHTML += x.responseText;
+				if (data.pos !== undefined && data.pos !== null) {
+					logPos = parseInt(data.pos, 10) || logPos;
 				}
+
+				setTimeout(do_poll, 3000);
 			}
-		}
-	}
-);}
+		);
+	})();
+}
 <%if self.pollcheck then%>
 poll_check();
 <%else%>

@@ -57,9 +57,10 @@ function do_update()
 	http.write("{}")
 end
 function get_log()
+	http.prepare_content("application/json")
 	local logfile=uci:get("AdGuardHome","AdGuardHome","logfile")
 	if (logfile==nil) then
-		http.write("no log available\n")
+		http.write_json({ pos = 0, content = "" })
 		return
 	elseif (logfile=="syslog") then
 		if not fs.access("/var/run/AdG_syslog") then
@@ -68,18 +69,21 @@ function get_log()
 		logfile="/tmp/AdGuardHome.log"
 		fs.writefile("/var/run/AdG_syslog","1")
 	elseif not fs.access(logfile) then
-		http.write("")
+		http.write_json({ pos = 0, content = "" })
 		return
 	end
-	http.prepare_content("text/plain; charset=utf-8")
-	local fdp=tonumber(fs.readfile("/var/run/AdG_log_pos")) or 0
-	local f=io.open(logfile, "r+")
-	f:seek("set",fdp)
-	local a=f:read(2048000) or ""
-	fdp=f:seek()
-	fs.writefile("/var/run/AdG_log_pos",tostring(fdp))
-	f:close()
-	http.write(a)
+	-- support client-managed position via ?pos=
+	local pos = tonumber(luci.http.formvalue("pos")) or 0
+	local f = io.open(logfile, "r")
+	local content = ""
+	local newpos = pos
+	if f then
+		f:seek("set", pos)
+		content = f:read(2048000) or ""
+		newpos = f:seek()
+		f:close()
+	end
+	http.write_json({ pos = newpos, content = content })
 end
 function do_dellog()
 	local logfile=uci:get("AdGuardHome","AdGuardHome","logfile")
