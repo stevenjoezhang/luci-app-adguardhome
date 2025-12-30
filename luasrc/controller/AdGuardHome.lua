@@ -40,7 +40,6 @@ function act_status()
 	http.write_json(e)
 end
 function do_update()
-	fs.writefile("/var/run/AdG_log_pos","0")
 	local arg
 	if luci.http.formvalue("force") == "1" then
 		arg="force"
@@ -89,23 +88,31 @@ function do_dellog()
 	http.write("{}")
 end
 function check_update()
-	http.prepare_content("text/plain; charset=utf-8")
-	local fdp=tonumber(fs.readfile("/var/run/AdG_log_pos")) or 0
-	local f=io.open("/tmp/AdGuardHome_update.log", "r+")
-	f:seek("set",fdp)
-	local a=f:read(2048000) or ""
-	fdp=f:seek()
-	fs.writefile("/var/run/AdG_log_pos",tostring(fdp))
-	f:close()
-if luci.sys.call("pgrep -f /usr/share/AdGuardHome/update_core.sh >/dev/null") == 0 then
-	http.write(a)
-else
-	-- Check for AdG_update_core_error
-	if fs.access("/var/run/AdG_update_core_error") then
-		a=a.."[Update Failed]"
-	else
-		a=a.."[Update Succeeded]"
+	-- Now supports client-managed position: accepts `pos` param and returns JSON
+	local pos = tonumber(luci.http.formvalue("pos")) or 0
+	local fpath = "/tmp/AdGuardHome_update.log"
+	local content = ""
+	local newpos = pos
+	if fs.access(fpath) then
+		local f = io.open(fpath, "r")
+		if f then
+			f:seek("set", pos)
+			content = f:read(2048000) or ""
+			newpos = f:seek()
+			f:close()
+		end
 	end
-	http.write(a)
-end
+
+	local running = luci.sys.call("pgrep -f /usr/share/AdGuardHome/update_core.sh >/dev/null") == 0
+	local status
+	if running then
+		status = "running"
+	elseif fs.access("/var/run/AdG_update_core_error") then
+		status = "failed"
+	else
+		status = "succeeded"
+	end
+
+	http.prepare_content("application/json")
+	http.write_json({ pos = newpos, content = content, status = status })
 end

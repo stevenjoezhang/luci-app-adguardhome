@@ -16,10 +16,12 @@ var forceupdatebtn = document.getElementById('apply_forceupdate_button');
 var lv = document.getElementById('cbid.logview.1.conf');
 var islogreverse = false;
 var isPolling = false;
+var logPos = 0;
 function apply_forceupdate(){
 	updatebtn.disabled = true;
+	logPos = 0;
+	lv.innerHTML = "";
 	XHR.get('<%=url([[admin]], [[services]], [[AdGuardHome]], [[doupdate]])%>',{ force: 1 },function(x, data){
-		lv.innerHTML = "";
 		poll_check();
 	});
 }
@@ -31,8 +33,9 @@ function apply_update(){
 	updatebtn.disabled = true;
 	updatebtn.value    = '<%:Updating...%>';
 	forceupdatebtn.style.display="inline";
+	logPos = 0;
+	lv.innerHTML = "";
 	XHR.get('<%=url([[admin]], [[services]], [[AdGuardHome]], [[doupdate]])%>',null,function(x, data){
-		lv.innerHTML = "";
 		poll_check();
 	});
 }
@@ -45,40 +48,32 @@ function poll_check(){
 	(function do_poll() {
 		if (!isPolling) return;
 
-		XHR.get('<%=url([[admin]], [[services]], [[AdGuardHome]], [[check]])%>', null,
+		XHR.get('<%=url([[admin]], [[services]], [[AdGuardHome]], [[check]])%>' + '?pos=' + encodeURIComponent(logPos), null,
 			function(x, data) {
-				if (x.responseText) {
-					var response = x.responseText;
-					var successMarker = "[Update Succeeded]";
-					var failMarker = "[Update Failed]";
-					var isSuccess = response.indexOf(successMarker) !== -1;
-					var isFailed = response.indexOf(failMarker) !== -1;
-
-					if (isSuccess) {
-						response = response.replace(successMarker, "");
-					} else if (isFailed) {
-						response = response.replace(failMarker, "");
+				if (!data) return;
+				var response = data.content || "";
+				if (response.length > 0) {
+					if (islogreverse){
+						lv.innerHTML = response.split('\n').reverse().join('\n') + lv.innerHTML;
+					} else {
+						lv.innerHTML += response;
 					}
+				}
 
-					if (response.length > 0) {
-						if (islogreverse){
-							lv.innerHTML = response.split('\n').reverse().join('\n') + lv.innerHTML;
-						}else{
-							lv.innerHTML += response;
-						}
-					}
+				if (data.pos !== undefined && data.pos !== null) {
+					logPos = parseInt(data.pos, 10) || logPos;
+				}
 
-					if (isSuccess) {
-						isPolling = false;
+				if (data.status && data.status !== 'running') {
+					isPolling = false;
+					if (data.status === 'succeeded') {
 						updatebtn.disabled = true;
 						updatebtn.value    = '<%:Updated%>';
-						return;
-					} else if (isFailed) {
-						isPolling = false;
+					} else if (data.status === 'failed') {
 						updatebtn.disabled = false;
 						updatebtn.value    = '<%:Update core version%>';
-						return;
 					}
+					return;
 				}
 
 				if (isPolling) {

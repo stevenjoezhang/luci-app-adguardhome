@@ -342,6 +342,4 @@ o.default     = "tcp://208.67.220.220:5353"
 o.datatype    = "string"
 o.optional = false
 
-fs.writefile("/var/run/AdG_log_pos","0")
-
 return m
