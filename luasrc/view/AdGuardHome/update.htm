@@ -88,7 +88,7 @@ function poll_check(){
 	updatebtn.value    = '<%:Updating...%>';
 	forceupdatebtn.style.display="inline"
 	poll_check();
-<%elseif fs.access("/var/run/AdG_update_core_error") then %>
+<%elseif fs.access("/var/run/AdG_update_error") then %>
 	poll_check();
 <%end%>
 //]]>

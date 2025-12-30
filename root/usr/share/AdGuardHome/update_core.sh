@@ -177,14 +177,14 @@ doupdate_core(){
 	EXIT 0
 }
 EXIT(){
-	[ "$1" != "0" ] && touch /var/run/AdG_update_core_error
+	[ "$1" != "0" ] && touch /var/run/AdG_update_error
 	exit $1
 }
 main(){
 	check_if_already_running
 
 	trap "EXIT 1" SIGTERM SIGINT
-	rm /var/run/AdG_update_core_error 2>/dev/null
+	rm /var/run/AdG_update_error 2>/dev/null
 
 	check_latest_version $1
 }

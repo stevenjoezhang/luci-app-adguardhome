@@ -111,7 +111,7 @@ function check_update()
 	local status
 	if running then
 		status = "running"
-	elseif fs.access("/var/run/AdG_update_core_error") then
+	elseif fs.access("/var/run/AdG_update_error") then
 		status = "failed"
 	else
 		status = "succeeded"
