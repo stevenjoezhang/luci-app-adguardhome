@@ -10,7 +10,7 @@ PKG_VERSION:=1.16
 PKG_MAINTAINER:=<https://github.com/stevenjoezhang/luci-app-adguardhome>
 
 LUCI_TITLE:=LuCI app for AdGuard Home
-LUCI_DEPENDS:=+!wget&&!curl&&!wget-ssl:curl
+LUCI_DEPENDS:=+!wget&&!curl:curl
 LUCI_PKGARCH:=all
 LUCI_DESCRIPTION:=A powerful LuCI interface for managing AdGuard Home - a DNS-based ad and tracker blocker that protects all devices on your network
 
