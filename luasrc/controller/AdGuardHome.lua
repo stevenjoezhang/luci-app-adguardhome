@@ -79,7 +79,7 @@ function get_log()
 	local newpos = pos
 	if f then
 		f:seek("set", pos)
-		content = f:read(2048000) or ""
+		content = f:read(1048576) or ""
 		newpos = f:seek()
 		f:close()
 	end
@@ -101,7 +101,7 @@ function check_update()
 		local f = io.open(fpath, "r")
 		if f then
 			f:seek("set", pos)
-			content = f:read(2048000) or ""
+			content = f:read(1048576) or ""
 			newpos = f:seek()
 			f:close()
 		end
