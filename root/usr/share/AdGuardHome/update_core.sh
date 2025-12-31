@@ -8,13 +8,6 @@ fi
 mkdir -p ${binpath%/*}
 upxflag=$(uci get AdGuardHome.AdGuardHome.upxflag 2>/dev/null)
 
-check_if_already_running(){
-	if pgrep -f "/usr/share/AdGuardHome/update_core.sh" | grep -v "^$$$" > /dev/null; then
-		echo "A task is already running."
-		exit 2
-	fi
-}
-
 check_wgetcurl(){
 	echo "Checking for wget or curl..."
 	# Set User-Agent as curl 8.0.0, otherwise GitHub may return JSON with no line-breaks
@@ -25,6 +18,7 @@ check_wgetcurl(){
 	[ "$1" == "1" ] && (opkg install curl ; check_wgetcurl 2 ; return)
 	echo "Error: curl and wget not found" && EXIT 1
 }
+
 check_latest_version(){
 	check_wgetcurl
 	echo "Check for update..."
@@ -57,8 +51,9 @@ check_latest_version(){
 		EXIT 0
 	fi
 }
+
 doupx(){
-	echo "Start running upx. It may take a long time..."
+	echo "Start running upx. It may take some time..."
 
 	um="$(uname -m)"
 	OPENWRT_ARCH="$(awk -F'=' '/^OPENWRT_ARCH=/{gsub(/"/,"",$2); split($2,a,"_"); print a[1]}' /etc/os-release)"
@@ -92,6 +87,7 @@ doupx(){
 	fi
 	rm /tmp/upx-${upx_latest_ver}-${Arch}_linux.tar.xz
 }
+
 doupdate_core(){
 	echo "Updating core..."
 	mkdir -p "/tmp/AdGuardHomeupdate"
@@ -177,12 +173,18 @@ doupdate_core(){
 	echo "Core updated successfully. New version: ${latest_ver}."
 	EXIT 0
 }
+
 EXIT(){
 	[ "$1" != "0" ] && touch /var/run/AdG_update_error
 	exit $1
 }
+
 main(){
-	check_if_already_running
+	# Check if already running
+	if pgrep -f "/usr/share/AdGuardHome/update_core.sh" | grep -v "^$$$" > /dev/null; then
+		echo "A task is already running."
+		exit 2
+	fi
 
 	trap "EXIT 1" SIGTERM SIGINT
 	rm /var/run/AdG_update_error 2>/dev/null
