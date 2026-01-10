@@ -18,9 +18,9 @@
 <script type="text/javascript" src="<%=resource%>/bcrypt.min.js"></script>
 <script type="text/javascript">//<![CDATA[
 	var btn = document.getElementById('cbid.AdGuardHome.AdGuardHome.applychpass');
-	var lv = document.getElementById('cbid.AdGuardHome.AdGuardHome.hashpass');
 	btn.value = '<%:Calculate%>';
 	btn.addEventListener('click', function() {
+		var lv = document.getElementById('cbid.AdGuardHome.AdGuardHome.hashpass');
 		btn.disabled = true;
 		if (lv.value != "") {
 			if (bcrypt.truncates(lv.value)) {
