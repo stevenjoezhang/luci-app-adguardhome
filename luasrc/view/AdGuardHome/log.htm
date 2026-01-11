@@ -12,68 +12,59 @@ var islogreverse = true;
 var isutc2local = <%=tostring(self.timereplace)%>;
 var logPos = 0;
 function createAndDownloadFile(fileName, content) {
-    var aTag = document.createElement('a');
-    var blob = new Blob([content]);
-    aTag.download = fileName;
-    aTag.href = URL.createObjectURL(blob);
-    aTag.click();
-    URL.revokeObjectURL(blob);
+	var aTag = document.createElement('a');
+	var blob = new Blob([content]);
+	aTag.download = fileName;
+	aTag.href = URL.createObjectURL(blob);
+	aTag.click();
+	URL.revokeObjectURL(blob);
 }
 function download_log(){
-	var dt = new Date();
+	const dt = new Date();
 	var timestamp = (dt.getMonth()+1)+"-"+dt.getDate()+"-"+dt.getHours()+"_"+dt.getMinutes();
 	createAndDownloadFile("AdGuardHome"+timestamp+".log",lv.innerHTML)
-	return
 }
 function apply_del_log(){
 	XHR.get('<%=url([[admin]], [[services]], [[AdGuardHome]], [[dodellog]])%>',null,function(x, data){
 		lv.innerHTML="";
 		logPos = 0;
-	}
-	);
-	return
+	});
 }
 function chlogtime(){
 	if (isutc2local){
-	lv.innerHTML=line_toUTC(lv.innerHTML).join('\n');
-	isutc2local=false;
+		lv.innerHTML=line_toUTC(lv.innerHTML).join('\n');
+		isutc2local=false;
 	}else{
-	lv.innerHTML=line_tolocal(lv.innerHTML).join('\n');
-	isutc2local=true;
+		lv.innerHTML=line_tolocal(lv.innerHTML).join('\n');
+		isutc2local=true;
 	}
-	return
 }
 function reverselog(){
 	lv.innerHTML=lv.innerHTML.split('\n').reverse().join('\n')
-	if (islogreverse){
-	islogreverse=false;
-	}else{
-	islogreverse=true;
-	}
-	return
+	islogreverse = !islogreverse;
 }
 function p(s) {
-        return s < 10 ? '0' + s: s;
+	return s < 10 ? '0' + s: s;
 }
 function line_tolocal(str){
-var strt=new Array();
-str.trim().split('\n').forEach(function(v, i) {
-var dt = new Date(v.substring(0,19)+" UTC");
-if (dt != "Invalid Date"){
-  strt[i]=dt.getFullYear()+"/"+p(dt.getMonth()+1)+"/"+p(dt.getDate())+" "+p(dt.getHours())+":"+p(dt.getMinutes())+":"+p(dt.getSeconds())+v.substring(19);
-}else{
-  strt[i]=v;}})
-return strt
+	return str.trim().split('\n').map(function(v) {
+		const dt = new Date(v.substring(0,19)+" UTC");
+		if (dt != "Invalid Date"){
+			return dt.getFullYear()+"/"+p(dt.getMonth()+1)+"/"+p(dt.getDate())+" "+p(dt.getHours())+":"+p(dt.getMinutes())+":"+p(dt.getSeconds())+v.substring(19);
+		}else{
+			return v;
+		}
+	});
 }
 function line_toUTC(str){
-var strt=new Array();
-str.trim().split('\n').forEach(function(v, i) {
-var dt = new Date(v.substring(0,19))
-if (dt != "Invalid Date"){
-  strt[i]=dt.getUTCFullYear()+"/"+p(dt.getUTCMonth()+1)+"/"+p(dt.getUTCDate())+" "+p(dt.getUTCHours())+":"+p(dt.getUTCMinutes())+":"+p(dt.getUTCSeconds())+v.substring(19);
-}else{
-  strt[i]=v;}})
-return strt
+	return str.trim().split('\n').map(function(v) {
+		const dt = new Date(v.substring(0,19))
+		if (dt != "Invalid Date"){
+			return dt.getUTCFullYear()+"/"+p(dt.getUTCMonth()+1)+"/"+p(dt.getUTCDate())+" "+p(dt.getUTCHours())+":"+p(dt.getUTCMinutes())+":"+p(dt.getUTCSeconds())+v.substring(19);
+		}else{
+			return v;
+		}
+	});
 }
 function poll_check(){
 	(function do_poll(){

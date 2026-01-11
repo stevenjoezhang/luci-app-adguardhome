@@ -27,9 +27,8 @@
 				alert('<%:The password is too long%>');
 				return;
 			}
-			var hash = bcrypt.hashSync(hashpass.value, 10);
+			hashpass.value = bcrypt.hashSync(hashpass.value, 10);
 			applychpass.value = '<%:Please save/apply%>';
-			hashpass.value = hash;
 		} else {
 			applychpass.value = '<%:Is empty%>';
 		}
