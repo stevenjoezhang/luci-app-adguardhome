@@ -7,6 +7,7 @@
 <input type="button" class="cbi-button cbi-button-apply" id="apply_update_button" value="<%:Clear log%>" onclick="apply_del_log()"/>
 <input type="button" class="cbi-button cbi-button-apply" value="<%:Download log%>" style="display:inline;" onclick="download_log()"/>
 <script type="text/javascript">//<![CDATA[
+const lv = document.getElementById('cbid.logview.1.conf');
 var islogreverse = true;
 var isutc2local = <%=tostring(self.timereplace)%>;
 var logPos = 0;
@@ -19,7 +20,6 @@ function createAndDownloadFile(fileName, content) {
     URL.revokeObjectURL(blob);
 }
 function download_log(){
-	var lv = document.getElementById('cbid.logview.1.conf');
 	var dt = new Date();
 	var timestamp = (dt.getMonth()+1)+"-"+dt.getDate()+"-"+dt.getHours()+"_"+dt.getMinutes();
 	createAndDownloadFile("AdGuardHome"+timestamp+".log",lv.innerHTML)
@@ -27,7 +27,6 @@ function download_log(){
 }
 function apply_del_log(){
 	XHR.get('<%=url([[admin]], [[services]], [[AdGuardHome]], [[dodellog]])%>',null,function(x, data){
-		var lv = document.getElementById('cbid.logview.1.conf');
 		lv.innerHTML="";
 		logPos = 0;
 	}
@@ -35,7 +34,6 @@ function apply_del_log(){
 	return
 }
 function chlogtime(){
-	var lv = document.getElementById('cbid.logview.1.conf');
 	if (isutc2local){
 	lv.innerHTML=line_toUTC(lv.innerHTML).join('\n');
 	isutc2local=false;
@@ -46,7 +44,6 @@ function chlogtime(){
 	return
 }
 function reverselog(){
-	var lv = document.getElementById('cbid.logview.1.conf');
 	lv.innerHTML=lv.innerHTML.split('\n').reverse().join('\n')
 	if (islogreverse){
 	islogreverse=false;
@@ -82,8 +79,6 @@ function poll_check(){
 	(function do_poll(){
 		XHR.get('<%=url([[admin]], [[services]], [[AdGuardHome]], [[getlog]])%>' + '?pos=' + encodeURIComponent(logPos), null,
 			function(x, data){
-				var lv = document.getElementById('cbid.logview.1.conf');
-
 				if (!data) return;
 				var response = data.content || "";
 				if (response.length > 0) {
@@ -114,7 +109,6 @@ function poll_check(){
 <%if self.pollcheck then%>
 poll_check();
 <%else%>
-var lv = document.getElementById('cbid.logview.1.conf');
 lv.innerHTML="<%:Please add log path in config to enable log%>"
 <%end%>
 //]]>

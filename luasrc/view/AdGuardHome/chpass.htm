@@ -17,26 +17,26 @@
 	<input type="button" class="cbi-button cbi-button-apply" id="cbid.AdGuardHome.AdGuardHome.applychpass" value="<%:Loading...%>"/>
 <script type="text/javascript" src="<%=resource%>/bcrypt.min.js"></script>
 <script type="text/javascript">//<![CDATA[
-	var btn = document.getElementById('cbid.AdGuardHome.AdGuardHome.applychpass');
-	var lv = document.getElementById('cbid.AdGuardHome.AdGuardHome.hashpass');
-	btn.value = '<%:Calculate%>';
-	btn.addEventListener('click', function() {
-		btn.disabled = true;
-		if (lv.value != "") {
-			if (bcrypt.truncates(lv.value)) {
+	const applychpass = document.getElementById('cbid.AdGuardHome.AdGuardHome.applychpass');
+	const hashpass = document.getElementById('cbid.AdGuardHome.AdGuardHome.hashpass');
+	applychpass.value = '<%:Calculate%>';
+	applychpass.addEventListener('click', function() {
+		applychpass.disabled = true;
+		if (hashpass.value != "") {
+			if (bcrypt.truncates(hashpass.value)) {
 				alert('<%:The password is too long%>');
 				return;
 			}
-			var hash = bcrypt.hashSync(lv.value, 10);
-			btn.value = '<%:Please save/apply%>';
-			lv.value = hash;
+			var hash = bcrypt.hashSync(hashpass.value, 10);
+			applychpass.value = '<%:Please save/apply%>';
+			hashpass.value = hash;
 		} else {
-			btn.value = '<%:Is empty%>';
+			applychpass.value = '<%:Is empty%>';
 		}
 	});
-	lv.addEventListener('input', function() {
-		btn.value = '<%:Calculate%>';
-		btn.disabled = false;
+	hashpass.addEventListener('input', function() {
+		applychpass.value = '<%:Calculate%>';
+		applychpass.disabled = false;
 	});
 //]]>
 </script>

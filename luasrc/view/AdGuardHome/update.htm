@@ -13,20 +13,20 @@
 <script type="text/javascript">//<![CDATA[
 var updatebtn = document.getElementById('apply_update_button');
 var forceupdatebtn = document.getElementById('apply_forceupdate_button');
-var lv = document.getElementById('cbid.logview.1.conf');
+const updatelog = document.getElementById('cbid.logview.1.conf');
 var islogreverse = false;
 var isPolling = false;
 var logPos = 0;
 function apply_forceupdate(){
 	updatebtn.disabled = true;
 	logPos = 0;
-	lv.innerHTML = "";
+	updatelog.innerHTML = "";
 	XHR.get('<%=url([[admin]], [[services]], [[AdGuardHome]], [[doupdate]])%>',{ force: 1 },function(x, data){
 		poll_check();
 	});
 }
 function reverselog(){
-	lv.innerHTML=lv.innerHTML.split('\n').reverse().join('\n');
+	updatelog.innerHTML=updatelog.innerHTML.split('\n').reverse().join('\n');
 	islogreverse = !islogreverse;
 }
 function apply_update(){
@@ -34,7 +34,7 @@ function apply_update(){
 	updatebtn.value    = '<%:Updating...%>';
 	forceupdatebtn.style.display="inline";
 	logPos = 0;
-	lv.innerHTML = "";
+	updatelog.innerHTML = "";
 	XHR.get('<%=url([[admin]], [[services]], [[AdGuardHome]], [[doupdate]])%>',null,function(x, data){
 		poll_check();
 	});
@@ -54,9 +54,9 @@ function poll_check(){
 				var response = data.content || "";
 				if (response.length > 0) {
 					if (islogreverse){
-						lv.innerHTML = response.split('\n').reverse().join('\n') + lv.innerHTML;
+						updatelog.innerHTML = response.split('\n').reverse().join('\n') + updatelog.innerHTML;
 					} else {
-						lv.innerHTML += response;
+						updatelog.innerHTML += response;
 					}
 				}
 
