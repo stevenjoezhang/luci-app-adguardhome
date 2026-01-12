@@ -1,5 +1,8 @@
 # LuCI App AdGuard Home
 
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/stevenjoezhang/luci-app-adguardhome/build_release.yml?style=for-the-badge&logo=GitHub)](https://github.com/stevenjoezhang/luci-app-adguardhome/actions/workflows/build_release.yml)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/stevenjoezhang/luci-app-adguardhome?style=for-the-badge)](https://github.com/stevenjoezhang/luci-app-adguardhome/releases)
+
 A powerful LuCI interface for managing AdGuard Home - a DNS-based ad and tracker blocker that protects all devices on your network
 
 [中文 README](README.CN.md)
