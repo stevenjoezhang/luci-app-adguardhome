@@ -1,0 +1,294 @@
+
+msgid ""
+msgstr ""
+
+msgid "<a href=\"https://github.com/stevenjoezhang/luci-app-adguardhome\" target=\"_blank\">⭐ Star on GitHub</a>"
+msgstr "<a href=\"https://github.com/stevenjoezhang/luci-app-adguardhome\" target=\"_blank\">⭐ 在 GitHub 加星</a>"
+
+#/cgi-bin/luci/admin/services/AdGuardHome
+msgid "Plugin Settings"
+msgstr "外掛設定"
+
+msgid "Basic Settings"
+msgstr "基本設定"
+
+msgid "Core Settings"
+msgstr "核心設定"
+
+msgid "Backup Settings"
+msgstr "備份設定"
+
+msgid "Crontab Settings"
+msgstr "排程設定"
+
+msgid "GFWList Settings"
+msgstr "GFWList 設定"
+
+msgid "Log"
+msgstr "日誌"
+
+msgid "Manual Config"
+msgstr "手動設定"
+
+msgid "A powerful LuCI interface for managing AdGuard Home - a DNS-based ad and tracker blocker that protects all devices on your network"
+msgstr "AdGuard Home 的強大 LuCI 介面 — 基於 DNS 的廣告與追蹤攔截器，可保護您網路上的所有裝置"
+
+msgid "RUNNING"
+msgstr "執行中"
+
+msgid "NOT RUNNING"
+msgstr "未執行"
+
+msgid "Redirected"
+msgstr "已重新導向"
+
+msgid "Not redirected"
+msgstr "未重新導向"
+
+msgid "Collecting data..."
+msgstr "蒐集資料中…"
+
+msgid "Enable"
+msgstr "啟用"
+
+msgid "Browser management port"
+msgstr "網頁管理埠"
+
+msgid "Update"
+msgstr "更新"
+
+#button change
+msgid "Update core version"
+msgstr "更新核心版本"
+
+msgid "Updating..."
+msgstr "更新中…"
+
+msgid "Updated"
+msgstr "已更新"
+
+#button hide
+msgid "Force update"
+msgstr "強制更新"
+
+msgid "Fast config"
+msgstr "快速設定"
+
+msgid "Core version:"
+msgstr "核心版本："
+
+#description change
+msgid "No config"
+msgstr "沒有設定檔"
+
+msgid "No core"
+msgstr "找不到核心"
+
+msgid "Core error"
+msgstr "核心錯誤"
+
+msgid "DNS redirect mode"
+msgstr "DNS 重新導向模式"
+
+#inlist
+msgid "None"
+msgstr "無"
+
+msgid "Run as dnsmasq upstream server"
+msgstr "作為 dnsmasq 的上游伺服器"
+
+msgid "Redirect 53 port to AdGuardHome"
+msgstr "將 53 埠重新導向至 AdGuardHome"
+
+msgid "Use port 53 to replace dnsmasq"
+msgstr "使用 53 埠取代 dnsmasq"
+
+msgid "AdGuardHome executable file path"
+msgstr "AdGuardHome 執行檔路徑"
+
+msgid "If the executable file does not exist, it will be downloaded automatically"
+msgstr "若執行檔不存在，將自動下載"
+
+msgid "Executable file architecture"
+msgstr "執行檔架構"
+
+msgid "Auto"
+msgstr "自動"
+
+msgid "If you've modified any related core settings, please save/apply the changes before clicking Update"
+msgstr "若修改了相關核心設定，請先儲存並套用後再點選「更新」"
+
+msgid "Use upx to compress executable"
+msgstr "使用 upx 壓縮執行檔"
+
+#inlist
+msgid "Compress faster"
+msgstr "快速壓縮"
+
+msgid "Compress better"
+msgstr "較佳壓縮"
+
+msgid "Compress best (slow)"
+msgstr "最佳壓縮（慢）"
+
+msgid "Try all available compression methods & filters (slower)"
+msgstr "嘗試所有可用的壓縮方法與過濾器（較慢）"
+
+msgid "Try even more compression variants (very slow)"
+msgstr "嘗試更多壓縮變體（非常慢）"
+
+msgid "Reduce executable size, but may have compatibility issues after compression"
+msgstr "減小執行檔大小，但壓縮後可能產生相容性問題"
+
+msgid "Config path"
+msgstr "設定檔路徑"
+
+msgid "Work dir"
+msgstr "工作目錄"
+
+msgid "AdGuardHome work dir will store query logs, database and other files"
+msgstr "AdGuardHome 的工作目錄將儲存查詢日誌、資料庫與其他檔案"
+
+msgid "Runtime log file path"
+msgstr "執行時日誌路徑"
+
+msgid "If set to syslog, logs will be written to the system log; if left empty, no logs will be recorded"
+msgstr "若設定為 syslog，日誌將寫入系統日誌；若留空則不記錄日誌"
+
+msgid "Verbose log"
+msgstr "詳細日誌"
+
+#hide div
+msgid "Add gfwlist"
+msgstr "加入 GFW 列表"
+
+msgid "Add"
+msgstr "新增"
+
+msgid "Added"
+msgstr "已新增"
+
+msgid "Not added"
+msgstr "未新增"
+
+#hide div
+msgid "Del gfwlist"
+msgstr "移除 GFW 列表"
+
+msgid "Del"
+msgstr "刪除"
+
+msgid "will set to name gfwlist"
+msgstr "將會設定到名為 gfwlist 的 ipset 集合"
+
+msgid "(ipset only)"
+msgstr "（僅限 ipset）"
+
+#hide div
+msgid "Gfwlist upstream dns server"
+msgstr "GFW 列表上游伺服器"
+
+msgid "Gfwlist domain upstream dns service"
+msgstr "GFW 列表網域上游伺服器"
+
+#hide div
+msgid "Browser management password"
+msgstr "網頁管理密碼"
+
+msgid "Calculate"
+msgstr "計算"
+
+msgid "Loading..."
+msgstr "載入中…"
+
+msgid "The password is too long"
+msgstr "密碼過長"
+
+msgid "Please save/apply"
+msgstr "請儲存並套用"
+
+msgid "Is empty"
+msgstr "為空"
+
+msgid "Press calculate and then save/apply"
+msgstr "請按「計算」，然後儲存並套用"
+
+msgid "If no change is needed, leave it empty"
+msgstr "若不需變更，請保持為空"
+
+msgid "Keep files when system upgrade"
+msgstr "系統升級時保留檔案"
+
+#checkbox
+msgid "core executable"
+msgstr "核心執行檔"
+
+msgid "config file"
+msgstr "設定檔"
+
+msgid "log file"
+msgstr "日誌檔"
+
+msgid "Restart when the network is ready after boot"
+msgstr "開機後網路就緒時重啟"
+
+msgid "Backup workdir files when shutdown"
+msgstr "關機時備份工作目錄檔案"
+
+msgid "Will be restore when workdir/data is empty"
+msgstr "當工作目錄/data 為空時會還原"
+
+msgid "Backup workdir path"
+msgstr "工作目錄備份路徑"
+
+msgid "Crontab task"
+msgstr "排程任務"
+
+msgid "Auto update ipv6 hosts and restart AdGuardHome"
+msgstr "自動更新 IPv6 主機並重啟 AdGuardHome"
+
+msgid "Auto update gfwlist and restart AdGuardHome"
+msgstr "自動更新 GFW 列表並重啟 AdGuardHome"
+
+msgid "Auto update ipset list and restart AdGuardHome"
+msgstr "自動更新 ipset 列表並重啟 AdGuardHome"
+
+msgid "Please change time and args in crontab"
+msgstr "請在排程任務中變更時間與參數"
+
+#download option
+msgid "Download links for update"
+msgstr "更新用下載連結"
+
+#/cgi-bin/luci/admin/services/AdGuardHome/log/
+msgid "Reverse"
+msgstr "反向排序"
+
+msgid "Use localtime"
+msgstr "使用本地時間"
+
+msgid "Please add log path in config to enable log"
+msgstr "請在設定中加入日誌路徑以啟用日誌"
+
+msgid "Clear log"
+msgstr "清除日誌"
+
+msgid "Download log"
+msgstr "下載日誌"
+
+#/cgi-bin/luci/admin/services/AdGuardHome/manual/
+msgid "Use template"
+msgstr "使用範本"
+
+#hide button
+msgid "Reload config"
+msgstr "重新載入設定"
+
+msgid "WARNING!!! No executable found, config will not be tested"
+msgstr "警告！！！未找到執行檔，提交的設定將不會被驗證"
+
+msgid "Configuration validation failed"
+msgstr "設定驗證失敗"
+
+msgid "Browser management username"
+msgstr "網頁管理使用者名稱"
