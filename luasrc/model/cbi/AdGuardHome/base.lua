@@ -299,18 +299,18 @@ a="Added"
 else
 a="Not added"
 end
-o=s:taboption("gfwlist", Button,"gfwdel",translate("Del gfwlist"),translate(a))
-o.optional = false
-o.inputtitle=translate("Del")
-o.write=function()
-	luci.sys.exec("sh /usr/share/AdGuardHome/gfw2adg.sh del 2>&1")
-	luci.http.redirect(luci.dispatcher.build_url("admin","services","AdGuardHome"))
-end
 o=s:taboption("gfwlist", Button,"gfwadd",translate("Add gfwlist"),translate(a))
 o.optional = false
 o.inputtitle=translate("Add")
 o.write=function()
 	luci.sys.exec("sh /usr/share/AdGuardHome/gfw2adg.sh 2>&1")
+	luci.http.redirect(luci.dispatcher.build_url("admin","services","AdGuardHome"))
+end
+o=s:taboption("gfwlist", Button,"gfwdel",translate("Del gfwlist"),translate(a))
+o.optional = false
+o.inputtitle=translate("Del")
+o.write=function()
+	luci.sys.exec("sh /usr/share/AdGuardHome/gfw2adg.sh del 2>&1")
 	luci.http.redirect(luci.dispatcher.build_url("admin","services","AdGuardHome"))
 end
 if fs.access(configpath) then
@@ -323,18 +323,18 @@ a="Added"
 else
 a="Not added"
 end
-o=s:taboption("gfwlist", Button,"gfwipsetdel",translate("Del gfwlist").." "..translate("(ipset only)"),translate(a))
-o.optional = false
-o.inputtitle=translate("Del")
-o.write=function()
-	luci.sys.exec("sh /usr/share/AdGuardHome/gfwipset2adg.sh del 2>&1")
-	luci.http.redirect(luci.dispatcher.build_url("admin","services","AdGuardHome"))
-end
 o=s:taboption("gfwlist", Button,"gfwipsetadd",translate("Add gfwlist").." "..translate("(ipset only)"),translate(a).." "..translate("will set to name gfwlist"))
 o.optional = false
 o.inputtitle=translate("Add")
 o.write=function()
 	luci.sys.exec("sh /usr/share/AdGuardHome/gfwipset2adg.sh 2>&1")
+	luci.http.redirect(luci.dispatcher.build_url("admin","services","AdGuardHome"))
+end
+o=s:taboption("gfwlist", Button,"gfwipsetdel",translate("Del gfwlist").." "..translate("(ipset only)"),translate(a))
+o.optional = false
+o.inputtitle=translate("Del")
+o.write=function()
+	luci.sys.exec("sh /usr/share/AdGuardHome/gfwipset2adg.sh del 2>&1")
 	luci.http.redirect(luci.dispatcher.build_url("admin","services","AdGuardHome"))
 end
 o = s:taboption("gfwlist", Value, "gfwupstream", translate("Gfwlist upstream dns server"), translate("Gfwlist domain upstream dns service")..translate(a))
