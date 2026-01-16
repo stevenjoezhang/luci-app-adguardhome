@@ -53,12 +53,6 @@ fi
 exit 0
 endef
 
-define Package/$(PKG_NAME)/postrm
-#!/bin/sh
-rm -rf /etc/AdGuardHome/
-exit 0
-endef
-
 include $(TOPDIR)/feeds/luci/luci.mk
 
 # call BuildPackage - OpenWrt buildroot signature
