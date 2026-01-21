@@ -12,16 +12,6 @@ clients:
     hosts: true
     rdns: false
     whois: true
-dhcp:
-  dhcpv4:
-    gateway_ip: ""
-    icmp_timeout_msec: 1000
-    lease_duration: 86400
-    range_end: ""
-    range_start: ""
-    subnet_mask: ""
-  enabled: false
-  interface_name: ""
 dns:
   allowed_clients: []
   bind_hosts:
@@ -34,14 +24,12 @@ dns:
   cache_optimistic_answer_ttl: 30s
   cache_optimistic_max_age: 12h
   cache_size: 4194304
-  cache_time: 30
   disallowed_clients: []
   edns_client_subnet:
     custom_ip: ""
     enabled: false
     use_custom: false
   ipset_file: ""
-  parental_sensitivity: 13
   port: 5553
   ratelimit: 0
   ratelimit_whitelist: []
@@ -132,16 +120,6 @@ statistics:
   enabled: true
   ignored: []
   interval: 24h
-tls:
-  certificate_chain: ""
-  certificate_path: ""
-  enabled: false
-  force_https: false
-  port_dns_over_tls: 853
-  port_https: 443
-  private_key: ""
-  private_key_path: ""
-  server_name: ""
 user_rules: []
 users:
   - name: root
