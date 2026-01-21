@@ -4,16 +4,24 @@
 # 用户名: root / 密码: password
 # User: root / Password: password
 
-http:
-  address: 0.0.0.0:3000
-  pprof:
-    enabled: false
-    port: 6060
-  session_ttl: 720h
-users:
-  - name: root
-    password: $2y$10$PVhuB.icsC0Jl5Q.8twXwOOVPX0oxdmmilkkkjCXkIBki0rvBatMa
-language: ""
+clients:
+  persistent: []
+  runtime_sources:
+    arp: true
+    dhcp: true
+    hosts: true
+    rdns: false
+    whois: true
+dhcp:
+  dhcpv4:
+    gateway_ip: ""
+    icmp_timeout_msec: 1000
+    lease_duration: 86400
+    range_end: ""
+    range_start: ""
+    subnet_mask: ""
+  enabled: false
+  interface_name: ""
 dns:
   allowed_clients: []
   bind_hosts:
@@ -21,7 +29,10 @@ dns:
   blocked_hosts: []
   bootstrap_dns:
     - 1.1.1.1
-    - 114.114.114.114
+    - 223.5.5.5
+  cache_enabled: true
+  cache_optimistic_answer_ttl: 30s
+  cache_optimistic_max_age: 12h
   cache_size: 4194304
   cache_time: 30
   disallowed_clients: []
@@ -29,6 +40,7 @@ dns:
     custom_ip: ""
     enabled: false
     use_custom: false
+  ipset_file: ""
   parental_sensitivity: 13
   port: 5553
   ratelimit: 0
@@ -36,28 +48,36 @@ dns:
   refuse_any: false
   upstream_dns:
     - 1.1.1.1
-    - 114.114.114.114
+    - 223.5.5.5
   upstream_mode: load_balance
-tls:
-  certificate_chain: ""
-  certificate_path: ""
-  enabled: false
-  force_https: false
-  port_dns_over_tls: 853
-  port_https: 443
-  private_key: ""
-  private_key_path: ""
-  server_name: ""
-querylog:
-  enabled: false
-  file_enabled: true
-  ignored: []
-  interval: 24h
-  size_memory: 1000
-statistics:
-  enabled: true
-  ignored: []
-  interval: 24h
+filtering:
+  blocked_response_ttl: 10
+  blocked_services:
+    ids: []
+    schedule:
+      time_zone: Local
+  blocking_mode: nxdomain
+  filtering_enabled: true
+  filters_update_interval: 24
+  parental_block_host: ""
+  parental_cache_size: 1048576
+  parental_enabled: false
+  protection_enabled: true
+  rewrites: []
+  safe_fs_patterns:
+    - /usr/bin/AdGuardHome/data/userfilters/*
+  safe_search:
+    bing: true
+    duckduckgo: true
+    enabled: false
+    google: true
+    pixabay: true
+    yandex: true
+    youtube: true
+  safebrowsing_block_host: ""
+  safebrowsing_cache_size: 1048576
+  safebrowsing_enabled: false
+  safesearch_cache_size: 1048576
 filters:
   - enabled: true
     id: 1
@@ -87,53 +107,13 @@ filters:
     id: 1741278925
     name: 217heidai AdBlock DNS Filters
     url: https://cdn.jsdelivr.net/gh/217heidai/adblockfilters@main/rules/adblockdns.txt
-user_rules: []
-dhcp:
-  dhcpv4:
-    gateway_ip: ""
-    icmp_timeout_msec: 1000
-    lease_duration: 86400
-    range_end: ""
-    range_start: ""
-    subnet_mask: ""
-  enabled: false
-  interface_name: ""
-filtering:
-  blocked_response_ttl: 10
-  blocked_services:
-    ids: []
-    schedule:
-      time_zone: Local
-  blocking_mode: nxdomain
-  filtering_enabled: true
-  filters_update_interval: 24
-  parental_block_host: ""
-  parental_cache_size: 1048576
-  parental_enabled: false
-  protection_enabled: true
-  rewrites: []
-  safe_fs_patterns:
-    - /usr/bin/AdGuardHome/data/userfilters/*
-  safe_search:
-    bing: true
-    duckduckgo: true
+http:
+  address: 0.0.0.0:3000
+  pprof:
     enabled: false
-    google: true
-    pixabay: true
-    yandex: true
-    youtube: true
-  safebrowsing_block_host: ""
-  safebrowsing_cache_size: 1048576
-  safebrowsing_enabled: false
-  safesearch_cache_size: 1048576
-clients:
-  persistent: []
-  runtime_sources:
-    arp: true
-    dhcp: true
-    hosts: true
-    rdns: false
-    whois: true
+    port: 6060
+  session_ttl: 720h
+language: ""
 log:
   file: ""
   verbose: false
@@ -141,5 +121,28 @@ os:
   group: ""
   rlimit_nofile: 0
   user: ""
-ipset_file: ""
-schema_version: 29
+querylog:
+  enabled: false
+  file_enabled: true
+  ignored: []
+  interval: 24h
+  size_memory: 1000
+schema_version: 32
+statistics:
+  enabled: true
+  ignored: []
+  interval: 24h
+tls:
+  certificate_chain: ""
+  certificate_path: ""
+  enabled: false
+  force_https: false
+  port_dns_over_tls: 853
+  port_https: 443
+  private_key: ""
+  private_key_path: ""
+  server_name: ""
+user_rules: []
+users:
+  - name: root
+    password: $2y$10$PVhuB.icsC0Jl5Q.8twXwOOVPX0oxdmmilkkkjCXkIBki0rvBatMa
