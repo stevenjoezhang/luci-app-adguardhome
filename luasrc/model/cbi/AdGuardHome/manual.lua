@@ -21,15 +21,17 @@ o.cfgvalue = function(self, section)
 	return fs.readfile("/tmp/AdGuardHometmpconfig.yaml") or fs.readfile(configpath) or fs.readfile("/usr/share/AdGuardHome/AdGuardHome_template.yaml") or ""
 end
 o.validate=function(self, value)
+	m.message = "Configuration validation passed"
 	fs.writefile("/tmp/AdGuardHometmpconfig.yaml", value:gsub("\r\n", "\n"))
 	if fs.access(binpath) then
-		if (sys.call(binpath.." -c /tmp/AdGuardHometmpconfig.yaml --check-config 2> /tmp/AdGuardHometest.log")==0) then
+		sys.call(binpath.." -c /tmp/AdGuardHometmpconfig.yaml --check-config 2>&1 | grep '\\[error\\]' > /tmp/AdGuardHometest.log")
+		if (fs.readfile("/tmp/AdGuardHometest.log")=="") then
 			return value
 		end
 	else
 		return value
 	end
-	m.message = translate("Configuration validation failed")..fs.readfile("/tmp/AdGuardHometest.log")
+	m.message = translate("Configuration validation failed").." "..fs.readfile("/tmp/AdGuardHometest.log")
 	return nil
 end
 o.write = function(self, section, value)
@@ -49,7 +51,7 @@ end
 if (fs.access("/tmp/AdGuardHometmpconfig.yaml")) then
 	local c=fs.readfile("/tmp/AdGuardHometest.log")
 	if (c~="") then
-		m.message = translate("Configuration validation failed")..fs.readfile("/tmp/AdGuardHometest.log")
+		m.message = translate("Configuration validation failed").." "..fs.readfile("/tmp/AdGuardHometest.log")
 	end
 end
 
