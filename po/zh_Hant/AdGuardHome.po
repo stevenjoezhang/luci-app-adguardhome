@@ -287,6 +287,9 @@ msgstr "重新載入設定"
 msgid "WARNING!!! No executable found, config will not be tested"
 msgstr "警告！！！未找到執行檔，提交的設定將不會被驗證"
 
+msgid "Configuration validation passed"
+msgstr "設定驗證通過"
+
 msgid "Configuration validation failed"
 msgstr "設定驗證失敗"
 
