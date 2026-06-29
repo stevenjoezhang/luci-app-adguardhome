@@ -9,6 +9,8 @@ A powerful LuCI interface for managing AdGuard Home - a DNS-based ad and tracker
 
 Download `.ipk` and `.apk` from [Releases](https://github.com/stevenjoezhang/luci-app-adguardhome/releases)
 
+> If you want to simplify an OpenWrt setup that chains ad block with DNS rewrite services, you might want to check out the author's [Astra DNS](https://github.com/astra-sec/astra-dns) and its LuCI plugin [luci-app-astra-dns](https://github.com/astra-sec/luci-app-astra-dns).
+
 ## Features
 
 - AdGuard Home service port, username and password management

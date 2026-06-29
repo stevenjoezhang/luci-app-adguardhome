@@ -5,6 +5,8 @@
 
 AdGuard Home 的强大 LuCI 界面 - 基于 DNS 的广告和跟踪阻止程序，保护您网络上的所有设备
 
+> 如果你想在 OpenWrt 上减少 AdGuard Home + MosDNS 等多 DNS 服务串联，同时实现广告过滤和 Cloudflare 优选 IP 重写，可以试试作者的 [Astra DNS](https://github.com/astra-sec/astra-dns) 和它的 LuCI 插件 [luci-app-astra-dns](https://github.com/astra-sec/luci-app-astra-dns)。
+
 ## 功能特点
 
 - 支持管理 AdGuard Home 的服务端口、用户名和密码
