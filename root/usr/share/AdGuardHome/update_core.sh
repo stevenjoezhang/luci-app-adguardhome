@@ -124,7 +124,7 @@ doupdate_core(){
 		EXIT 1
 	fi
 	echo "$downloadlinks" | grep -v "^#" >/tmp/AdG_links.txt
-	while read link
+	while IFS= read -r link
 	do
 		[ -n "$link" ] || continue
 		link="${link//\$\{latest_ver\}/$latest_ver}"
