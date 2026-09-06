@@ -314,13 +314,12 @@ backup() {
 		while :
 		do
 			if [ -d "$backupwdpath/data/$one" ]; then
-				cpret=$(cp -u -r -f $workdir/data/$one $backupwdpath/data 2>&1)
+				cpret=$(LC_ALL=C cp -u -r -f $workdir/data/$one $backupwdpath/data 2>&1)
 			else
-				cpret=$(cp -u -r -f $workdir/data/$one $backupwdpath/data/$one 2>&1)
+				cpret=$(LC_ALL=C cp -u -r -f $workdir/data/$one $backupwdpath/data/$one 2>&1)
 			fi
 			echo "$cpret"
-			echo "$cpret" | grep "no space left on device"
-			if [ "$?" == "0" ]; then
+			if printf '%s\n' "$cpret" | grep -qiF "no space left on device"; then
 				echo "Disk full, deleting log and retrying"
 				del_querylog && continue
 				rm -f -r $backupwdpath/data/filters
@@ -488,16 +487,16 @@ del_querylog(){
 	local wtarget=$(ls $workdir/data | grep -F "querylog.json" | sort -r | head -n 1)
 	if [ "$btarget"x == "$wtarget"x ]; then
 		[ -z "$btarget" ] && return 1
-		rm -f $workdir/data/$wtarget
-		rm -f $backupwdpath/data/$btarget
+		rm -f "$workdir/data/$wtarget" || return 1
+		rm -f "$backupwdpath/data/$btarget" || return 1
 		return 0
 	fi
 	if [ "$btarget" \> "$wtarget" ]; then
-		rm -f $backupwdpath/data/$btarget
-		return 0
+		rm -f "$backupwdpath/data/$btarget"
+		return $?
 	else
-		rm -f $workdir/data/$wtarget
-		return 0
+		rm -f "$workdir/data/$wtarget"
+		return $?
 	fi
 }
 stop_service()
