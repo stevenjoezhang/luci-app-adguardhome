@@ -366,6 +366,10 @@ start_service() {
 	config_get username $CONFIGURATION username ""
 	config_get hashpass $CONFIGURATION hashpass ""
 	config_get configpath $CONFIGURATION configpath "/etc/AdGuardHome.yaml"
+	# Synchronize the optional upstream_dns_file pointer only when a generated
+	# file is already available.  If it is missing, --apply removes the stale
+	# pointer so the core can start with its normal upstreams first.
+	/usr/share/AdGuardHome/update_upstream.sh --apply >/dev/null 2>&1
 	if [ -n "$username" ]; then
 		config_editor "users.name" "$username" "$configpath"
 		uci set $CONFIGURATION.$CONFIGURATION.username=""
@@ -461,6 +465,13 @@ start_service() {
 	procd_set_param command $binpath $ADDITIONAL_ARGS
 	procd_set_param file "$configpath" "/etc/hosts" "/etc/config/AdGuardHome"
 	procd_close_instance
+	# Start the core before generating a missing upstream file.  The queued
+	# worker writes the pointer and reloads the core after generation succeeds.
+	config_get_bool upstream_enabled $CONFIGURATION upstream_enabled 0
+	config_get upstream_file $CONFIGURATION upstream_dns_file "/usr/bin/AdGuardHome/upstream_dns.conf"
+	if [ "$upstream_enabled" = "1" ] && [ ! -s "$upstream_file" ] && [ -f "$configpath" ]; then
+		/usr/share/AdGuardHome/update_upstream.sh --queue >/dev/null 2>&1
+	fi
 	if [ -f "$configpath" ]; then
 		_do_redirect 1
 	else
@@ -543,8 +554,44 @@ update_crontab(){
 	default="31 3 * * * /usr/share/AdGuardHome/gfwipset2adg.sh"
 	[ "$enabled" == "0" ] || [ "${crontab//autogfwipset/}" == "$crontab" ] && cronenable=0 || cronenable=1
 	crontab_editor
+
+	# Generic subscription updater. Its five-field schedule is configured on
+	# the upstream DNS page and is replaced whenever the value changes.
+	config_get upstream_cron $CONFIGURATION upstream_cron "30 4 * * *"
+	config_get_bool upstream_enabled $CONFIGURATION upstream_enabled 0
+	update_upstream_crontab "$upstream_enabled" "$upstream_cron"
 	[ "$cronreload" -gt 0 ] && /etc/init.d/cron restart
 }
+
+valid_upstream_cron() {
+	printf '%s\n' "$1" | awk 'NF == 5 && $0 !~ /[;&|`$()<>]/ { ok=1 } END { exit(ok ? 0 : 1) }'
+}
+
+update_upstream_crontab() {
+	local enabled="$1"
+	local schedule="$2"
+	local script="/usr/share/AdGuardHome/update_upstream.sh"
+	local desired current count
+	[ ! -f "$CRON_FILE" ] && mkdir -p "${CRON_FILE%/*}" && touch "$CRON_FILE" && chmod 600 "$CRON_FILE"
+	current="$(grep -F "$script" "$CRON_FILE" 2>/dev/null | head -n 1)"
+	count="$(grep -F "$script" "$CRON_FILE" 2>/dev/null | wc -l)"
+	desired=""
+	if [ "$enabled" = "1" ] && valid_upstream_cron "$schedule"; then
+		desired="$schedule $script"
+	fi
+	if [ -n "$desired" ]; then
+		# Normalize old or manually duplicated entries to one canonical line.
+		if [ "$current" != "$desired" ] || [ "$count" -ne 1 ]; then
+			sed -i "\|$script|d" "$CRON_FILE"
+			echo "$desired" >> "$CRON_FILE"
+			cronreload=$((cronreload + 1))
+		fi
+	elif [ -n "$current" ]; then
+		sed -i "\|$script|d" "$CRON_FILE"
+		cronreload=$((cronreload + 1))
+	fi
+}
+
 crontab_editor(){
 	[ ! -f "$CRON_FILE" ] && mkdir -p ${CRON_FILE%/*} && touch "$CRON_FILE" && chmod 600 "$CRON_FILE"
 	#usage input:

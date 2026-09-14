@@ -56,6 +56,85 @@ local function write_to_file(path, data)
     end
 end
 
+-- Pure Lua Base64 decoder shared by the original GFWList updater and the
+-- generic upstream subscription updater.  Keeping the implementation here
+-- avoids relying on the optional OpenWrt `base64` command.
+local b64chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+local b64map = {}
+
+for i = 1, 64 do
+    b64map[string.byte(b64chars, i)] = i - 1
+end
+b64map[string.byte('=')] = 0
+
+local function b64decode(data)
+    if not data then return nil end
+
+    data = string.gsub(data, '[^'..b64chars..'=]', '')
+
+    local result = {}
+    local len = #data
+    local padding = 0
+
+    if string.sub(data, -1) == '=' then
+        padding = padding + 1
+        if string.sub(data, -2, -2) == '=' then
+            padding = padding + 1
+        end
+    end
+
+    for i = 1, len, 4 do
+        local c1, c2, c3, c4 = string.byte(data, i, i+3)
+
+        local v1 = b64map[c1]
+        local v2 = b64map[c2]
+        local v3 = b64map[c3]
+        local v4 = b64map[c4]
+
+        -- (v1 << 18) | (v2 << 12) | (v3 << 6) | v4
+        local packed = (v1 * 0x40000) + (v2 * 0x1000) + (v3 * 0x40) + v4
+
+        local b1 = math.floor(packed / 0x10000)
+        local b2 = math.floor((packed % 0x10000) / 0x100)
+        local b3 = packed % 0x100
+
+        table.insert(result, string.char(b1))
+
+        if i < len - 3 or padding < 2 then
+            table.insert(result, string.char(b2))
+        end
+        if i < len - 3 or padding < 1 then
+            table.insert(result, string.char(b3))
+        end
+    end
+
+    return table.concat(result)
+end
+
+-- Internal interface used by update_upstream.sh.  It deliberately exits
+-- before any GFWList-specific UCI/configuration work is performed.
+if arg[1] == "--decode-base64" then
+    local source = arg[2]
+    local destination = arg[3]
+    local input = source and io.open(source, "rb")
+    if not input or not destination then
+        if input then input:close() end
+        os.exit(1)
+    end
+    local decoded = b64decode(input:read("*a"))
+    input:close()
+    if not decoded or decoded == "" then
+        os.exit(1)
+    end
+    local output = io.open(destination, "wb")
+    if not output then
+        os.exit(1)
+    end
+    output:write(decoded)
+    output:close()
+    os.exit(0)
+end
+
 -- --- Initialization ---
 
 local mode = ""
@@ -129,58 +208,6 @@ local raw_b64 = exec("wget --no-check-certificate https://cdn.jsdelivr.net/gh/gf
 if not raw_b64 or raw_b64 == "" then
     print("Error: failed to download gfwlist or empty response")
     os.exit(1)
-end
-
-local b64chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-local b64map = {}
-
-for i = 1, 64 do
-    b64map[string.byte(b64chars, i)] = i - 1
-end
-b64map[string.byte('=')] = 0
-
-local function b64decode(data)
-    if not data then return nil end
-
-    data = string.gsub(data, '[^'..b64chars..'=]', '')
-
-    local result = {}
-    local len = #data
-    local padding = 0
-
-    if string.sub(data, -1) == '=' then
-        padding = padding + 1
-        if string.sub(data, -2, -2) == '=' then
-            padding = padding + 1
-        end
-    end
-
-    for i = 1, len, 4 do
-        local c1, c2, c3, c4 = string.byte(data, i, i+3)
-
-        local v1 = b64map[c1]
-        local v2 = b64map[c2]
-        local v3 = b64map[c3]
-        local v4 = b64map[c4]
-
-        -- (v1 << 18) | (v2 << 12) | (v3 << 6) | v4
-        local packed = (v1 * 0x40000) + (v2 * 0x1000) + (v3 * 0x40) + v4
-
-        local b1 = math.floor(packed / 0x10000)
-        local b2 = math.floor((packed % 0x10000) / 0x100)
-        local b3 = packed % 0x100
-
-        table.insert(result, string.char(b1))
-
-        if i < len - 3 or padding < 2 then
-            table.insert(result, string.char(b2))
-        end
-        if i < len - 3 or padding < 1 then
-            table.insert(result, string.char(b3))
-        end
-    end
-
-    return table.concat(result)
 end
 
 local decoded = b64decode(raw_b64)

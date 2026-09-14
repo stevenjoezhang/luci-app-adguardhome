@@ -295,3 +295,135 @@ msgstr "設定驗證失敗"
 
 msgid "Browser management username"
 msgstr "網頁管理使用者名稱"
+
+msgid "Upstream DNS takeover"
+msgstr "上游 DNS 接管"
+
+msgid "Enable upstream DNS takeover"
+msgstr "啟用上游 DNS 接管"
+
+msgid "Bootstrap DNS is empty, add at least one Bootstrap DNS server before enabling upstream DNS takeover"
+msgstr "Bootstrap DNS 為空，啟用上游 DNS 接管前，請至少新增一個 Bootstrap DNS 伺服器"
+
+msgid "Bootstrap DNS must be configured before enabling this feature"
+msgstr "啟用此功能前必須設定 Bootstrap DNS"
+
+msgid "upstream_dns_file path"
+msgstr "upstream_dns_file 路徑"
+
+msgid "Domain subscription URLs"
+msgstr "網域訂閱 URL"
+
+msgid "One subscription URL per line, all successfully downloaded lists are merged; Base64 encoded lists are decoded automatically"
+msgstr "每行填寫一個訂閱 URL，所有成功下載的清單會合併；Base64 編碼的清單會自動解碼"
+
+msgid "Global upstream DNS"
+msgstr "全域上游 DNS"
+
+msgid "One AdGuard Home upstream_dns entry per line, these servers are used as the global upstreams"
+msgstr "每行填寫一個 AdGuard Home upstream_dns 項目，這些伺服器用作全域上游"
+
+msgid "Global upstreams are written at the beginning of upstream_dns_file"
+msgstr "全域上游會寫入 upstream_dns_file 檔案開頭"
+
+msgid "Show AdGuard Home upstream_dns format examples"
+msgstr "顯示 AdGuard Home upstream_dns 格式範例"
+
+msgid "Format"
+msgstr "格式"
+
+msgid "Description"
+msgstr "說明"
+
+msgid "Plain DNS (UDP)"
+msgstr "一般 DNS（透過 UDP）"
+
+msgid "Plain DNS (UDP with port)"
+msgstr "一般 DNS（透過 UDP，含連接埠）"
+
+msgid "Plain DNS (UDP, hostname)"
+msgstr "一般 DNS（透過 UDP、主機名稱）"
+
+msgid "Plain DNS over TCP"
+msgstr "一般 DNS（透過 TCP）"
+
+msgid "Plain DNS over TCP with port"
+msgstr "一般 DNS（透過 TCP，含連接埠）"
+
+msgid "Plain DNS over TCP, hostname"
+msgstr "一般 DNS（透過 TCP、主機名稱）"
+
+msgid "Encrypted DNS-over-TLS"
+msgstr "加密 DNS-over-TLS"
+
+msgid "Encrypted DNS-over-HTTPS"
+msgstr "加密 DNS-over-HTTPS"
+
+msgid "Encrypted DNS-over-HTTPS with forced HTTP/3, without fallback to HTTP/2 or lower"
+msgstr "帶有強制 HTTP/3 的加密 DNS-over-HTTPS，不會回退到 HTTP/2 或更低版本"
+
+msgid "Encrypted DNS-over-QUIC"
+msgstr "加密 DNS-over-QUIC"
+
+msgid "DNSCrypt stamp or DNS-over-HTTPS resolver"
+msgstr "DNSCrypt 的 DNS Stamps 或 DNS-over-HTTPS 解析器"
+
+msgid "Upstream server for a specific domain"
+msgstr "指定為特定網域的上游伺服器"
+
+msgid "Multiple upstream servers for a specific domain"
+msgstr "特定網域的多個上游伺服器"
+
+msgid "Comment"
+msgstr "註解"
+
+msgid "Domain list upstream DNS"
+msgstr "網域清單上游 DNS"
+
+msgid "One AdGuard Home upstream_dns entry per line, these servers are used for domains from the merged subscription lists"
+msgstr "每行填寫一個 AdGuard Home upstream_dns 項目，這些伺服器用於合併訂閱清單中的網域"
+
+msgid "Automatic update schedule"
+msgstr "自動更新排程"
+
+msgid "Five-field crontab expression, the default is 30 4 * * *"
+msgstr "五欄 crontab 表達式，預設值為 30 4 * * *"
+
+msgid "Bootstrap DNS status"
+msgstr "Bootstrap DNS 狀態"
+
+msgid "Bootstrap DNS is configured"
+msgstr "Bootstrap DNS 已設定"
+
+msgid "Bootstrap DNS is empty, add at least one Bootstrap DNS server in the AdGuard Home configuration"
+msgstr "Bootstrap DNS 為空，請在 AdGuard Home 設定中至少新增一個 Bootstrap DNS 伺服器"
+
+msgid "Generated upstream DNS file"
+msgstr "產生的上游 DNS 檔案"
+
+msgid "Update upstream DNS list"
+msgstr "更新上游 DNS 清單"
+
+msgid "Download and merge all subscription lists, generate upstream_dns_file and reload AdGuard Home"
+msgstr "下載並合併所有訂閱清單，產生 upstream_dns_file 並重新載入 AdGuard Home"
+
+msgid "Update now"
+msgstr "立即更新"
+
+msgid "Path:"
+msgstr "路徑："
+
+msgid "View upstream DNS file"
+msgstr "檢視上游 DNS 檔案"
+
+msgid "Hide upstream DNS file"
+msgstr "隱藏上游 DNS 檔案"
+
+msgid "The upstream DNS file is empty"
+msgstr "上游 DNS 檔案為空"
+
+msgid "Unable to read the upstream DNS file"
+msgstr "無法讀取上游 DNS 檔案"
+
+msgid "Expand to load the upstream DNS file"
+msgstr "展開後載入上游 DNS 檔案"
