@@ -14,6 +14,7 @@ entry({"admin", "services", "AdGuardHome", "getlog"}, call("get_log"))
 entry({"admin", "services", "AdGuardHome", "dodellog"}, call("do_dellog"))
 entry({"admin", "services", "AdGuardHome", "reloadconfig"}, call("reload_config"))
 entry({"admin", "services", "AdGuardHome", "gettemplateconfig"}, call("get_template_config"))
+entry({"admin", "services", "AdGuardHome", "upstream_file"}, call("get_upstream_file"))
 end 
 function get_template_config()
 	local template_file = "/usr/share/AdGuardHome/AdGuardHome_template.yaml"
@@ -25,6 +26,67 @@ function get_template_config()
 	else
 		http.write("")
 	end
+end
+
+local function trim_config_value(value)
+	value = (value or ""):gsub("^%s+", ""):gsub("%s+$", "")
+	if (value:sub(1, 1) == "'" and value:sub(-1) == "'") or
+	   (value:sub(1, 1) == '"' and value:sub(-1) == '"') then
+		value = value:sub(2, -2)
+	end
+	return value
+end
+
+-- Read the active upstream_dns_file from the core YAML.  The UCI option is
+-- only a fallback because the native AdGuard Home editor may change the YAML
+-- path without updating the plugin's UCI value.
+local function read_dns_option(path, name)
+	if not path or not fs.access(path) then return nil end
+	local data = fs.readfile(path) or ""
+	local in_dns = false
+	for line in data:gmatch("[^\n]+") do
+		line = line:gsub("\r$", "")
+		if line:match("^dns:%s*$") then
+			in_dns = true
+		elseif in_dns and line:match("^%S") then
+			in_dns = false
+		end
+		if in_dns then
+			local value = line:match("^%s+"..name..":%s*(.-)%s*$")
+			if value ~= nil then return trim_config_value(value) end
+		end
+	end
+	return nil
+end
+
+function get_upstream_file()
+	local configpath = uci:get("AdGuardHome", "AdGuardHome", "configpath")
+	if not configpath or configpath == "" then configpath = "/etc/AdGuardHome.yaml" end
+	local path = read_dns_option(configpath, "upstream_dns_file")
+	if not path or path == "" then
+		path = uci:get("AdGuardHome", "AdGuardHome", "upstream_dns_file")
+	end
+	if not path or path == "" then path = "/usr/bin/AdGuardHome/upstream_dns.conf" end
+	-- Only allow absolute, local paths supplied by the administrator.
+	if path:sub(1, 1) ~= "/" or path:find("[^%w%._/-]") then
+		http.prepare_content("text/plain; charset=utf-8")
+		http.write("")
+		return
+	end
+	http.prepare_content("text/plain; charset=utf-8")
+	local file = io.open(path, "rb")
+	if not file then
+		http.write("")
+		return
+	end
+	-- Stream in chunks instead of loading a potentially large generated file
+	-- into one LuCI response string.
+	while true do
+		local chunk = file:read(32768)
+		if not chunk then break end
+		http.write(chunk)
+	end
+	file:close()
 end
 function reload_config()
 	fs.remove("/tmp/AdGuardHometmpconfig.yaml")

@@ -22,6 +22,7 @@ AdGuard Home 的强大 LuCI 界面 - 基于 DNS 的广告和跟踪阻止程序�
   - 自定义工作目录
   - 自定义运行日志路径
 - GFWList 查询特定 DNS 服务器。另可参考 [luci-app-autoipsetadder](https://github.com/rufengsuixing/luci-app-autoipsetadder)
+- 接管上游 DNS 服务器解析，并支持通过订阅 URL 列表实现 DNS 分流
 - 正序/倒序查看/删除/备份每 3 秒更新的运行日志 + 本地浏览器时区转换
 - 支持手动修改 AdGuard Home 配置：
   - 支持 YAML 编辑器

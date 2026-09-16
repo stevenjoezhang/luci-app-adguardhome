@@ -1,0 +1,90 @@
+<%+cbi/valueheader%>
+<div class="cbi-value-description">
+	<%:Path:%> <code id="adguardhome-upstream-file-path"><%=pcdata(self:cfgvalue(section) or "")%></code>
+</div>
+<details id="adguardhome-upstream-file-details" class="ag-upstream-file-details">
+	<summary><%:View upstream DNS file%></summary>
+	<div class="ag-upstream-file-view">
+		<table class="ag-upstream-file-table">
+			<tbody id="adguardhome-upstream-file-content">
+				<tr><td colspan="2"><%:Expand to load the upstream DNS file%></td></tr>
+			</tbody>
+		</table>
+	</div>
+</details>
+<style>
+.ag-upstream-file-details { margin-top:0.8em; }
+.ag-upstream-file-details > summary { cursor:pointer; }
+.ag-upstream-file-view { max-height:28em; margin-top:0.6em; overflow:auto; }
+.ag-upstream-file-table { border-collapse:collapse; width:max-content; min-width:100%; }
+.ag-upstream-file-table th,
+.ag-upstream-file-table td { border:1px solid #ddd; padding:0.25em 0.5em; vertical-align:top; }
+.ag-upstream-file-table th { text-align:left; background:#f4f4f4; }
+.ag-upstream-file-table .ag-upstream-file-line-number { width:1%; text-align:right; color:#888; user-select:none; white-space:nowrap; }
+.ag-upstream-file-table td.ag-upstream-file-line-number { text-align:right; }
+.ag-upstream-file-table td.ag-upstream-file-entry { white-space:pre; }
+</style>
+<script type="text/javascript">
+(function () {
+	var details = document.getElementById('adguardhome-upstream-file-details');
+	var body = document.getElementById('adguardhome-upstream-file-content');
+	var loaded = false;
+	var loading = false;
+	if (!details || !body) return;
+
+	function addRow(number, content) {
+		var row = document.createElement('tr');
+		var line = document.createElement('td');
+		var entry = document.createElement('td');
+		line.className = 'ag-upstream-file-line-number';
+		entry.className = 'ag-upstream-file-entry';
+		line.textContent = number;
+		entry.textContent = content;
+		row.appendChild(line);
+		row.appendChild(entry);
+		body.appendChild(row);
+	}
+
+	function showMessage(message) {
+		body.textContent = '';
+		var row = document.createElement('tr');
+		var cell = document.createElement('td');
+		cell.colSpan = 2;
+		cell.textContent = message;
+		row.appendChild(cell);
+		body.appendChild(row);
+	}
+
+	function render(content) {
+		content = (content || '').replace(/\r\n?/g, '\n');
+		if (!content) {
+			showMessage('<%:The upstream DNS file is empty%>');
+			return;
+		}
+		var entries = content.split('\n');
+		/* A final newline terminates the last entry; it is not an extra row. */
+		if (entries.length > 1 && entries[entries.length - 1] === '') entries.pop();
+		body.textContent = '';
+		for (var i = 0; i < entries.length; i++) addRow(i + 1, entries[i]);
+	}
+
+	details.addEventListener('toggle', function () {
+		if (!details.open || loaded || loading) return;
+		loading = true;
+		showMessage('<%:Loading...%>');
+		XHR.get('<%=url([[admin]], [[services]], [[AdGuardHome]], [[upstream_file]])%>', null, function (x, data) {
+			loading = false;
+			if (x && x.status === 200) {
+				/* LuCI's legacy XHR helper may leave text responses in responseText. */
+				var content = (typeof data === 'string') ? data :
+					(x && typeof x.responseText === 'string' ? x.responseText : '');
+				render(content);
+				loaded = true;
+			} else {
+				showMessage('<%:Unable to read the upstream DNS file%>');
+			}
+		});
+	});
+})();
+</script>
+<%+cbi/valuefooter%>

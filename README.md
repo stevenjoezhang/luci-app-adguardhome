@@ -26,6 +26,7 @@ Download `.ipk` and `.apk` from [Releases](https://github.com/stevenjoezhang/luc
   - Customize work directory
   - Customize runtime log path
 - GFWList query to specific DNS server. Also check out [luci-app-autoipsetadder](https://github.com/rufengsuixing/luci-app-autoipsetadder)
+- Take over upstream DNS resolution and support split DNS routing through subscription URL lists
 - View/delete/backup runtime log in positive/reverse order with 3-second updates + local browser timezone conversion
 - Manual configuration:
   - YAML editor support

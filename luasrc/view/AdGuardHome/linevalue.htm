@@ -1,0 +1,26 @@
+<%+cbi/valueheader%>
+<style>
+.ag-line-editor { display:flex; width:100%; max-width:100%; font-family:monospace; }
+.ag-line-numbers { flex:0 0 3em; overflow:hidden; padding:6px 6px 6px 0; text-align:right; color:#888; background:#f4f4f4; user-select:none; line-height:1.45; }
+.ag-line-editor textarea { flex:1 1 auto; min-width:0; font-family:monospace; line-height:1.45; white-space:pre; overflow:auto; }
+</style>
+<div class="ag-line-editor">
+	<div class="ag-line-numbers" aria-hidden="true"></div>
+	<textarea data-update="change"<%= attr("id", cbid) .. attr("name", cbid) .. attr("class", "cbi-input-textarea") .. ifattr(self.rows, "rows") .. ifattr(self.cols, "cols") .. ifattr(self.wrap, "wrap") .. ifattr(self.readonly, "readonly") .. ifattr(self.datatype, "data-type", self.datatype) .. ifattr(self.optional or self.rmempty, "data-optional", true) %>><%=pcdata(self:cfgvalue(section) or self.default or "")%></textarea>
+</div>
+<script type="text/javascript">
+(function () {
+	var area = document.getElementById(<%=string.format("%q", cbid)%>);
+	if (!area) return;
+	var gutter = area.parentNode.querySelector('.ag-line-numbers');
+	function refresh() {
+		var count = Math.max(1, area.value.split('\n').length);
+		gutter.innerHTML = Array.from({length: count}, function (_, i) { return i + 1; }).join('<br>');
+		gutter.scrollTop = area.scrollTop;
+	}
+	area.addEventListener('input', refresh);
+	area.addEventListener('scroll', function () { gutter.scrollTop = area.scrollTop; });
+	refresh();
+})();
+</script>
+<%+cbi/valuefooter%>
